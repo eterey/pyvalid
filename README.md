@@ -27,6 +27,7 @@ Function `calc` in example below has next limitations:
 * Second parameter must be in `int` value or equals to `2.0`;
 * Third parameter must be in `int` or `float` type.
 
+```
     from pyvalid import accepts, returns
 
 
@@ -57,10 +58,11 @@ Function `calc` in example below has next limitations:
     # Raise pyvalid.InvalidReturnType exception,
     # because returns value is in str type.
     print(calc('*', 2, 3, '"4"'))
-
+```
 
 Here is an example of usage `pyvalid` module in context of classes.
 
+```
     from pyvalid import accepts, returns
     from collections import Iterable
 
@@ -91,6 +93,7 @@ Here is an example of usage `pyvalid` module in context of classes.
     python_pl = sql_driver.query(sql, ('Python',))
 
     sql_driver.close()
+```
 
 # How to install
 
