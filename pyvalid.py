@@ -73,8 +73,8 @@ class accepts(Callable):
     for a given function.
     """
 
-    def __init__(self, *accepted_arg_types):
-        self.accepted_arg_types = accepted_arg_types
+    def __init__(self, *accepted_arg_values):
+        self.accepted_arg_values = accepted_arg_values
         self.accepted_args = list()
         self.optional_args = list()
 
@@ -87,19 +87,19 @@ class accepts(Callable):
                 defaults = tuple()
             else:
                 defaults = args_info.defaults
-            if args and self.accepted_arg_types:
+            if args and self.accepted_arg_values:
                 # Forget all information about function arguments.
                 self.accepted_args.clear()
                 self.optional_args.clear()
                 # Collect information about fresh arguments.
-                self.__scan_func(func, args, defaults)
+                self.__scan_func(args, defaults)
                 # Validate function arguments.
                 self.__validate_args(func.__name__, func_args, func_kwargs)
             # Call function.
             return func(*func_args, **func_kwargs)
         return decorator_wrapper
 
-    def __scan_func(self, func, args, defaults):
+    def __scan_func(self, args, defaults):
         """Collect information about accepted arguments in following format:
             (
                 (<argument name>, <accepted types and values>),
@@ -112,7 +112,7 @@ class accepts(Callable):
             args_info (inspect.FullArgSpec): Information about function
                 arguments.
         """
-        for i, accepted_arg_type in enumerate(self.accepted_arg_types):
+        for i, accepted_arg_type in enumerate(self.accepted_arg_values):
             if isinstance(accepted_arg_type, tuple):
                 accepted_arg_type = list(accepted_arg_type)
             else:
@@ -169,7 +169,7 @@ class accepts(Callable):
         eg. 1 -> 1st, 2 -> 2nd, 3 -> 3rd, etc.
         """
         if 10 <= num % 100 < 20:
-            return '{0}th'.format(num)
+            return str(num) + 'th'
         else:
             ord_info = {1: 'st', 2: 'nd', 3: 'rd'}.get(num % 10, 'th')
-            return '{0}{1}'.format(num, ord_info)
+            return '{}{}'.format(num, ord_info)
