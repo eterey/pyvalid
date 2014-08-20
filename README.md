@@ -28,73 +28,73 @@ Function `calc` in example below has next limitations:
 * Third parameter must be in `int` or `float` type.
 
 ```
-    from pyvalid import accepts, returns
+from pyvalid import accepts, returns
 
 
-    @returns(int, float)
-    @accepts(str, (int, 2.0), (int, float))
-    def calc(operator, val1, val2, val3):
-        expression = '{v1} {op} {v2} {op} {v3}'.format(
-            op=operator,
-            v1=val1, v2=val2, v3=val3
-        )
-        return eval(expression)
+@returns(int, float)
+@accepts(str, (int, 2.0), (int, float))
+def calc(operator, val1, val2, val3):
+    expression = '{v1} {op} {v2} {op} {v3}'.format(
+        op=operator,
+        v1=val1, v2=val2, v3=val3
+    )
+    return eval(expression)
 
 
-    # Returns int value: 24.
-    print(calc('*', 2, 3, 4))
+# Returns int value: 24.
+print(calc('*', 2, 3, 4))
 
-    # Returns float value: 24.0.
-    print(calc(operator='*', val1=2, val2=3.0, val3=4))
+# Returns float value: 24.0.
+print(calc(operator='*', val1=2, val2=3.0, val3=4))
 
-    # Returns float value: 24.0.
-    print(calc('*', 2.0, 3, 4))
+# Returns float value: 24.0.
+print(calc('*', 2.0, 3, 4))
 
-    # Raise pyvalid.ArgumentValidationError exception,
-    # because second argument has unsupported value.
-    print(calc('*', 3.14, 3, 4))
+# Raise pyvalid.ArgumentValidationError exception,
+# because second argument has unsupported value.
+print(calc('*', 3.14, 3, 4))
 
 
-    # Raise pyvalid.InvalidReturnType exception,
-    # because returns value is in str type.
-    print(calc('*', 2, 3, '"4"'))
+# Raise pyvalid.InvalidReturnType exception,
+# because returns value is in str type.
+print(calc('*', 2, 3, '"4"'))
 ```
 
 Here is an example of usage `pyvalid` module in context of classes.
 
 ```
-    from pyvalid import accepts, returns
-    from collections import Iterable
+from pyvalid import accepts, returns
+from collections import Iterable
 
-    class SqlDriver(object):
+class SqlDriver(object):
 
-        @returns(bool)
-        @accepts(object, str, int, str, str, str)
-        def connect(self, host, port, user, password, database):
-            return True
+    @returns(bool)
+    @accepts(object, str, int, str, str, str)
+    def connect(self, host, port, user, password, database):
+        return True
 
-        @returns(bool)
-        def close(self):
-            return True
+    @returns(bool)
+    def close(self):
+        return True
 
-        @returns(None, dict)
-        @accepts(object, str, Iterable)
-        def query(self, sql, params=None):
-            return None
+    @returns(None, dict)
+    @accepts(object, str, Iterable)
+    def query(self, sql, params=None):
+        return None
 
-    sql_driver = SqlDriver()
+sql_driver = SqlDriver()
 
-    sql_driver.connect('8.8.8.8', 1433, 'admin', 'password', 'programming')
+sql_driver.connect('8.8.8.8', 1433, 'admin', 'password', 'programming')
 
-    sql = r'SELECT * FROM ProgrammingLang'
-    pl = sql_driver.query(sql)
+sql = r'SELECT * FROM ProgrammingLang'
+pl = sql_driver.query(sql)
 
-    sql = r'SELECT * FROM ProgrammingLang WHERE name=?'
-    python_pl = sql_driver.query(sql, ('Python',))
+sql = r'SELECT * FROM ProgrammingLang WHERE name=?'
+python_pl = sql_driver.query(sql, ('Python',))
 
-    sql_driver.close()
+sql_driver.close()
 ```
 
 # How to install
 
-    pip install -U pyvalid
+```pip install -U pyvalid```
