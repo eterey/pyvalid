@@ -10,7 +10,7 @@ def main():
     # Describe installer
     setup(
         name='pyvalid',
-        version='0.0.1',
+        version='0.0.2',
         author='Maxim Grischuk',
         author_email='uzumaxy@gmail.com',
         maintainer='Maxim Grischuk',
