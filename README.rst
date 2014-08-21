@@ -13,8 +13,8 @@ A decorator for validating types and values of input parameters of a given funct
 You can pass the set of accepted types and values as decorator's input parameters.
 Validation process can raise the following exceptions:
 
-* `pyvalid.InvalidArgumentNumberError` -- when the number or position of arguments supplied to a function is incorrect.
-* `pyvalid.ArgumentValidationError` -- when the type of an argument to a function is not what it should be.
+* `pyvalid.InvalidArgumentNumberError` — when the number or position of arguments supplied to a function is incorrect.
+* `pyvalid.ArgumentValidationError` — when the type of an argument to a function is not what it should be.
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
