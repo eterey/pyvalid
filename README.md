@@ -2,7 +2,7 @@
 
 
 Python validation tool, which is used for checking function's input parameters and return values.
-Module consists of two decorators: accepts and returns.
+Module consists of two decorators: `accepts` and `returns`.
 
 
 #### `accepts(*accepted_arg_values)`
