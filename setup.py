@@ -1,3 +1,4 @@
+from pyvalid import version
 try:
     from setuptools import setup
 except ImportError:
@@ -8,7 +9,7 @@ def main():
     # Describe installer
     setup(
         name='pyvalid',
-        version='0.0.3',
+        version=version,
         author='Maxim Grischuk',
         author_email='uzumaxy@gmail.com',
         maintainer='Maxim Grischuk',

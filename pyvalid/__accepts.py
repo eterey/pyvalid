@@ -6,7 +6,7 @@ from pyvalid.__exceptions import InvalidArgumentNumberError, \
 
 
 class accepts(Callable):
-    """A decorator to validate a types of input parameters 
+    """A decorator to validate a types of input parameters
     for a given function.
     """
 

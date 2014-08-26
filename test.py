@@ -36,8 +36,6 @@ class AcceptsDecorator(unittest.TestCase):
         expected_returns = 8, 9, 10, 11
         self.assertEqual(expected_returns, returns)
 
-
-
     @unittest.expectedFailure
     def test_invalid_value1(self):
         # First argument is invalid.
