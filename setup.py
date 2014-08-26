@@ -1,5 +1,3 @@
-import os
-
 try:
     from setuptools import setup
 except ImportError:
@@ -10,16 +8,16 @@ def main():
     # Describe installer
     setup(
         name='pyvalid',
-        version='0.0.2',
+        version='0.0.3',
         author='Maxim Grischuk',
         author_email='uzumaxy@gmail.com',
         maintainer='Maxim Grischuk',
         maintainer_email='uzumaxy@gmail.com',
-        packages=['.'],
+        packages=['pyvalid'],
         url='https://github.com/uzumaxy/pyvalid',
         download_url='https://github.com/uzumaxy/pyvalid/releases',
         license='BSD',
-        description='pyvalid is a Python validation tool, which used for checking of input function parameters and return values.',
+        description='pyvalid is a Python validation tool for checking of input function parameters and return values.',
         long_description=open('README.rst').read(),
         install_requires=[],
         keywords=[

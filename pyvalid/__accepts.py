@@ -1,71 +1,8 @@
+from collections import Callable
 import inspect
 import functools
-from collections import Callable
-
-
-class InvalidArgumentNumberError(ValueError):
-    """Raised when the number or position of arguments supplied to a function
-    is incorrect.
-    """
-    def __init__(self, func_name):
-        self.error = 'Invalid number or position of arguments for {}()'.format(
-            func_name
-        )
-
-    def __str__(self):
-        return self.error
-
-
-class ArgumentValidationError(ValueError):
-    """Raised when the type of an argument to a function is not what it
-    should be.
-    """
-    def __init__(self, arg_num, func_name, accepted_arg_values):
-        self.error = 'The {} argument of {}() is not in a {}'.format(
-            arg_num, func_name, accepted_arg_values
-        )
-
-    def __str__(self):
-        return self.error
-
-
-class InvalidReturnType(ValueError):
-    """Raised when the return value is the wrong type.
-    """
-    def __init__(self, return_type, func_name):
-        self.error = 'Invalid return type {} for {}()'.format(
-            return_type, func_name
-        )
-
-    def __str__(self):
-        return self.error
-
-
-class returns(Callable):
-    """A decorator to validate the returns value of a given function.
-    """
-
-    def __init__(self, *accepted_returns_values):
-        self.accepted_returns_values = accepted_returns_values
-
-    def __call__(self, func):
-        def decorator_wrapper(*func_args, **func_kwargs):
-            returns_value = func(*func_args, **func_kwargs)
-            if self.accepted_returns_values:
-                is_valid = False
-                for accepted_returns_value in self.accepted_returns_values:
-                    if isinstance(accepted_returns_value, type):
-                        is_valid = isinstance(
-                            returns_value, accepted_returns_value
-                        )
-                    else:
-                        is_valid = returns_value == accepted_returns_value
-                    if is_valid:
-                        break
-                if not is_valid:
-                    raise InvalidReturnType(type(returns_value), func.__name__)
-            return returns_value
-        return decorator_wrapper
+from pyvalid.__exceptions import InvalidArgumentNumberError, \
+    ArgumentValidationError
 
 
 class accepts(Callable):
