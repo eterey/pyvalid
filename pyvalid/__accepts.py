@@ -18,25 +18,20 @@ class accepts(Callable):
     def __call__(self, func):
         @functools.wraps(func)
         def decorator_wrapper(*func_args, **func_kwargs):
-            args_info = inspect.getfullargspec(func)
-            args = args_info.args
-            if args_info.defaults is None:
-                defaults = tuple()
-            else:
-                defaults = args_info.defaults
-            if args and self.accepted_arg_values:
+            if self.accepted_arg_values:
                 # Forget all information about function arguments.
                 self.accepted_args.clear()
                 self.optional_args.clear()
                 # Collect information about fresh arguments.
-                self.__scan_func(args, defaults)
+                args_info = inspect.getfullargspec(func)
+                self.__scan_func(args_info)
                 # Validate function arguments.
                 self.__validate_args(func.__name__, func_args, func_kwargs)
             # Call function.
             return func(*func_args, **func_kwargs)
         return decorator_wrapper
 
-    def __scan_func(self, args, defaults):
+    def __scan_func(self, args_info):
         """Collect information about accepted arguments in following format:
             (
                 (<argument name>, <accepted types and values>),
@@ -45,7 +40,6 @@ class accepts(Callable):
             )
 
         Args:
-            func (collections.Callable): Function for scan.
             args_info (inspect.FullArgSpec): Information about function
                 arguments.
         """
@@ -54,11 +48,16 @@ class accepts(Callable):
                 accepted_arg_type = list(accepted_arg_type)
             else:
                 accepted_arg_type = [accepted_arg_type]
-            def_range = len(defaults) - len(args[i:])
-            if def_range >= 0:
-                self.optional_args.append(i)
-                accepted_arg_type.append(defaults[def_range])
-            self.accepted_args.append((args[i], accepted_arg_type))
+            if args_info.defaults:
+                def_range = len(args_info.defaults) - len(args_info.args[i:])
+                if def_range >= 0:
+                    self.optional_args.append(i)
+                    accepted_value = args_info.defaults[def_range]
+                    accepted_arg_type.append(accepted_value)
+            arg_name = None
+            if len(args_info.args) > i:
+                arg_name = args_info.args[i]
+            self.accepted_args.append((arg_name, accepted_arg_type))
 
     def __validate_args(self, func_name, args, kwargs):
         """Compare value of each required argument with list of
