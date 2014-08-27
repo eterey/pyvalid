@@ -12,29 +12,35 @@ class AcceptsDecorator(unittest.TestCase):
 
         self.func1 = func1
 
+        @accepts(str, (float, int), bool, bool)
+        def func2(arg1, *args):
+            return arg1, args
+
+        self.func2 = func2
+
     def test_positional_args(self):
         args = int(), float(), str(), int()
-        returns = self.func1(*args)
-        self.assertEqual(args, returns)
+        result = self.func1(*args)
+        self.assertEqual(args, result)
         args = int(), int(), 10, 'another value'
-        returns = self.func1(*args)
-        self.assertEqual(args, returns)
+        result = self.func1(*args)
+        self.assertEqual(args, result)
         args = int(), None, str()
-        returns = self.func1(*args)
-        self.assertEqual(args + (4, ), returns)
+        result = self.func1(*args)
+        self.assertEqual(args + (4, ), result)
         args = int(), int()
-        returns = self.func1(*args)
-        self.assertEqual(args + (3, 4), returns)
+        result = self.func1(*args)
+        self.assertEqual(args + (3, 4), result)
 
     def test_keyword_args(self):
         # With two last keyword params.
-        returns = self.func1(int(), int(), arg3='3', arg4=4.0)
-        expected_returns = int(), int(), '3', 4.0
-        self.assertEqual(expected_returns, returns)
+        result = self.func1(int(), int(), arg3='3', arg4=4.0)
+        expected_result = int(), int(), '3', 4.0
+        self.assertEqual(expected_result, result)
         # With all keyword params.
-        returns = self.func1(arg4=11, arg3=10, arg2=9, arg1=8)
-        expected_returns = 8, 9, 10, 11
-        self.assertEqual(expected_returns, returns)
+        result = self.func1(arg4=11, arg3=10, arg2=9, arg1=8)
+        expected_result = 8, 9, 10, 11
+        self.assertEqual(expected_result, result)
 
     @unittest.expectedFailure
     def test_invalid_value1(self):
@@ -53,6 +59,12 @@ class AcceptsDecorator(unittest.TestCase):
         # Third argument is invalid.
         args = int(), None, None
         self.func1(*args)
+
+    @unittest.skip('Issue #1')
+    def test_variable_number_of_args(self):
+        arg1, args = str(), (int(), True, True)
+        result = self.func1(arg1, *args)
+        self.assertEqual((arg1, args), result)
 
 
 class ReturnsDecorator(unittest.TestCase):
