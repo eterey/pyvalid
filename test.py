@@ -60,11 +60,15 @@ class AcceptsDecorator(unittest.TestCase):
         args = int(), None, None
         self.func1(*args)
 
-    @unittest.skip('Issue #1')
     def test_variable_number_of_args(self):
         arg1, args = str(), (int(), True, True)
-        result = self.func1(arg1, *args)
+        result = self.func2(arg1, *args)
         self.assertEqual((arg1, args), result)
+        arg1, args = str(), (float(), False)
+        result = self.func2(arg1, *args)
+        self.assertEqual((arg1, args), result)
+        result = self.func2(str())
+        self.assertEqual((str(), tuple()), result)
 
 
 class ReturnsDecorator(unittest.TestCase):
