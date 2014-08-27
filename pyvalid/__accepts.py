@@ -54,9 +54,11 @@ class accepts(Callable):
                     self.optional_args.append(i)
                     accepted_value = args_info.defaults[def_range]
                     accepted_arg_type.append(accepted_value)
-            arg_name = None
             if len(args_info.args) > i:
                 arg_name = args_info.args[i]
+            else:
+                arg_name = None
+                self.optional_args.append(i)
             self.accepted_args.append((arg_name, accepted_arg_type))
 
     def __validate_args(self, func_name, args, kwargs):
