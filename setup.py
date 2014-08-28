@@ -25,14 +25,15 @@ def main():
         keywords=[
             'pyvalid', 'valid',
             'validation', 'type',
-            'checking', 'check'
+            'checking', 'check',
+            'decorator'
         ],
         platforms='Platform Independent',
         package_data={
             'pyspectator': ['LICENSE', 'README.rst']
         },
         classifiers=[
-            'Development Status :: 4 - Beta',
+            'Development Status :: 5 - Production/Stable',
             'Intended Audience :: Developers',
             'Intended Audience :: Information Technology',
             'License :: OSI Approved :: BSD License',
@@ -57,8 +58,10 @@ def main():
             'Programming Language :: Python :: 3.2',
             'Programming Language :: Python :: 3.3',
             'Programming Language :: Python :: 3.4',
+            'Programming Language :: Python :: Implementation',
             'Programming Language :: Python :: Implementation :: CPython',
             'Programming Language :: Python',
+            'Topic :: Software Development :: Debuggers',
             'Topic :: Software Development :: Libraries :: Python Modules',
             'Topic :: Software Development :: Libraries',
             'Topic :: Software Development :: Testing'
