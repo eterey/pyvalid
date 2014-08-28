@@ -2,7 +2,7 @@ from collections import Callable
 from pyvalid.__exceptions import InvalidReturnType
 
 
-class returns(Callable):
+class Returns(Callable):
     """A decorator to validate the returns value of a given function.
     """
 

@@ -1,9 +1,11 @@
-from pyvalid.__accepts import accepts
-from pyvalid.__returns import returns
+from pyvalid.__accepts import Accepts
+from pyvalid.__returns import Returns
 from pyvalid.__exceptions import InvalidArgumentNumberError, \
     InvalidReturnType, ArgumentValidationError
 
 
+accepts = Accepts
+returns = Returns
 version = '0.2'
 
 
