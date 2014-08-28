@@ -44,23 +44,40 @@ class Accepts(Callable):
             args_info (inspect.FullArgSpec): Information about function
                 arguments.
         """
-        for i, accepted_arg_type in enumerate(self.accepted_arg_values):
-            if isinstance(accepted_arg_type, tuple):
-                accepted_arg_type = list(accepted_arg_type)
-            else:
-                accepted_arg_type = [accepted_arg_type]
+        # Process args.
+        for i, accepted_arg_vals in enumerate(self.accepted_arg_values):
+            # Wrap each accepted value in the list if yet not wrapped.
+            if isinstance(accepted_arg_vals, tuple):
+                accepted_arg_vals = list(accepted_arg_vals)
+            elif not isinstance(accepted_arg_vals, list):
+                accepted_arg_vals = [accepted_arg_vals]
+            # Add default value (if exists) in list of accepted values.
             if args_info.defaults:
                 def_range = len(args_info.defaults) - len(args_info.args[i:])
                 if def_range >= 0:
                     self.optional_args.append(i)
                     accepted_value = args_info.defaults[def_range]
-                    accepted_arg_type.append(accepted_value)
+                    accepted_arg_vals.append(accepted_value)
+            # Try to detect current argument name.
             if len(args_info.args) > i:
                 arg_name = args_info.args[i]
             else:
                 arg_name = None
                 self.optional_args.append(i)
-            self.accepted_args.append((arg_name, accepted_arg_type))
+            # Save info about current argument and his accepted values.
+            self.accepted_args.append((arg_name, accepted_arg_vals))
+        # Process kwargs.
+        for arg_name, accepted_arg_vals in self.accepted_kwargs_values.items():
+            # Wrap each accepted value in the list if yet not wrapped.
+            if isinstance(accepted_arg_vals, tuple):
+                accepted_arg_vals = list(accepted_arg_vals)
+            elif not isinstance(accepted_arg_vals, list):
+                accepted_arg_vals = [accepted_arg_vals]
+            # Mark current argument as optional.
+            i = len(self.accepted_args)
+            self.optional_args.append(i)
+            # Save info about current argument and his accepted values.
+            self.accepted_args.append((arg_name, accepted_arg_vals))
 
     def __validate_args(self, func_name, args, kwargs):
         """Compare value of each required argument with list of

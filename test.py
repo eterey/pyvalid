@@ -109,7 +109,6 @@ class AcceptsDecorator(unittest.TestCase):
         # First argument of `func3` is invalid.
         self.func3(int(), arg2=int(), arg3=True, arg4=True)
 
-    @unittest.skip('Issue #1')
     @unittest.expectedFailure
     def test_invalid_value7(self):
         # Last argument if `func3` is invalid.
