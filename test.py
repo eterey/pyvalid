@@ -18,6 +18,12 @@ class AcceptsDecorator(unittest.TestCase):
 
         self.func2 = func2
 
+        @accepts(str, arg2=(float, int), arg3=bool, arg4=bool)
+        def func3(arg1, **kwargs):
+            return arg1, kwargs
+
+        self.func3 = func3
+
     def test_positional_args(self):
         args = int(), float(), str(), int()
         result = self.func1(*args)
@@ -42,33 +48,72 @@ class AcceptsDecorator(unittest.TestCase):
         expected_result = 8, 9, 10, 11
         self.assertEqual(expected_result, result)
 
-    @unittest.expectedFailure
-    def test_invalid_value1(self):
-        # First argument is invalid.
-        args = str(), float(), str(), int()
-        self.func1(*args)
-
-    @unittest.expectedFailure
-    def test_invalid_value2(self):
-        # Second argument is invalid.
-        args = int(), str(), str()
-        self.func1(*args)
-
-    @unittest.expectedFailure
-    def test_invalid_value3(self):
-        # Third argument is invalid.
-        args = int(), None, None
-        self.func1(*args)
-
-    def test_variable_number_of_args(self):
+    def test_args_list(self):
+        # Send all arguments.
         arg1, args = str(), (int(), True, True)
         result = self.func2(arg1, *args)
         self.assertEqual((arg1, args), result)
+        # Don't send last argument.
         arg1, args = str(), (float(), False)
         result = self.func2(arg1, *args)
         self.assertEqual((arg1, args), result)
+        # Send only first argument.
         result = self.func2(str())
         self.assertEqual((str(), tuple()), result)
+
+    def test_args_dict(self):
+        # Send all arguments.
+        arg1 = str()
+        kwargs = {
+            'arg2': int(), 'arg3': True, 'arg4': True
+        }
+        result = self.func3(arg1, **kwargs)
+        self.assertEqual((arg1, kwargs), result)
+        # Don't send last argument.
+        kwargs = {
+            'arg2': float(), 'arg3': False,
+        }
+        result = self.func3(arg1, **kwargs)
+        self.assertEqual((arg1, kwargs), result)
+        # Send only first argument.
+        result = self.func3(str())
+        self.assertEqual((str(), dict()), result)
+
+    @unittest.expectedFailure
+    def test_invalid_value1(self):
+        # First argument of `func1` is invalid.
+        self.func1(str(), float(), str(), int())
+
+    @unittest.expectedFailure
+    def test_invalid_value2(self):
+        # Second argument of `func1` is invalid.
+        self.func1(int(), str(), str())
+
+    @unittest.expectedFailure
+    def test_invalid_value3(self):
+        # Third argument of `func1` is invalid.
+        self.func1(int(), None, None)
+
+    @unittest.expectedFailure
+    def test_invalid_value4(self):
+        # First argument of `func2` is invalid.
+        self.func2(int(), int(), True, True)
+
+    @unittest.expectedFailure
+    def test_invalid_value5(self):
+        # Last argument of `func2` is invalid.
+        self.func2(str(), int(), True, int())
+
+    @unittest.expectedFailure
+    def test_invalid_value6(self):
+        # First argument of `func3` is invalid.
+        self.func3(int(), arg2=int(), arg3=True, arg4=True)
+
+    @unittest.skip('Issue #1')
+    @unittest.expectedFailure
+    def test_invalid_value7(self):
+        # Last argument if `func3` is invalid.
+        self.func3(str(), arg2=int(), arg3=True, arg4=int())
 
 
 class ReturnsDecorator(unittest.TestCase):

@@ -10,8 +10,9 @@ class Accepts(Callable):
     for a given function.
     """
 
-    def __init__(self, *accepted_arg_values):
+    def __init__(self, *accepted_arg_values, **accepted_kwargs_values):
         self.accepted_arg_values = accepted_arg_values
+        self.accepted_kwargs_values = accepted_kwargs_values
         self.accepted_args = list()
         self.optional_args = list()
 
