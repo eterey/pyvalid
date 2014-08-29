@@ -5,9 +5,9 @@ Python validation tool, which is used for checking function's input parameters a
 Module consists of two decorators: `accepts` and `returns`.
 
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`accepts(*accepted_arg_values)`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`accepts(*accepted_arg_values, **accepted_kwargs_values)`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A decorator for validating types and values of input parameters of a given function.
 You can pass the set of accepted types and values as decorator's input parameters.
@@ -79,31 +79,65 @@ Function `calc` in example below has next limitations:
 
 
 Here is an example of usage `pyvalid` module in context of classes.
+Pay attention to the method `connect` of the class `SqlDriver`.
+This method is a good demonstration of usage `accepts` decorator for functions with keyword arguments.
 
 .. code-block:: python
 
     from pyvalid import accepts, returns
     from collections import Iterable
 
+
     class SqlDriver(object):
 
         @returns(bool)
-        @accepts(object, str, int, str, str, str)
-        def connect(self, host, port, user, password, database):
-            return True
+        @accepts(object, host=str, port=int, usr=str, pwd=str, db=[str, None])
+        def connect(self, **kwargs):
+            connection_string = \
+                'tsql -S {host} -p {port} -U {usr} -P {pwd} -D {db}'.format(**kwargs)
+            try:
+                print('Establishing connection: "{}"'.format(connection_string))
+                # Create connection..
+                success = True
+            except:
+                success = False
+            return success
 
         @returns(bool)
         def close(self):
-            return True
+            try:
+                print('Closing connection')
+                # Close connection..
+                success = True
+            except:
+                success = False
+            return success
 
         @returns(None, dict)
         @accepts(object, str, Iterable)
         def query(self, sql, params=None):
-            return None
+            try:
+                query_info = 'Processing request "{}"'.format(sql)
+                if params is not None:
+                    query_info += ' with following params: ' + ', '.join(params)
+                print(query_info)
+                # Process request..
+                data = dict()
+            except:
+                data = None
+            return data
+
 
     sql_driver = SqlDriver()
 
-    sql_driver.connect('8.8.8.8', 1433, 'admin', 'password', 'programming')
+    conn_params = {
+        'host': '8.8.8.8',
+        'port': 1433,
+        'usr': 'admin',
+        'pwd': 'Super_Mega_Strong_Password_2000',
+        'db': 'info_tech'
+    }
+    sql_driver.connect(**conn_params)
 
     sql = r'SELECT * FROM ProgrammingLang'
     pl = sql_driver.query(sql)
@@ -112,3 +146,4 @@ Here is an example of usage `pyvalid` module in context of classes.
     python_pl = sql_driver.query(sql, ('Python',))
 
     sql_driver.close()
+
