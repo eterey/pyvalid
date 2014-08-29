@@ -1,6 +1,10 @@
 from collections import Callable
-import inspect
 import functools
+import sys
+if sys.version_info < (3, 0, 0):
+    from inspect import getargspec
+else:
+    from inspect import getfullargspec as getargspec
 from pyvalid.__exceptions import InvalidArgumentNumberError, \
     ArgumentValidationError
 
@@ -21,10 +25,10 @@ class Accepts(Callable):
         def decorator_wrapper(*func_args, **func_kwargs):
             if self.accepted_arg_values:
                 # Forget all information about function arguments.
-                self.accepted_args.clear()
-                self.optional_args.clear()
+                self.accepted_args[:] = list()
+                self.optional_args[:] = list()
                 # Collect information about fresh arguments.
-                args_info = inspect.getfullargspec(func)
+                args_info = getargspec(func)
                 self.__scan_func(args_info)
                 # Validate function arguments.
                 self.__validate_args(func.__name__, func_args, func_kwargs)
