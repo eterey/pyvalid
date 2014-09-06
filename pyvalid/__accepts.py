@@ -112,6 +112,8 @@ class Accepts(Callable):
             for accepted_val in accepted_values:
                 if isinstance(accepted_val, type):
                     is_valid = isinstance(value, accepted_val)
+                elif isinstance(accepted_val, Callable):
+                    is_valid = accepted_val(value)
                 else:
                     is_valid = value == accepted_val
                 if is_valid:

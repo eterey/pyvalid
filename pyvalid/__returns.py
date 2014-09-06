@@ -11,19 +11,21 @@ class Returns(Callable):
 
     def __call__(self, func):
         def decorator_wrapper(*func_args, **func_kwargs):
-            returns_value = func(*func_args, **func_kwargs)
+            returns_val = func(*func_args, **func_kwargs)
             if self.accepted_returns_values:
                 is_valid = False
-                for accepted_returns_value in self.accepted_returns_values:
-                    if isinstance(accepted_returns_value, type):
+                for accepted_returns_val in self.accepted_returns_values:
+                    if isinstance(accepted_returns_val, type):
                         is_valid = isinstance(
-                            returns_value, accepted_returns_value
+                            returns_val, accepted_returns_val
                         )
+                    elif isinstance(accepted_returns_val, Callable):
+                        is_valid = accepted_returns_val(returns_val)
                     else:
-                        is_valid = returns_value == accepted_returns_value
+                        is_valid = returns_val == accepted_returns_val
                     if is_valid:
                         break
                 if not is_valid:
-                    raise InvalidReturnType(type(returns_value), func.__name__)
-            return returns_value
+                    raise InvalidReturnType(type(returns_val), func.__name__)
+            return returns_val
         return decorator_wrapper

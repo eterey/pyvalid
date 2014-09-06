@@ -2,6 +2,8 @@ pyvalid
 -------
 
 Python validation tool, which is used for checking function's input parameters and return values.
+This module can be very helpful on the develop stage of the project, when control for accepted and returned function values is a one of most important things.
+
 Module consists of two decorators: `accepts` and `returns`.
 
 
@@ -59,13 +61,13 @@ Function `calc` in example below has next limitations:
         return eval(expression)
 
 
-    # Returns int value: 24.
+    # Output: 24.
     print(calc('*', 2, 3, 4))
 
-    # Returns float value: 24.0.
+    # Output: 24.0.
     print(calc(operator='*', val1=2, val2=3.0, val3=4))
 
-    # Returns float value: 24.0.
+    # Output: 24.0.
     print(calc('*', 2.0, 3, 4))
 
     # Raise pyvalid.ArgumentValidationError exception,
@@ -147,3 +149,80 @@ This method is a good demonstration of usage `accepts` decorator for functions w
 
     sql_driver.close()
 
+
+Following example with class `User` will show you how to use `pyvalid` module to validate some value with using validation function.
+
+.. code-block:: python
+
+    from pyvalid import accepts
+
+
+    class User(object):
+
+        class Validator(object):
+
+            unsafe_passwords = [
+                '111111', '000000', '123123',
+                '123456', '12345678', '1234567890',
+                'qwerty', 'sunshine', 'password',
+            ]
+
+            @classmethod
+            def login_checker(cls, login):
+                is_valid = isinstance(login, str) and 1 <= len(login) <= 16
+                if is_valid:
+                    for reg_user in User.registered:
+                        if login == reg_user.login:
+                            is_valid = False
+                            break
+                return is_valid
+
+            @classmethod
+            def password_checker(cls, password):
+                is_valid = isinstance(password, str) and \
+                    (6 <= len(password) <= 32) and \
+                    (password not in cls.unsafe_passwords)
+                return is_valid
+
+        registered = list()
+
+        def __init__(self, login, password):
+            self.__login = None
+            self.login = login
+            self.__password = None
+            self.password = password
+            User.registered.append(self)
+
+        @property
+        def login(self):
+            return self.__login
+
+        @login.setter
+        @accepts(object, Validator.login_checker)
+        def login(self, value):
+            self.__login = value
+
+        @property
+        def password(self):
+            return self.__password
+
+        @password.setter
+        @accepts(object, Validator.password_checker)
+        def password(self, value):
+            self.__password = value
+
+
+    user = User('admin', 'Super_Mega_Strong_Password_2000')
+
+    # Output: admin Super_Mega_Strong_Password_2000
+    print(user.login, user.password)
+
+    # Raise pyvalid.ArgumentValidationError exception,
+    # because User.Validator.password_checker method
+    # returns False value.
+    user.password = 'qwerty'
+
+    # Raise pyvalid.ArgumentValidationError exception,
+    # because User.Validator.login_checker method
+    # returns False value.
+    user = User('admin', 'Super_Mega_Strong_Password_2001')
