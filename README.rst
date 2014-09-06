@@ -12,7 +12,7 @@ Module consists of two decorators: `accepts` and `returns`.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A decorator for validating types and values of input parameters of a given function.
-You can pass the set of accepted types and values as decorator's input parameters.
+You can pass the set of accepted types and values or validation function as decorator's input parameters.
 Validation process can raise the following exceptions:
 
 * `pyvalid.InvalidArgumentNumberError` — when the number or position of arguments supplied to a function is incorrect.
@@ -24,7 +24,7 @@ Validation process can raise the following exceptions:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A decorator for validating the return value of a given function.
-You can pass the set of accepted types and values as a decorator's input parameters.
+You can pass the set of accepted types and values or validation function as a decorator's input parameters.
 Validation process can raise `pyvalid.InvalidReturnType` when the return value is not in the collection of supported values and types.
 
 
