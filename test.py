@@ -1,5 +1,6 @@
 import unittest
-from pyvalid import accepts, returns
+from pyvalid import accepts, returns, ArgumentValidationError, \
+    InvalidReturnType
 
 
 class AcceptsDecorator(unittest.TestCase):
@@ -24,6 +25,18 @@ class AcceptsDecorator(unittest.TestCase):
 
         self.func3 = func3
 
+        def func4_checker1(val):
+            return val == 'val1'
+
+        def func4_checker2(val):
+            return val == 'val2'
+
+        @accepts(func4_checker1, [func4_checker2, 'val3', bool])
+        def func4(arg1, arg2):
+            return arg1, arg2
+
+        self.func4 = func4
+
     def test_positional_args(self):
         args = int(), float(), str(), int()
         result = self.func1(*args)
@@ -37,6 +50,15 @@ class AcceptsDecorator(unittest.TestCase):
         args = int(), int()
         result = self.func1(*args)
         self.assertEqual(args + (3, 4), result)
+        # First argument is invalid.
+        args = str(), float(), str(), int()
+        self.assertRaises(ArgumentValidationError, self.func1, *args)
+        # Second argument is invalid.
+        args = int(), str(), str()
+        self.assertRaises(ArgumentValidationError, self.func1, *args)
+        # Third argument is invalid.
+        args = int(), None, None
+        self.assertRaises(ArgumentValidationError, self.func1, *args)
 
     def test_keyword_args(self):
         # With two last keyword params.
@@ -47,6 +69,14 @@ class AcceptsDecorator(unittest.TestCase):
         result = self.func1(arg4=11, arg3=10, arg2=9, arg1=8)
         expected_result = 8, 9, 10, 11
         self.assertEqual(expected_result, result)
+        # With invalid keyword parameter `arg1`.
+        kwargs = {
+            'arg1': str(),
+            'arg2': 9,
+            'arg3': 10,
+            'arg4': 11
+        }
+        self.assertRaises(ArgumentValidationError, self.func1, **kwargs)
 
     def test_args_list(self):
         # Send all arguments.
@@ -60,6 +90,12 @@ class AcceptsDecorator(unittest.TestCase):
         # Send only first argument.
         result = self.func2(str())
         self.assertEqual((str(), tuple()), result)
+        # First argument is invalid.
+        args = int(), int(), True, True
+        self.assertRaises(ArgumentValidationError, self.func2, *args)
+        # Last argument is invalid.
+        args = str(), int(), True, int()
+        self.assertRaises(ArgumentValidationError, self.func2, *args)
 
     def test_args_dict(self):
         # Send all arguments.
@@ -78,41 +114,35 @@ class AcceptsDecorator(unittest.TestCase):
         # Send only first argument.
         result = self.func3(str())
         self.assertEqual((str(), dict()), result)
+        # First argument is invalid.
+        self.assertRaises(
+            ArgumentValidationError,
+            self.func3,
+            int(), arg2=int(), arg3=True, arg4=True
+        )
+        # Last argument is invalid.
+        self.assertRaises(
+            ArgumentValidationError,
+            self.func3,
+            str(), arg2=int(), arg3=True, arg4=int()
+        )
 
-    @unittest.expectedFailure
-    def test_invalid_value1(self):
-        # First argument of `func1` is invalid.
-        self.func1(str(), float(), str(), int())
-
-    @unittest.expectedFailure
-    def test_invalid_value2(self):
-        # Second argument of `func1` is invalid.
-        self.func1(int(), str(), str())
-
-    @unittest.expectedFailure
-    def test_invalid_value3(self):
-        # Third argument of `func1` is invalid.
-        self.func1(int(), None, None)
-
-    @unittest.expectedFailure
-    def test_invalid_value4(self):
-        # First argument of `func2` is invalid.
-        self.func2(int(), int(), True, True)
-
-    @unittest.expectedFailure
-    def test_invalid_value5(self):
-        # Last argument of `func2` is invalid.
-        self.func2(str(), int(), True, int())
-
-    @unittest.expectedFailure
-    def test_invalid_value6(self):
-        # First argument of `func3` is invalid.
-        self.func3(int(), arg2=int(), arg3=True, arg4=True)
-
-    @unittest.expectedFailure
-    def test_invalid_value7(self):
-        # Last argument if `func3` is invalid.
-        self.func3(str(), arg2=int(), arg3=True, arg4=int())
+    def test_validation_func(self):
+        args = 'val1', 'val2'
+        result = self.func4(*args)
+        self.assertEqual(args, result)
+        args = 'val1', 'val2'
+        result = self.func4(*args)
+        self.assertEqual(args, result)
+        args = 'val1', True
+        result = self.func4(*args)
+        self.assertEqual(args, result)
+        # First argument is invalid
+        self.assertRaises(ArgumentValidationError, self.func4, 'val2', 'val2')
+        # Second argument is invalid
+        self.assertRaises(ArgumentValidationError, self.func4, 'val1', 'val1')
+        # Both arguments are invalid
+        self.assertRaises(ArgumentValidationError, self.func4, 'val0', 'val0')
 
 
 class ReturnsDecorator(unittest.TestCase):
@@ -123,31 +153,39 @@ class ReturnsDecorator(unittest.TestCase):
         def func1(arg):
             return arg
 
+        self.func1 = func1
+
         @returns(str, None, -1)
         def func2(arg):
             return arg
 
-        self.func1 = func1
         self.func2 = func2
 
+        def func3_checker(val):
+            return val == 'val1'
+
+        @returns(func3_checker, None, bool)
+        def func3(arg):
+            return arg
+
+        self.func3 = func3
+
     def test_valid_returns(self):
+        # func1
         self.assertEqual(self.func1(int()), int())
         self.assertEqual(self.func1(float()), float())
         self.assertEqual(self.func2(str()), str())
+        self.assertRaises(InvalidReturnType, self.func1, str())
+        self.assertRaises(InvalidReturnType, self.func1, None)
+        # func2
         self.assertIsNone(self.func2(None))
         self.assertEqual(self.func2(-1), -1)
-
-    @unittest.expectedFailure
-    def test_invalid_returns1(self):
-        self.func1(str())
-
-    @unittest.expectedFailure
-    def test_invalid_returns2(self):
-        self.func1(None)
-
-    @unittest.expectedFailure
-    def test_invalid_returns4(self):
-        self.func2(int())
+        self.assertRaises(InvalidReturnType, self.func2, int())
+        # func3
+        self.assertEqual(self.func3('val1'), 'val1')
+        self.assertIsNone(self.func3(None), 'val1')
+        self.assertEqual(self.func3(True), True)
+        self.assertRaises(InvalidReturnType, self.func3, int())
 
 
 if __name__ == '__main__':
