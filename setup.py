@@ -17,7 +17,6 @@ def main():
         packages=['pyvalid'],
         url='http://uzumaxy.github.io/pyvalid/',
         download_url='https://github.com/uzumaxy/pyvalid/releases',
-        bugtrack_url='https://github.com/uzumaxy/pyvalid/issues',
         license='BSD',
         description='pyvalid is a Python validation tool for checking of '
                     'input function parameters and return values.',
