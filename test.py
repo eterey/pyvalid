@@ -37,6 +37,12 @@ class AcceptsDecorator(unittest.TestCase):
 
         self.func4 = func4
 
+        @accepts(arg1=[str, int], arg2=['val1', 'val2'])
+        def func5(**kwargs):
+            return kwargs
+
+        self.func5 = func5
+
     def test_positional_args(self):
         args = int(), float(), str(), int()
         result = self.func1(*args)
@@ -97,7 +103,7 @@ class AcceptsDecorator(unittest.TestCase):
         args = str(), int(), True, int()
         self.assertRaises(ArgumentValidationError, self.func2, *args)
 
-    def test_args_dict(self):
+    def test_args_dict1(self):
         # Send all arguments.
         arg1 = str()
         kwargs = {
@@ -125,6 +131,34 @@ class AcceptsDecorator(unittest.TestCase):
             ArgumentValidationError,
             self.func3,
             str(), arg2=int(), arg3=True, arg4=int()
+        )
+
+    def test_args_dict2(self):
+        # Send all keyword arguments.
+        kwargs = {
+            'arg1': str(),
+            'arg2': 'val1'
+        }
+        result = self.func5(**kwargs)
+        self.assertEqual(kwargs, result)
+        # Don't send last argument.
+        kwargs = {'arg1': int()}
+        result = self.func5(**kwargs)
+        self.assertEqual(kwargs, result)
+        # Don't send any arguments.
+        result = self.func5()
+        self.assertEqual(result, dict())
+        # First argument is invalid.
+        self.assertRaises(
+            ArgumentValidationError,
+            self.func5,
+            arg1=None, arg2='val2'
+        )
+        # Second argument is invalid.
+        self.assertRaises(
+            ArgumentValidationError,
+            self.func5,
+            arg1=str(), arg2=None
         )
 
     def test_validation_func(self):
