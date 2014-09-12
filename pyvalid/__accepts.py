@@ -10,8 +10,7 @@ from pyvalid.__exceptions import InvalidArgumentNumberError, \
 
 
 class Accepts(Callable):
-    """A decorator to validate a types of input parameters
-    for a given function.
+    """A decorator to validate types of input parameters for a given function.
     """
 
     def __init__(self, *accepted_arg_values, **accepted_kwargs_values):
@@ -23,7 +22,7 @@ class Accepts(Callable):
     def __call__(self, func):
         @functools.wraps(func)
         def decorator_wrapper(*func_args, **func_kwargs):
-            if self.accepted_arg_values:
+            if self.accepted_arg_values or self.accepted_kwargs_values:
                 # Forget all information about function arguments.
                 self.accepted_args[:] = list()
                 self.optional_args[:] = list()
