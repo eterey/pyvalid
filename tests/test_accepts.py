@@ -2,7 +2,7 @@ import unittest
 from pyvalid import accepts, ArgumentValidationError
 
 
-class AcceptsDecorator(unittest.TestCase):
+class AcceptsDecoratorTestCase(unittest.TestCase):
 
     def setUp(self):
 

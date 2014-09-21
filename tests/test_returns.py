@@ -2,7 +2,7 @@ import unittest
 from pyvalid import returns, InvalidReturnType
 
 
-class ReturnsDecorator(unittest.TestCase):
+class ReturnsDecoratorTestCase(unittest.TestCase):
 
     def setUp(self):
 

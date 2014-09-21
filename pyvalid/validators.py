@@ -44,28 +44,30 @@ class StringValidator(Validator):
     def not_in_range_checker(cls, val, not_in_range):
         return not cls.in_range_checker(val, not_in_range)
 
-    _checkers = {
-        'min_len': min_len_checker,
-        'max_len': max_len_checker,
-        'in_range': in_range_checker,
-        'not_in_range': not_in_range_checker
-    }
+
 
     @accepts(
+        object,
         min_len=int, max_len=int,
         in_range=[Iterable, Container], not_in_range=[Iterable, Container]
     )
     def __init__(self, **kwargs):
+        self._checkers = {
+            'min_len': StringValidator.min_len_checker,
+            'max_len': StringValidator.max_len_checker,
+            'in_range': StringValidator.in_range_checker,
+            'not_in_range': StringValidator.not_in_range_checker
+        }
         for key, val in list(kwargs.items()):
-            if (key not in StringValidator._checkers) or (val is None):
+            if (key not in self._checkers) or (val is None):
                 del kwargs[key]
         self.__checkers = kwargs
 
     def __call__(self, val):
         if isinstance(val, str):
             valid = True
-            for checker_name, checker_arg in self.__checkers:
-                checker = StringValidator._checkers[checker_name]
+            for checker_name, checker_arg in self.__checkers.items():
+                checker = self._checkers[checker_name]
                 valid = checker(val, checker_arg)
                 if not valid:
                     break
