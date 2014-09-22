@@ -1,5 +1,6 @@
 import unittest
 from pyvalid import accepts, ArgumentValidationError
+from pyvalid.validators import is_validator
 
 
 class AcceptsDecoratorTestCase(unittest.TestCase):
@@ -24,9 +25,11 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
 
         self.func3 = func3
 
+        @is_validator
         def func4_checker1(val):
             return val == 'val1'
 
+        @is_validator
         def func4_checker2(val):
             return val == 'val2'
 

@@ -1,5 +1,4 @@
 import sys
-import functools
 from abc import ABCMeta, abstractmethod
 from pyvalid import accepts
 from collections import Iterable, Container, Callable
@@ -9,11 +8,15 @@ from six import with_metaclass
 class Validator(Callable):
 
     @accepts(object, Callable)
-    def __call__(self, func):
-        @functools.wraps(func)
-        def decorator_wrapper(*func_args, **func_kwargs):
-            return func(*func_args, **func_kwargs)
-        return decorator_wrapper
+    def __init__(self, func):
+        self.__func = func
+
+    def __call__(self, *args, **kwargs):
+        return self.__func(*args, **kwargs)
+
+
+def is_validator(func):
+    return Validator(func)
 
 
 class AbstractValidator(with_metaclass(ABCMeta, Validator)):
@@ -171,10 +174,9 @@ class StringValidator(AbstractValidator):
         return valid
 
 
-validator = Validator
-
 __all__ = [
-    'validator',
+    'is_validator',
+    'Validator'
     'NumberValidator',
     'StringValidator'
 ]

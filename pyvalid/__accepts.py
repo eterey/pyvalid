@@ -97,6 +97,7 @@ class Accepts(Callable):
             ArgumentValidationError: When encountered unexpected argument
                 value.
         """
+        from pyvalid.validators import Validator
         for i, (arg_name, accepted_values) in enumerate(self.accepted_args):
             if i < len(args):
                 value = args[i]
@@ -109,10 +110,10 @@ class Accepts(Callable):
                     raise InvalidArgumentNumberError(func_name)
             is_valid = False
             for accepted_val in accepted_values:
-                if isinstance(accepted_val, type):
-                    is_valid = isinstance(value, accepted_val)
-                elif isinstance(accepted_val, Callable):
+                if isinstance(accepted_val, Validator):
                     is_valid = accepted_val(value)
+                elif isinstance(accepted_val, type):
+                    is_valid = isinstance(value, accepted_val)
                 else:
                     is_valid = value == accepted_val
                 if is_valid:

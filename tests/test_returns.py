@@ -1,5 +1,6 @@
 import unittest
 from pyvalid import returns, InvalidReturnType
+from pyvalid.validators import is_validator
 
 
 class ReturnsDecoratorTestCase(unittest.TestCase):
@@ -18,6 +19,7 @@ class ReturnsDecoratorTestCase(unittest.TestCase):
 
         self.func2 = func2
 
+        @is_validator
         def func3_checker(val):
             return val == 'val1'
 
