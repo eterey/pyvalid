@@ -21,7 +21,7 @@ def main():
         description='pyvalid is a Python validation tool for checking of '
                     'input function parameters and return values.',
         long_description=open('README.rst').read(),
-        install_requires=[],
+        install_requires=['six >= 1.8.0'],
         keywords=[
             'pyvalid', 'valid',
             'validation', 'type',
