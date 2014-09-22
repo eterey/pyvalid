@@ -1,11 +1,22 @@
 import sys
+import functools
 from abc import ABCMeta, abstractmethod
 from pyvalid import accepts
-from collections import Iterable, Container
+from collections import Iterable, Container, Callable
 from six import with_metaclass
 
 
-class Validator(with_metaclass(ABCMeta)):
+class Validator(Callable):
+
+    @accepts(object, Callable)
+    def __call__(self, func):
+        @functools.wraps(func)
+        def decorator_wrapper(*func_args, **func_kwargs):
+            return func(*func_args, **func_kwargs)
+        return decorator_wrapper
+
+
+class AbstractValidator(with_metaclass(ABCMeta, Validator)):
 
     @property
     @abstractmethod
@@ -41,7 +52,7 @@ class Validator(with_metaclass(ABCMeta)):
         return valid
 
 
-class NumberValidator(Validator):
+class NumberValidator(AbstractValidator):
 
     number_types = (int, float)
     if sys.version_info < (3, 0, 0):
@@ -95,7 +106,7 @@ class NumberValidator(Validator):
             'in_range': NumberValidator.in_range_checker,
             'not_in_range': NumberValidator.not_in_range_checker
         }
-        Validator.__init__(self)
+        AbstractValidator.__init__(self)
 
     def __call__(self, val):
         valid = isinstance(val, NumberValidator.number_types) and \
@@ -103,7 +114,7 @@ class NumberValidator(Validator):
         return valid
 
 
-class StringValidator(Validator):
+class StringValidator(AbstractValidator):
 
     @classmethod
     def min_len_checker(cls, val, min_len):
@@ -153,8 +164,17 @@ class StringValidator(Validator):
             'in_range': StringValidator.in_range_checker,
             'not_in_range': StringValidator.not_in_range_checker
         }
-        Validator.__init__(self)
+        AbstractValidator.__init__(self)
 
     def __call__(self, val):
         valid = isinstance(val, str) and self._check(val)
         return valid
+
+
+validator = Validator
+
+__all__ = [
+    'validator',
+    'NumberValidator',
+    'StringValidator'
+]
