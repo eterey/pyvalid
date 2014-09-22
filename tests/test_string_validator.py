@@ -17,15 +17,17 @@ class StringValidatorTestCase(unittest.TestCase):
         self.assertFalse(validator('Python3'))
 
     def test_in_range(self):
-        str_range = ['CPython', 'PyPy', 'IronPython', 'Jython', 'Cython']
-        validator = StringValidator(in_range=str_range)
+        validator = StringValidator(
+            in_range=['CPython', 'PyPy', 'IronPython', 'Jython', 'Cython']
+        )
         self.assertTrue(validator('PyPy'))
         self.assertTrue(validator('Cython'))
         self.assertFalse(validator('Ruby'))
 
     def test_not_in_range(self):
-        str_range = ['CPython', 'PyPy', 'IronPython', 'Jython', 'Cython']
-        validator = StringValidator(not_in_range=str_range)
+        validator = StringValidator(
+            not_in_range=['CPython', 'PyPy', 'IronPython', 'Jython', 'Cython']
+        )
         self.assertTrue(validator('Ruby'))
         self.assertTrue(validator('Java'))
         self.assertFalse(validator('CPython'))
