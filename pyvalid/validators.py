@@ -1,3 +1,4 @@
+import sys
 from abc import ABCMeta, abstractmethod
 from pyvalid import accepts
 from collections import Iterable, Container
@@ -42,6 +43,10 @@ class Validator(with_metaclass(ABCMeta)):
 
 class NumberValidator(Validator):
 
+    number_types = (int, float)
+    if sys.version_info < (3, 0, 0):
+        number_types += (long, )
+
     @classmethod
     def min_val_checker(cls, val, min_val):
         return val >= min_val
@@ -79,22 +84,22 @@ class NumberValidator(Validator):
         return self.__checkers
 
     @accepts(
-        object,
-        min_val=[int, float], max_val=[int, float],
+        object, min_val=number_types, max_val=number_types,
         in_range=[Iterable, Container], not_in_range=[Iterable, Container]
     )
     def __init__(self, **kwargs):
         self.__settings = kwargs
         self.__checkers = {
-            'min_len': NumberValidator.min_val_checker,
-            'max_len': NumberValidator.max_val_checker,
+            'min_val': NumberValidator.min_val_checker,
+            'max_val': NumberValidator.max_val_checker,
             'in_range': NumberValidator.in_range_checker,
             'not_in_range': NumberValidator.not_in_range_checker
         }
         Validator.__init__(self)
 
     def __call__(self, val):
-        valid = isinstance(val, str) and self._check(val)
+        valid = isinstance(val, NumberValidator.number_types) and \
+            self._check(val)
         return valid
 
 
@@ -137,8 +142,7 @@ class StringValidator(Validator):
         return self.__checkers
 
     @accepts(
-        object,
-        min_len=int, max_len=int,
+        object, min_len=int, max_len=int,
         in_range=[Iterable, Container], not_in_range=[Iterable, Container]
     )
     def __init__(self, **kwargs):
