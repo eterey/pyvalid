@@ -155,6 +155,7 @@ Following example with class `User` will show you how to use `pyvalid` module to
 .. code-block:: python
 
     from pyvalid import accepts
+    from pyvalid.validators import is_validator
 
 
     class User(object):
@@ -168,6 +169,7 @@ Following example with class `User` will show you how to use `pyvalid` module to
             ]
 
             @classmethod
+            @is_validator
             def login_checker(cls, login):
                 is_valid = isinstance(login, str) and 1 <= len(login) <= 16
                 if is_valid:
@@ -178,6 +180,7 @@ Following example with class `User` will show you how to use `pyvalid` module to
                 return is_valid
 
             @classmethod
+            @is_validator
             def password_checker(cls, password):
                 is_valid = isinstance(password, str) and \
                     (6 <= len(password) <= 32) and \

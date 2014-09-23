@@ -1,4 +1,5 @@
 from collections import Callable
+from types import MethodType
 import functools
 import sys
 if sys.version_info < (3, 0, 0):
@@ -110,8 +111,13 @@ class Accepts(Callable):
                     raise InvalidArgumentNumberError(func_name)
             is_valid = False
             for accepted_val in accepted_values:
-                if isinstance(accepted_val, Validator):
-                    is_valid = accepted_val(value)
+                if isinstance(accepted_val, (Validator, MethodType)):
+                    if isinstance(accepted_val, Validator):
+                        is_valid = accepted_val(value)
+                    elif (isinstance(accepted_val, MethodType) and
+                            hasattr(accepted_val, '__func__') and
+                            isinstance(accepted_val.__func__, Validator)):
+                        is_valid = accepted_val(value)
                 elif isinstance(accepted_val, type):
                     is_valid = isinstance(value, accepted_val)
                 else:
