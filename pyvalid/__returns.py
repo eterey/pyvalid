@@ -1,6 +1,7 @@
 from collections import Callable
 from types import MethodType
 from pyvalid.__exceptions import InvalidReturnType
+from pyvalid.switch import is_enabled
 
 
 class Returns(Callable):
@@ -14,7 +15,7 @@ class Returns(Callable):
         def decorator_wrapper(*func_args, **func_kwargs):
             from pyvalid.validators import Validator
             returns_val = func(*func_args, **func_kwargs)
-            if self.accepted_returns_values:
+            if is_enabled() and self.accepted_returns_values:
                 is_valid = False
                 for accepted_val in self.accepted_returns_values:
                     if isinstance(accepted_val, (Validator, MethodType)):

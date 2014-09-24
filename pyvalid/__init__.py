@@ -6,10 +6,12 @@ from pyvalid.__exceptions import InvalidArgumentNumberError, \
 
 accepts = Accepts
 returns = Returns
-version = '0.7'
+version = '0.8'
 
 
 __all__ = [
+    'validators',
+    'switch',
     'version',
     'accepts',
     'returns',

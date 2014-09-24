@@ -8,6 +8,7 @@ else:
     from inspect import getfullargspec as getargspec
 from pyvalid.__exceptions import InvalidArgumentNumberError, \
     ArgumentValidationError
+from pyvalid.switch import is_enabled
 
 
 class Accepts(Callable):
@@ -23,7 +24,11 @@ class Accepts(Callable):
     def __call__(self, func):
         @functools.wraps(func)
         def decorator_wrapper(*func_args, **func_kwargs):
-            if self.accepted_arg_values or self.accepted_kwargs_values:
+            perform_validation = all((
+                is_enabled(),
+                self.accepted_arg_values or self.accepted_kwargs_values
+            ))
+            if perform_validation:
                 # Forget all information about function arguments.
                 self.accepted_args[:] = list()
                 self.optional_args[:] = list()
