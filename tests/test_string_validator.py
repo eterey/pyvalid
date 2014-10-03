@@ -1,5 +1,6 @@
 import unittest
 from pyvalid.validators import StringValidator
+import re
 
 
 class StringValidatorTestCase(unittest.TestCase):
@@ -31,6 +32,24 @@ class StringValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator('Ruby'))
         self.assertTrue(validator('Java'))
         self.assertFalse(validator('CPython'))
+
+    def test_re(self):
+        # Allowed characters are: latin alphabet letters and digits
+        validator = StringValidator(re_pattern='^[a-zA-Z0-9]+$')
+        self.assertTrue(validator('pyvalid'))
+        self.assertTrue(validator('42'))
+        self.assertFalse(validator('__pyvalid__'))
+        # Regular expression is broken
+        validator = StringValidator(re_pattern=':)')
+        self.assertFalse(validator('pyvalid'))
+        self.assertFalse(validator(':)'))
+        # Try to use regular expression with flag
+        validator = StringValidator(
+            re_pattern='^pyvalid$', re_flags=re.IGNORECASE
+        )
+        self.assertTrue(validator('pyvalid'))
+        self.assertTrue(validator('PyValid'))
+        self.assertFalse(validator('42'))
 
     def test_mixed(self):
         validator = StringValidator(
