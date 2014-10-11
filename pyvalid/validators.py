@@ -2,7 +2,7 @@ import sys
 import re
 from abc import ABCMeta, abstractmethod
 from pyvalid import accepts
-from collections import Iterable, Container, Callable, Sized
+from collections import Iterable, Container, Callable
 from six import with_metaclass
 
 
@@ -14,10 +14,6 @@ class Validator(Callable):
 
     def __call__(self, *args, **kwargs):
         return self.__func(*args, **kwargs)
-
-
-def is_validator(func):
-    return Validator(func)
 
 
 class AbstractValidator(with_metaclass(ABCMeta, Validator)):
@@ -166,6 +162,9 @@ class StringValidator(AbstractValidator):
     def __call__(self, val):
         valid = isinstance(val, str) and self._check(val)
         return valid
+
+
+is_validator = Validator
 
 
 __all__ = [

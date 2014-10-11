@@ -25,25 +25,31 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
 
         self.func3 = func3
 
-        @is_validator
-        def func4_checker1(val):
-            return val == 'val1'
-
-        @is_validator
-        def func4_checker2(val):
-            return val == 'val2'
-
-        @accepts(func4_checker1, [func4_checker2, 'val3', bool])
-        def func4(arg1, arg2):
-            return arg1, arg2
+        @accepts(arg1=str, arg2=(float, int), arg3=bool, arg4=bool)
+        def func4(arg1=str(), **kwargs):
+            return arg1, kwargs
 
         self.func4 = func4
 
-        @accepts(arg1=[str, int], arg2=['val1', 'val2'])
-        def func5(**kwargs):
-            return kwargs
+        @is_validator
+        def func5_checker1(val):
+            return val == 'val1'
+
+        @is_validator
+        def func5_checker2(val):
+            return val == 'val2'
+
+        @accepts(func5_checker1, [func5_checker2, 'val3', bool])
+        def func5(arg1, arg2):
+            return arg1, arg2
 
         self.func5 = func5
+
+        @accepts(arg1=[str, int], arg2=['val1', 'val2'])
+        def func6(**kwargs):
+            return kwargs
+
+        self.func6 = func6
 
     def test_positional_args(self):
         args = int(), float(), str(), int()
@@ -113,14 +119,20 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
         }
         result = self.func3(arg1, **kwargs)
         self.assertEqual((arg1, kwargs), result)
+        result = self.func4(arg1, **kwargs)
+        self.assertEqual((arg1, kwargs), result)
         # Don't send last argument.
         kwargs = {
             'arg2': float(), 'arg3': False,
         }
         result = self.func3(arg1, **kwargs)
         self.assertEqual((arg1, kwargs), result)
+        result = self.func4(arg1, **kwargs)
+        self.assertEqual((arg1, kwargs), result)
         # Send only first argument.
         result = self.func3(str())
+        self.assertEqual((str(), dict()), result)
+        result = self.func4(str())
         self.assertEqual((str(), dict()), result)
         # First argument is invalid.
         self.assertRaises(
@@ -128,10 +140,20 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
             self.func3,
             int(), arg2=int(), arg3=True, arg4=True
         )
+        self.assertRaises(
+            ArgumentValidationError,
+            self.func4,
+            int(), arg2=int(), arg3=True, arg4=True
+        )
         # Last argument is invalid.
         self.assertRaises(
             ArgumentValidationError,
             self.func3,
+            str(), arg2=int(), arg3=True, arg4=int()
+        )
+        self.assertRaises(
+            ArgumentValidationError,
+            self.func4,
             str(), arg2=int(), arg3=True, arg4=int()
         )
 
@@ -141,44 +163,44 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
             'arg1': str(),
             'arg2': 'val1'
         }
-        result = self.func5(**kwargs)
+        result = self.func6(**kwargs)
         self.assertEqual(kwargs, result)
         # Don't send last argument.
         kwargs = {'arg1': int()}
-        result = self.func5(**kwargs)
+        result = self.func6(**kwargs)
         self.assertEqual(kwargs, result)
         # Don't send any arguments.
-        result = self.func5()
+        result = self.func6()
         self.assertEqual(result, dict())
         # First argument is invalid.
         self.assertRaises(
             ArgumentValidationError,
-            self.func5,
+            self.func6,
             arg1=None, arg2='val2'
         )
         # Second argument is invalid.
         self.assertRaises(
             ArgumentValidationError,
-            self.func5,
+            self.func6,
             arg1=str(), arg2=None
         )
 
     def test_validation_func(self):
         args = 'val1', 'val2'
-        result = self.func4(*args)
+        result = self.func5(*args)
         self.assertEqual(args, result)
         args = 'val1', 'val2'
-        result = self.func4(*args)
+        result = self.func5(*args)
         self.assertEqual(args, result)
         args = 'val1', True
-        result = self.func4(*args)
+        result = self.func5(*args)
         self.assertEqual(args, result)
         # First argument is invalid
-        self.assertRaises(ArgumentValidationError, self.func4, 'val2', 'val2')
+        self.assertRaises(ArgumentValidationError, self.func5, 'val2', 'val2')
         # Second argument is invalid
-        self.assertRaises(ArgumentValidationError, self.func4, 'val1', 'val1')
+        self.assertRaises(ArgumentValidationError, self.func5, 'val1', 'val1')
         # Both arguments are invalid
-        self.assertRaises(ArgumentValidationError, self.func4, 'val0', 'val0')
+        self.assertRaises(ArgumentValidationError, self.func5, 'val0', 'val0')
 
 
 if __name__ == '__main__':
