@@ -41,6 +41,15 @@ class Accepts(Callable):
             return func(*func_args, **func_kwargs)
         return decorator_wrapper
 
+    def __wrap_accepted_val(self, value):
+        """Wrap accepted value in the list if yet not wrapped.
+        """
+        if isinstance(value, tuple):
+            value = list(value)
+        elif not isinstance(value, list):
+            value = [value]
+        return value
+
     def __scan_func(self, args_info):
         """Collect information about accepted arguments in following format:
             (
@@ -56,10 +65,7 @@ class Accepts(Callable):
         # Process args.
         for i, accepted_arg_vals in enumerate(self.accepted_arg_values):
             # Wrap each accepted value in the list if yet not wrapped.
-            if isinstance(accepted_arg_vals, tuple):
-                accepted_arg_vals = list(accepted_arg_vals)
-            elif not isinstance(accepted_arg_vals, list):
-                accepted_arg_vals = [accepted_arg_vals]
+            accepted_arg_vals = self.__wrap_accepted_val(accepted_arg_vals)
             # Add default value (if exists) in list of accepted values.
             if args_info.defaults:
                 def_range = len(args_info.defaults) - len(args_info.args[i:])
@@ -78,10 +84,7 @@ class Accepts(Callable):
         # Process kwargs.
         for arg_name, accepted_arg_vals in self.accepted_kwargs_values.items():
             # Wrap each accepted value in the list if yet not wrapped.
-            if isinstance(accepted_arg_vals, tuple):
-                accepted_arg_vals = list(accepted_arg_vals)
-            elif not isinstance(accepted_arg_vals, list):
-                accepted_arg_vals = [accepted_arg_vals]
+            accepted_arg_vals = self.__wrap_accepted_val(accepted_arg_vals)
             # Mark current argument as optional.
             i = len(self.accepted_args)
             self.optional_args.append(i)
@@ -116,13 +119,16 @@ class Accepts(Callable):
                     raise InvalidArgumentNumberError(func_name)
             is_valid = False
             for accepted_val in accepted_values:
-                if isinstance(accepted_val, (Validator, MethodType)):
-                    if isinstance(accepted_val, Validator):
-                        is_valid = accepted_val(value)
-                    elif (isinstance(accepted_val, MethodType) and
-                            hasattr(accepted_val, '__func__') and
-                            isinstance(accepted_val.__func__, Validator)):
-                        is_valid = accepted_val(value)
+                is_validator = (
+                    isinstance(accepted_val, Validator) or
+                    (
+                        isinstance(accepted_val, MethodType) and
+                        hasattr(accepted_val, '__func__') and
+                        isinstance(accepted_val.__func__, Validator)
+                    )
+                )
+                if is_validator:
+                    is_valid = accepted_val(value)
                 elif isinstance(accepted_val, type):
                     is_valid = isinstance(value, accepted_val)
                 else:
