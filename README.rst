@@ -229,3 +229,9 @@ Following example with class `User` will show you how to use `pyvalid` module to
     # because User.Validator.login_checker method
     # returns False value.
     user = User('admin', 'Super_Mega_Strong_Password_2001')
+
+
+License
++++++++
+
+Note that this project is distributed under the `MIT License <LICENSE>`_.
