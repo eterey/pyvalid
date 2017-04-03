@@ -30,7 +30,7 @@ def main():
         ],
         platforms='Platform Independent',
         package_data={
-            'pyspectator': ['LICENSE', 'README.rst']
+            'pyvalid': ['LICENSE', 'README.rst']
         },
         test_suite="tests",
         classifiers=[
