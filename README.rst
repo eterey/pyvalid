@@ -1,7 +1,7 @@
 pyvalid
 -------
 
-Python validation tool, which is used for checking function's input parameters and return values.
+Python validation tool for checking function's input parameters and return values.
 This module can be very helpful on the develop stage of the project, when control for accepted and returned function values is a one of most important things.
 
 Module consists of two decorators: `accepts` and `returns`.

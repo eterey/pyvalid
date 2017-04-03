@@ -7,6 +7,10 @@ except ImportError:
 
 def main():
     # Describe installer
+    with open('README.rst') as fd:
+        long_description = fd.read()
+    with open('requirements.txt') as fd:
+        requirements = fd.read().splitlines()
     setup(
         name='pyvalid',
         version=version,
@@ -20,8 +24,8 @@ def main():
         license='BSD',
         description='pyvalid is a Python validation tool for checking of '
                     'input function parameters and return values.',
-        long_description=open('README.rst').read(),
-        install_requires=['six >= 1.8.0'],
+        long_description=long_description,
+        install_requires=requirements,
         keywords=[
             'pyvalid', 'valid',
             'validation', 'type',
