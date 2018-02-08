@@ -15,9 +15,9 @@ class ArgumentValidationError(ValueError):
     """Raised when the type of an argument to a function is not what it
     should be.
     """
-    def __init__(self, arg_num, func_name, accepted_arg_values):
-        self.error = 'The {} argument of {}() is not in a {}'.format(
-            arg_num, func_name, accepted_arg_values
+    def __init__(self, arg_num, func_name, actual_value, accepted_arg_values):
+        self.error = 'The {} argument of {}() is {} and not in a {}'.format(
+            arg_num, func_name, actual_value, accepted_arg_values
         )
 
     def __str__(self):
