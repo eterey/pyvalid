@@ -140,6 +140,7 @@ class Accepts(Callable):
                 raise ArgumentValidationError(
                     ord_num,
                     func_name,
+                    value,
                     accepted_values
                 )
 
