@@ -51,6 +51,13 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
 
         self.func6 = func6
 
+        @accepts(bool)
+        def func_with_doc():
+            """TEST_DOCSTRING"""
+            pass
+
+        self.func_with_doc = func_with_doc
+
     def test_positional_args(self):
         args = int(), float(), str(), int()
         result = self.func1(*args)
@@ -201,6 +208,9 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
         self.assertRaises(ArgumentValidationError, self.func5, 'val1', 'val1')
         # Both arguments are invalid
         self.assertRaises(ArgumentValidationError, self.func5, 'val0', 'val0')
+
+    def test_docstring(self):
+        self.assertEqual(self.func_with_doc.__doc__, 'TEST_DOCSTRING')
 
 
 if __name__ == '__main__':

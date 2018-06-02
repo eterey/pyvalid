@@ -2,6 +2,7 @@ from collections import Callable
 from types import MethodType
 from pyvalid.__exceptions import InvalidReturnType
 from pyvalid.switch import is_enabled
+from functools import wraps
 
 
 class Returns(Callable):
@@ -12,6 +13,7 @@ class Returns(Callable):
         self.accepted_returns_values = accepted_returns_values
 
     def __call__(self, func):
+        @wraps(func)
         def decorator_wrapper(*func_args, **func_kwargs):
             from pyvalid.validators import Validator
             returns_val = func(*func_args, **func_kwargs)

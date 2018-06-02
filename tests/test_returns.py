@@ -29,6 +29,13 @@ class ReturnsDecoratorTestCase(unittest.TestCase):
 
         self.func3 = func3
 
+        @returns()
+        def func_with_doc():
+            """TEST_DOCSTRING"""
+            pass
+
+        self.func_with_doc = func_with_doc
+
     def test_valid_returns(self):
         # func1
         self.assertEqual(self.func1(int()), int())
@@ -45,6 +52,10 @@ class ReturnsDecoratorTestCase(unittest.TestCase):
         self.assertIsNone(self.func3(None), 'val1')
         self.assertEqual(self.func3(True), True)
         self.assertRaises(InvalidReturnType, self.func3, int())
+
+    def test_docstring(self):
+        self.assertEqual(self.func_with_doc.__doc__, 'TEST_DOCSTRING')
+
 
 
 if __name__ == '__main__':

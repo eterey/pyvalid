@@ -1,6 +1,6 @@
 from collections import Callable
 from types import MethodType
-import functools
+from functools import wraps
 import sys
 if sys.version_info < (3, 0, 0):
     from inspect import getargspec
@@ -22,7 +22,7 @@ class Accepts(Callable):
         self.optional_args = list()
 
     def __call__(self, func):
-        @functools.wraps(func)
+        @wraps(func)
         def decorator_wrapper(*func_args, **func_kwargs):
             perform_validation = all((
                 is_enabled(),
