@@ -6,7 +6,7 @@ from pyvalid.__exceptions import InvalidArgumentNumberError, \
 
 accepts = Accepts
 returns = Returns
-version = '0.9.2'
+version = '0.9.3'
 
 
 __all__ = [
