@@ -57,6 +57,5 @@ class ReturnsDecoratorTestCase(unittest.TestCase):
         self.assertEqual(self.func_with_doc.__doc__, 'TEST_DOCSTRING')
 
 
-
 if __name__ == '__main__':
     unittest.main()
