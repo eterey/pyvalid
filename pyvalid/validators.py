@@ -32,7 +32,7 @@ class AbstractValidator(with_metaclass(ABCMeta, Validator)):
         for checker_func, checker_args in list(self.checkers.items()):
             try:
                 to_del = checker_args[0] is None
-            except:
+            except (IndexError, TypeError):
                 to_del = True
             if to_del:
                 del self.checkers[checker_func]
@@ -50,7 +50,7 @@ class NumberValidator(AbstractValidator):
 
     number_types = (int, float)
     if sys.version_info < (3, 0, 0):
-        number_types += (long, )
+        number_types += (long, )  # noqa: F821
 
     @classmethod
     def min_val_checker(cls, val, min_val):
@@ -169,7 +169,7 @@ is_validator = Validator
 
 __all__ = [
     'is_validator',
-    'Validator'
+    'Validator',
     'NumberValidator',
     'StringValidator'
 ]
