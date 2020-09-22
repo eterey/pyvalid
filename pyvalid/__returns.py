@@ -1,8 +1,11 @@
-from collections import Callable
 from types import MethodType
 from pyvalid.__exceptions import InvalidReturnType
 from pyvalid.switch import is_enabled
 from functools import wraps
+try:
+    from collections.abc import Callable
+except ImportError:
+    from collections import Callable
 
 
 class Returns(Callable):
