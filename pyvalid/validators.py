@@ -2,8 +2,11 @@ import sys
 import re
 from abc import ABCMeta, abstractmethod
 from pyvalid import accepts
-from collections import Iterable, Container, Callable
 from six import with_metaclass
+try:
+    from collections.abc import Iterable, Container, Callable
+except ImportError:
+    from collections import Iterable, Container, Callable
 
 
 class Validator(Callable):

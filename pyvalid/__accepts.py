@@ -1,4 +1,3 @@
-from collections import Callable
 from types import MethodType
 from functools import wraps
 import sys
@@ -9,6 +8,10 @@ else:
 from pyvalid.__exceptions import InvalidArgumentNumberError, \
     ArgumentValidationError
 from pyvalid.switch import is_enabled
+try:
+    from collections.abc import Callable
+except ImportError:
+    from collections import Callable
 
 
 class Accepts(Callable):
