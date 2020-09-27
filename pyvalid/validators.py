@@ -164,6 +164,110 @@ class StringValidator(AbstractValidator):
         return valid
 
 
+class IterableValidator(AbstractValidator):
+    """
+    This class performs validation on the content of the iterable to check if the given iterable is valid or not.
+    The iterable can be either a list, tuple or even keys or values of a dictionary.
+
+    Example usage:
+        @accepts(IterableValidator(empty_allowed=False, elements_type=int, sign="positive"))
+        def example([1, 3, 7, 10]):
+            pass
+    """
+
+    iterable_types = (list, tuple, dict, set)
+
+    @classmethod
+    def empty_iterable_checker(cls, val, empty_allowed):
+        """
+        Check if the iterable is empty or not.
+
+        Args:
+            val (list/tuple/dict/set): Iterable to be validated.
+            empty_allowed (bool): If this flag is set to 'True', this method raises exception and terminates the
+                                  execution if the iterable is empty.
+                                  If set to 'False', it raises a warning and continues with the execution.
+
+        Returns (bool):
+            True: If the iterable is not empty.
+            False: If the iterable is empty.
+        """
+        if not empty_allowed:
+            return len(val) != 0
+        else:
+            if len(val) == 0:
+                print("WARNING! Iterable is empty, but does not impact the execution.")
+            return True
+
+    @classmethod
+    def element_type_checker(cls, val, elements_type):
+        """
+        Checks if all the elements of the iterable are of required type.
+
+        Args:
+            val (list/tuple/dict/set): Iterable whose contents needs to be validated.
+            elements_type (datatype): Expected type of all the elements in the iterator.
+
+        Returns (bool):
+            True: If all elements of the iterable are of required type.
+            False: If at least one element of the iterable is not of required type.
+        """
+        valid = False
+        for element in val:
+            valid = isinstance(element, elements_type)
+            if not valid:
+                break
+
+        return valid
+
+    @classmethod
+    def elements_sign_checker(cls, val, sign):
+        """
+        Checks if all the elements of the iterable are positive or negative.
+
+        Args:
+            val (list/tuple/dict/set): Iterable whose contents needs to be validated.
+            sign (str): Expected sign of all the elements of the iterable.
+                        Allowed values: "positive", "negative".
+
+        Returns (bool):
+            True: If the iterable contains only <sign> elements.
+            False: If the iterable contains any non-<sign> elements.
+        """
+        valid = True
+
+        if sign == "positive":
+            for element in val:
+                if element < 0:
+                    valid = False
+                    break
+
+        elif sign == "negative":
+            for element in val:
+                if element >= 0:
+                    valid = False
+                    break
+
+        return valid
+
+    @property
+    def checkers(self):
+        return self.__checkers
+
+    @accepts(object, empty_allowed=bool, element_type=(str, int, float), sign=('positive', 'negative'))
+    def __init__(self, **kwargs):
+        self.__checkers = {
+            IterableValidator.empty_iterable_checker: [kwargs.get('empty_allowed', None)],
+            IterableValidator.element_type_checker: [kwargs.get('elements_type', None)],
+            IterableValidator.elements_sign_checker: [kwargs.get('sign', None)]
+        }
+        AbstractValidator.__init__(self)
+
+    def __call__(self, val):
+        valid = isinstance(val, IterableValidator.iterable_types) and self._check(val)
+        return valid
+
+
 is_validator = Validator
 
 
@@ -171,5 +275,6 @@ __all__ = [
     'is_validator',
     'Validator'
     'NumberValidator',
-    'StringValidator'
+    'StringValidator',
+    'IterableValidator'
 ]
