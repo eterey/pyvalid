@@ -175,5 +175,6 @@ class Accepts(Callable):
                 continue
             parameters_order[param.name] = param_index
         last_param_pos = len(self.accepted_args)
-        sorting_func = lambda param: parameters_order.get(param[0], last_param_pos)
-        self.accepted_args.sort(key=sorting_func)
+        self.accepted_args.sort(
+            key=lambda param: parameters_order.get(param[0], last_param_pos)
+        )
