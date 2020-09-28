@@ -1,7 +1,8 @@
 pyvalid
 -------
 
-.. image:: https://img.shields.io/codecov/c/github/uzumaxy/pyvalid.svg?style=plastic   :alt: Codecov
+.. image:: https://img.shields.io/codecov/c/github/uzumaxy/pyvalid.svg?style=plastic
+.. image:: https://img.shields.io/github/workflow/status/uzumaxy/pyvalid/Python%20package?style=plastic
 
 Python validation tool for checking function's input parameters and return values.
 This module can be very helpful on the develop stage of the project, when control for accepted and returned function values is a one of most important things.
