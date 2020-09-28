@@ -236,8 +236,14 @@ class IterableValidator(AbstractValidator):
             True: If all the elements of the iterable are greater than or equal to the <min_val>.
             False: If at least one element of the iterable is less than the <min_val>.
         """
+        valid = True
+
         for element in val:
-            return element >= min_val
+            if element < min_val:
+                valid = False
+                break
+
+        return valid
 
     @classmethod
     def elements_max_val_checker(cls, val, max_val):
@@ -252,8 +258,14 @@ class IterableValidator(AbstractValidator):
             True: If all the elements of the iterable are less than or equal to the <max_val>.
             False: If at least one element of the iterable is greater than the <max_val>.
         """
+        valid = True
+
         for element in val:
-            return element <= max_val
+            if element > max_val:
+                valid = False
+                break
+
+        return valid
 
     @property
     def checkers(self):

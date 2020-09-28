@@ -56,7 +56,7 @@ class IterableValidatorTestCase(unittest.TestCase):
         self.assertFalse(validator([104, 205, 835, 143]))
 
         validator = IterableValidator(max_val=150.25)
-        self.assertTrue(validator([-154.6, 345.56, 225.53, -12.4]))
+        self.assertTrue(validator([-154.6, 45.56, 125.53, -12.4]))
         self.assertFalse(validator([164.67, 33.56, 110.53, -140.4]))
 
     def test_mixed(self):
