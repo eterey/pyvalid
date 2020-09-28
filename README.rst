@@ -1,7 +1,6 @@
 pyvalid
 -------
 
-.. image:: https://travis-ci.org/uzumaxy/pyvalid.svg?branch=master   :alt: Travis (.org)
 .. image:: https://img.shields.io/codecov/c/github/uzumaxy/pyvalid.svg?style=plastic   :alt: Codecov
 
 Python validation tool for checking function's input parameters and return values.
