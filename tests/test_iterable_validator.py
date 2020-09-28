@@ -35,27 +35,39 @@ class IterableValidatorTestCase(unittest.TestCase):
         self.assertFalse(validator([3.56, 6.4532, 65.57, 5.546]))
         self.assertTrue(validator(['CPython', 'PyPy', 'Jython', 'Cython']))
 
-    def test_sign(self):
+    def test_min_val(self):
         """
-        Verify elements_sign_checker() method.
+        Verify elements_min_val_checker() method.
         """
-        validator = IterableValidator(sign='positive')
+        validator = IterableValidator(min_val=0)
         self.assertTrue(validator([1, 3, 25, 14]))
         self.assertFalse(validator([-1, -3, -25, -14]))
 
-        validator = IterableValidator(sign='negative')
-        self.assertTrue(validator([-1, -3, -25, -14]))
-        self.assertFalse(validator([-1, 3, 25, -14]))
+        validator = IterableValidator(min_val=-50.3)
+        self.assertTrue(validator([-1.6, 3.56, 25.53, -14.4]))
+        self.assertFalse(validator([-72.67, 3.56, 25.53, -14.4]))
+
+    def test_max_val(self):
+        """
+        Verify elements_max_val_checker() method.
+        """
+        validator = IterableValidator(max_val=100)
+        self.assertTrue(validator([12, 96, 24, 100]))
+        self.assertFalse(validator([104, 205, 835, 143]))
+
+        validator = IterableValidator(max_val=150.25)
+        self.assertTrue(validator([-154.6, 345.56, 225.53, -12.4]))
+        self.assertFalse(validator([164.67, 33.56, 110.53, -140.4]))
 
     def test_mixed(self):
         """
         Verify the validator for different types of iterables.
         """
-        validator = IterableValidator(empty_allowed=False, elements_type=int, sign="positive")
-        self.assertTrue(validator([1, 3, 25, 14]))  # List
+        validator = IterableValidator(empty_allowed=False, elements_type=int, min_val=-128, max_val=128)
+        self.assertTrue(validator([1, 3, 25, 120]))  # List
         self.assertTrue(validator((1, 3, 25, 3)))  # Tuple
         self.assertTrue(validator({1: 'pyvalid', 2: 'cython'}))  # Dictionary
-        self.assertTrue(validator((1, 3, 25, 14)))  # Set
+        self.assertTrue(validator((1, 3, 25, 120)))  # Set
         self.assertFalse(validator(8))  # Integer
 
 

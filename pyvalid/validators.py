@@ -170,7 +170,7 @@ class IterableValidator(AbstractValidator):
     The iterable can be either a list, tuple or even keys or values of a dictionary.
 
     Example usage:
-        @accepts(IterableValidator(empty_allowed=False, elements_type=int, sign="positive"))
+        @accepts(IterableValidator(empty_allowed=False, elements_type=int, min_val=0, max_val=50))
         def example([1, 3, 7, 10]):
             pass
     """
@@ -221,45 +221,48 @@ class IterableValidator(AbstractValidator):
         return valid
 
     @classmethod
-    def elements_sign_checker(cls, val, sign):
+    def elements_min_val_checker(cls, val, min_val):
         """
-        Checks if all the elements of the iterable are positive or negative.
+        Checks if all the elements of the iterable are greater than or equal to the specified value.
 
         Args:
             val (list/tuple/dict/set): Iterable whose contents needs to be validated.
-            sign (str): Expected sign of all the elements of the iterable.
-                        Allowed values: "positive", "negative".
+            min_val (int): Expected minimum value the iterable must contain.
 
         Returns (bool):
-            True: If the iterable contains only <sign> elements.
-            False: If the iterable contains any non-<sign> elements.
+            True: If all the elements of the iterable are greater than or equal to the <min_val>.
+            False: If at least one element of the iterable is less than the <min_val>.
         """
-        valid = True
+        for element in val:
+            return element >= min_val
 
-        if sign == "positive":
-            for element in val:
-                if element < 0:
-                    valid = False
-                    break
+    @classmethod
+    def elements_max_val_checker(cls, val, max_val):
+        """
+        Checks if all the elements of the iterable are less than or equal to the specified value.
 
-        elif sign == "negative":
-            for element in val:
-                if element >= 0:
-                    valid = False
-                    break
+        Args:
+            val (list/tuple/dict/set): Iterable whose contents needs to be validated.
+            max_val (int): Expected maximum value the iterable must contain.
 
-        return valid
+        Returns (bool):
+            True: If all the elements of the iterable are less than or equal to the <max_val>.
+            False: If at least one element of the iterable is greater than the <max_val>.
+        """
+        for element in val:
+            return element <= max_val
 
     @property
     def checkers(self):
         return self.__checkers
 
-    @accepts(object, empty_allowed=bool, element_type=(str, int, float), sign=('positive', 'negative'))
+    @accepts(object, empty_allowed=bool, element_type=(str, int, float), min_val=(int, float), max_val=(int, float))
     def __init__(self, **kwargs):
         self.__checkers = {
             IterableValidator.empty_iterable_checker: [kwargs.get('empty_allowed', None)],
             IterableValidator.element_type_checker: [kwargs.get('elements_type', None)],
-            IterableValidator.elements_sign_checker: [kwargs.get('sign', None)]
+            IterableValidator.elements_min_val_checker: [kwargs.get('min_val', None)],
+            IterableValidator.elements_max_val_checker: [kwargs.get('max_val', None)]
         }
         AbstractValidator.__init__(self)
 
