@@ -273,11 +273,15 @@ class IterableValidator(AbstractValidator):
 
     @accepts(object, empty_allowed=bool, element_type=(str, int, float), min_val=(int, float), max_val=(int, float))
     def __init__(self, **kwargs):
+        min_val = kwargs.get('min_val', None)
+        max_val = kwargs.get('max_val', None)
+        if min_val is not None and max_val is not None and min_val > max_val:
+            raise ValueError('Min value can\'t be greater than max value!')
         self.__checkers = {
             IterableValidator.empty_iterable_checker: [kwargs.get('empty_allowed', None)],
             IterableValidator.element_type_checker: [kwargs.get('elements_type', None)],
-            IterableValidator.elements_min_val_checker: [kwargs.get('min_val', None)],
-            IterableValidator.elements_max_val_checker: [kwargs.get('max_val', None)]
+            IterableValidator.elements_min_val_checker: [min_val],
+            IterableValidator.elements_max_val_checker: [max_val]
         }
         AbstractValidator.__init__(self)
 
