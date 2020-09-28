@@ -38,6 +38,7 @@ class Accepts(Callable):
                 # Collect information about fresh arguments.
                 args_info = getargspec(func)
                 self.__scan_func(args_info)
+                self.__pep_0468_fix(func)
                 # Validate function arguments.
                 self.__validate_args(func.__name__, func_args, func_kwargs)
             # Call function.
@@ -156,3 +157,23 @@ class Accepts(Callable):
         else:
             ord_info = {1: 'st', 2: 'nd', 3: 'rd'}.get(num % 10, 'th')
             return '{}{}'.format(num, ord_info)
+
+    def __pep_0468_fix(self, func):
+        """Fixes the issue with preserving the order of function's arguments.
+        So far, the issue exists in the Python 3.5 only. More details can be
+        found on the "PEP 468" page: https://www.python.org/dev/peps/pep-0468/
+        """
+        isBrokenPy = (sys.version_info.major, sys.version_info.minor) == (3, 5)
+        if not isBrokenPy:
+            return
+        from inspect import signature, Parameter
+        func_signature = signature(func)
+        func_parameters = func_signature.parameters.values()
+        parameters_order = dict()
+        for param_index, param in enumerate(func_parameters):
+            if param.kind is Parameter.VAR_KEYWORD:
+                continue
+            parameters_order[param.name] = param_index
+        last_param_pos = len(self.accepted_args)
+        sorting_func = lambda param: parameters_order.get(param[0], last_param_pos)
+        self.accepted_args.sort(key=sorting_func)
