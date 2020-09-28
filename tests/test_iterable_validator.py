@@ -59,6 +59,22 @@ class IterableValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator([-154.6, 45.56, 125.53, -12.4]))
         self.assertFalse(validator([164.67, 33.56, 110.53, -140.4]))
 
+
+    def test_range(self):
+        """
+        Verify elements_min_val_checker() and elements_max_val_checker()
+        methods.
+        """
+        with self.assertRaises(ValueError):
+            IterableValidator(min_val=100, max_val=50)
+        
+        validator = IterableValidator(min_val=50, max_val=100)
+        self.assertTrue(validator([60, 80, 100]))
+        self.assertTrue(validator([70, 60, 50]))
+        self.assertTrue(validator([]))
+        self.assertFalse(validator([101, 10, 10, 10]))
+        self.assertFalse(validator([-50, -25, 0]))
+
     def test_mixed(self):
         """
         Verify the validator for different types of iterables.
