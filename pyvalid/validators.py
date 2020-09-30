@@ -168,12 +168,15 @@ class StringValidator(AbstractValidator):
 
 
 class IterableValidator(AbstractValidator):
-    """
-    This class performs validation on the content of the iterable to check if the given iterable is valid or not.
-    The iterable can be either a list, tuple or even keys or values of a dictionary.
+    """This class performs validation on the content of the iterable to check
+    if the given iterable is valid or not. The iterable can be either a list,
+    tuple or even keys or values of a dictionary.
 
     Example usage:
-        @accepts(IterableValidator(empty_allowed=False, elements_type=int, min_val=0, max_val=50))
+        validator = IterableValidator(
+            empty_allowed=False, elements_type=int, min_val=0, max_val=50
+        )
+        @accepts(validator)
         def example([1, 3, 7, 10]):
             pass
     """
@@ -182,14 +185,15 @@ class IterableValidator(AbstractValidator):
 
     @classmethod
     def empty_iterable_checker(cls, val, empty_allowed):
-        """
-        Check if the iterable is empty or not.
+        """Check if the iterable is empty or not.
 
         Args:
             val (list/tuple/dict/set): Iterable to be validated.
-            empty_allowed (bool): If this flag is set to 'True', this method raises exception and terminates the
-                                  execution if the iterable is empty.
-                                  If set to 'False', it raises a warning and continues with the execution.
+            empty_allowed (bool): If this flag is set to 'True', this method
+                raises exception and terminates the execution if the iterable
+                is empty.
+                If set to 'False', it raises a warning and continues with the
+                execution.
 
         Returns (bool):
             True: If the iterable is not empty.
@@ -198,22 +202,22 @@ class IterableValidator(AbstractValidator):
         if not empty_allowed:
             return len(val) != 0
         else:
-            if len(val) == 0:
-                print("WARNING! Iterable is empty, but does not impact the execution.")
             return True
 
     @classmethod
     def element_type_checker(cls, val, elements_type):
-        """
-        Checks if all the elements of the iterable are of required type.
+        """Checks if all the elements of the iterable are of required type.
 
         Args:
-            val (list/tuple/dict/set): Iterable whose contents needs to be validated.
-            elements_type (datatype): Expected type of all the elements in the iterator.
+            val (list/tuple/dict/set): Iterable whose contents needs to be
+                validated.
+            elements_type (datatype): Expected type of all the elements in
+                the iterator.
 
         Returns (bool):
             True: If all elements of the iterable are of required type.
-            False: If at least one element of the iterable is not of required type.
+            False: If at least one element of the iterable is not of required
+                type.
         """
         valid = False
         for element in val:
@@ -225,16 +229,19 @@ class IterableValidator(AbstractValidator):
 
     @classmethod
     def elements_min_val_checker(cls, val, min_val):
-        """
-        Checks if all the elements of the iterable are greater than or equal to the specified value.
+        """Checks if all the elements of the iterable are greater than or
+        equal to the specified value.
 
         Args:
-            val (list/tuple/dict/set): Iterable whose contents needs to be validated.
+            val (list/tuple/dict/set): Iterable whose contents needs to be
+                validated.
             min_val (int): Expected minimum value the iterable must contain.
 
         Returns (bool):
-            True: If all the elements of the iterable are greater than or equal to the <min_val>.
-            False: If at least one element of the iterable is less than the <min_val>.
+            True: If all the elements of the iterable are greater than or
+                equal to the <min_val>.
+            False: If at least one element of the iterable is less than the
+                <min_val>.
         """
         valid = True
 
@@ -247,16 +254,19 @@ class IterableValidator(AbstractValidator):
 
     @classmethod
     def elements_max_val_checker(cls, val, max_val):
-        """
-        Checks if all the elements of the iterable are less than or equal to the specified value.
+        """Checks if all the elements of the iterable are less than or equal
+        to the specified value.
 
         Args:
-            val (list/tuple/dict/set): Iterable whose contents needs to be validated.
+            val (list/tuple/dict/set): Iterable whose contents needs to be
+                validated.
             max_val (int): Expected maximum value the iterable must contain.
 
         Returns (bool):
-            True: If all the elements of the iterable are less than or equal to the <max_val>.
-            False: If at least one element of the iterable is greater than the <max_val>.
+            True: If all the elements of the iterable are less than or equal
+                to the <max_val>.
+            False: If at least one element of the iterable is greater than
+                the <max_val>.
         """
         valid = True
 
@@ -271,22 +281,26 @@ class IterableValidator(AbstractValidator):
     def checkers(self):
         return self.__checkers
 
-    @accepts(object, empty_allowed=bool, element_type=(str, int, float), min_val=(int, float), max_val=(int, float))
+    @accepts(object, empty_allowed=bool, element_type=(str, int, float),
+             min_val=(int, float), max_val=(int, float))
     def __init__(self, **kwargs):
+        empty_allowed = kwargs.get('empty_allowed', None)
+        elements_type = kwargs.get('elements_type', None)
         min_val = kwargs.get('min_val', None)
         max_val = kwargs.get('max_val', None)
         if min_val is not None and max_val is not None and min_val > max_val:
             raise ValueError('Min value can\'t be greater than max value!')
         self.__checkers = {
-            IterableValidator.empty_iterable_checker: [kwargs.get('empty_allowed', None)],
-            IterableValidator.element_type_checker: [kwargs.get('elements_type', None)],
+            IterableValidator.empty_iterable_checker: [empty_allowed],
+            IterableValidator.element_type_checker: [elements_type],
             IterableValidator.elements_min_val_checker: [min_val],
             IterableValidator.elements_max_val_checker: [max_val]
         }
         AbstractValidator.__init__(self)
 
     def __call__(self, val):
-        valid = isinstance(val, IterableValidator.iterable_types) and self._check(val)
+        is_iterable = isinstance(val, IterableValidator.iterable_types)
+        valid = is_iterable and self._check(val)
         return valid
 
 

@@ -59,7 +59,6 @@ class IterableValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator([-154.6, 45.56, 125.53, -12.4]))
         self.assertFalse(validator([164.67, 33.56, 110.53, -140.4]))
 
-
     def test_range(self):
         """
         Verify elements_min_val_checker() and elements_max_val_checker()
@@ -67,7 +66,7 @@ class IterableValidatorTestCase(unittest.TestCase):
         """
         with self.assertRaises(ValueError):
             IterableValidator(min_val=100, max_val=50)
-        
+
         validator = IterableValidator(min_val=50, max_val=100)
         self.assertTrue(validator([60, 80, 100]))
         self.assertTrue(validator([70, 60, 50]))
@@ -79,7 +78,9 @@ class IterableValidatorTestCase(unittest.TestCase):
         """
         Verify the validator for different types of iterables.
         """
-        validator = IterableValidator(empty_allowed=False, elements_type=int, min_val=-128, max_val=128)
+        validator = IterableValidator(
+            empty_allowed=False, elements_type=int, min_val=-128, max_val=128
+        )
         self.assertTrue(validator([1, 3, 25, 120]))  # List
         self.assertTrue(validator((1, 3, 25, 3)))  # Tuple
         self.assertTrue(validator({1: 'pyvalid', 2: 'cython'}))  # Dictionary
