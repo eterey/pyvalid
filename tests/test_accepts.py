@@ -1,5 +1,6 @@
 import unittest
-from pyvalid import accepts, ArgumentValidationError
+from pyvalid import accepts, ArgumentValidationError, \
+    InvalidArgumentNumberError
 from pyvalid.validators import is_validator
 
 
@@ -211,6 +212,70 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
 
     def test_docstring(self):
         self.assertEqual(self.func_with_doc.__doc__, 'TEST_DOCSTRING')
+
+    def test_args_number_validation(self):
+        # First two arguments are missing
+        self.assertRaises(InvalidArgumentNumberError, self.func1)
+        # The second argument is missing
+        args = str()
+        self.assertRaises(InvalidArgumentNumberError, self.func1, *args)
+        # All arguments are optional there, so everything should be fine
+        try:
+            self.func4()
+        except InvalidArgumentNumberError:
+            self.fail(
+                'func4() unexpectedly raised the InvalidArgumentNumberError!'
+            )
+        try:
+            self.func6()
+        except InvalidArgumentNumberError:
+            self.fail(
+                'func4() unexpectedly raised the InvalidArgumentNumberError!'
+            )
+
+    def test_ordinal(self):
+        accepts_instance = accepts()
+        ordinal_func = accepts_instance._Accepts__ordinal
+
+        actual_result = ordinal_func(1)
+        expected_result = '1st'
+        self.assertEqual(actual_result, expected_result)
+
+        actual_result = ordinal_func(2)
+        expected_result = '2nd'
+        self.assertEqual(actual_result, expected_result)
+
+        actual_result = ordinal_func(3)
+        expected_result = '3rd'
+        self.assertEqual(actual_result, expected_result)
+
+        actual_result = ordinal_func(5)
+        expected_result = '5th'
+        self.assertEqual(actual_result, expected_result)
+
+        actual_result = ordinal_func(10)
+        expected_result = '10th'
+        self.assertEqual(actual_result, expected_result)
+
+        actual_result = ordinal_func(12)
+        expected_result = '12th'
+        self.assertEqual(actual_result, expected_result)
+
+        actual_result = ordinal_func(21)
+        expected_result = '21st'
+        self.assertEqual(actual_result, expected_result)
+
+        actual_result = ordinal_func(22)
+        expected_result = '22nd'
+        self.assertEqual(actual_result, expected_result)
+
+        actual_result = ordinal_func(23)
+        expected_result = '23rd'
+        self.assertEqual(actual_result, expected_result)
+
+        actual_result = ordinal_func(25)
+        expected_result = '25th'
+        self.assertEqual(actual_result, expected_result)
 
 
 if __name__ == '__main__':
