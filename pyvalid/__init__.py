@@ -3,7 +3,7 @@ from pyvalid.__returns import Returns as returns
 from pyvalid.__exceptions import InvalidArgumentNumberError, \
     InvalidReturnType, ArgumentValidationError
 
-version = '0.9.5'
+version = '0.9.6'
 
 __all__ = [
     'validators',
