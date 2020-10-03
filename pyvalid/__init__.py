@@ -8,11 +8,9 @@ Purposes of the pyvalid package:
    the implementation of the comprehensive validation systems;
 #. Add an additional layer of dynamic code analysis for the development and
    testing stages — pyvalid will raise the exception if a function accepts or
-   returns unexpected values and you always can disable pyvalid in production
-   or whenever you want;
+   returns unexpected values and it's always possible to disable pyvalid in
+   production if needed.
 #. Help to catch runtime issues much easier.
-
-The module consists of two decorators: `accepts` and `returns`.
 """
 
 from pyvalid.__accepts import Accepts as accepts

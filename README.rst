@@ -14,45 +14,49 @@ Purposes of the pyvalid package:
    the implementation of the comprehensive validation systems;
 #. Add an additional layer of dynamic code analysis for the development and
    testing stages — pyvalid will raise the exception if a function accepts or
-   returns unexpected values and you always can disable pyvalid in production
-   or whenever you want;
+   returns unexpected values and it's always possible to disable pyvalid in
+   production if needed.
 #. Help to catch runtime issues much easier.
-
-The module consists of two decorators: `accepts` and `returns`.
-
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`accepts(*accepted_arg_values, **accepted_kwargs_values)`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-A decorator for validating types and values of input parameters of a given function.
-You can pass the set of accepted types and values or validation function as decorator's input parameters.
-Validation process can raise the following exceptions:
-
-* `pyvalid.InvalidArgumentNumberError` — when the number or position of arguments supplied to a function is incorrect.
-* `pyvalid.ArgumentValidationError` — when the type of an argument to a function is not what it should be.
-
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`returns(*accepted_returns_values)`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-A decorator for validating the return value of a given function.
-You can pass the set of accepted types and values or validation function as a decorator's input parameters.
-Validation process can raise `pyvalid.InvalidReturnTypeError` when the return value is not in the collection of supported values and types.
-
 
 How to install
 ++++++++++++++
 
-* With PyPI: `pip install -U pyvalid`
-* Manually: `python setup.py install`
+* With PyPI: ``pip install -U pyvalid``
+* Manually: ``python setup.py install``
 
+How to use
+++++++++++
+
+The module consists of two decorators: ``accepts`` and ``returns``, which
+validates the function’s input and output values correspondingly.
+
+``accepts(*accepted_arg_values, **accepted_kwargs_values)``
+-----------------------------------------------------------
+
+The decorator which validates input parameters of the wrapped function.
+
+To use it, we need to specify the list of allowed types or values. If the
+function’s input doesn’t match the allowed types/values, one of the following
+errors will be thrown:
+
+* ``pyvalid.ArgumentValidationError`` — when the actual type/value of the
+  function’s argument is different from the expected one;
+* ``pyvalid.InvalidArgumentNumberError`` — when the number/position of
+  function’s arguments is incorrect.
+
+``returns(*accepted_returns_values)``
+-------------------------------------
+
+The decorator which validates the value returned by the wrapped function.
+
+To use it, we need to specify the list of expected return types or values.
+If the function’s return value doesn’t match the allowed types/values, the
+``pyvalid.InvalidReturnTypeError`` error will be thrown.
 
 Example of usage
 ++++++++++++++++
 
-Function `calc` in example below has next limitations:
+Function ``calc`` in example below has next limitations:
 
 * Can return only int or float value;
 * First parameter must be only of type str;
@@ -60,6 +64,7 @@ Function `calc` in example below has next limitations:
 * Third parameter must be of type int or float.
 
 
+.. highlight:: python
 .. code-block:: python
 
     from pyvalid import accepts, returns
@@ -94,10 +99,11 @@ Function `calc` in example below has next limitations:
     print(calc('*', 2, 3, '"4"'))
 
 
-Here is an example of usage `pyvalid` module in context of classes.
-Pay attention to the method `connect` of the class `SqlDriver`.
-This method is a good demonstration of usage `accepts` decorator for functions with keyword arguments.
+Here is an example of usage ``pyvalid`` module in context of classes.
+Pay attention to the method ``connect`` of the class ``SqlDriver``.
+This method is a good demonstration of usage ``accepts`` decorator for functions with keyword arguments.
 
+.. highlight:: python
 .. code-block:: python
 
     from pyvalid import accepts, returns
@@ -164,8 +170,9 @@ This method is a good demonstration of usage `accepts` decorator for functions w
     sql_driver.close()
 
 
-Following example with class `User` will show you how to use `pyvalid` module to validate some value with using validation function.
+Following example with class ``User`` will show you how to use ``pyvalid`` module to validate some value with using validation function.
 
+.. highlight:: python
 .. code-block:: python
 
     from pyvalid import accepts
