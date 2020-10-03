@@ -1,17 +1,18 @@
 from pyvalid.__accepts import Accepts as accepts
 from pyvalid.__returns import Returns as returns
-from pyvalid.__exceptions import InvalidArgumentNumberError, \
-    InvalidReturnType, ArgumentValidationError
+import pyvalid.validators as validators
+from pyvalid.__exceptions import ArgumentValidationError, \
+    InvalidArgumentNumberError, InvalidReturnType
 
 version = '0.9.6'
 
 __all__ = [
+    'accepts',
+    'returns',
     'validators',
     'switch',
     'version',
-    'accepts',
-    'returns',
+    'ArgumentValidationError',
     'InvalidArgumentNumberError',
-    'InvalidReturnType',
-    'ArgumentValidationError'
+    'InvalidReturnType'
 ]
