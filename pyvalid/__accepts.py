@@ -18,10 +18,10 @@ class Accepts(Callable):
     """A decorator to validate types of input parameters for a given function.
     """
 
-    def __init__(self, *accepted_arg_values, **accepted_kwargs_values):
-        self.accepted_arg_values = accepted_arg_values
-        self.accepted_kwargs_values = accepted_kwargs_values
-        self.accepted_args = list()
+    def __init__(self, *allowed_arg_values, **allowed_kwargs_values):
+        self.allowed_arg_values = allowed_arg_values
+        self.allowed_kwargs_values = allowed_kwargs_values
+        self.allowed_params = list()
         self.optional_args = list()
 
     def __call__(self, func):
@@ -29,24 +29,24 @@ class Accepts(Callable):
         def decorator_wrapper(*func_args, **func_kwargs):
             perform_validation = all((
                 is_enabled(),
-                self.accepted_arg_values or self.accepted_kwargs_values
+                self.allowed_arg_values or self.allowed_kwargs_values
             ))
             if perform_validation:
                 # Forget all information about function arguments.
-                self.accepted_args[:] = list()
+                self.allowed_params[:] = list()
                 self.optional_args[:] = list()
                 # Collect information about fresh arguments.
                 args_info = getargspec(func)
                 self.__scan_func(args_info)
                 self.__pep_0468_fix(func)
                 # Validate function arguments.
-                self.__validate_args(func.__name__, func_args, func_kwargs)
+                self.__validate_args(func, func_args, func_kwargs)
             # Call function.
             return func(*func_args, **func_kwargs)
         return decorator_wrapper
 
-    def __wrap_accepted_val(self, value):
-        """Wrap accepted value in the list if yet not wrapped.
+    def __wrap_allowed_val(self, value):
+        """Wrap allowed value in the list if not wrapped yet.
         """
         if isinstance(value, tuple):
             value = list(value)
@@ -55,10 +55,10 @@ class Accepts(Callable):
         return value
 
     def __scan_func(self, args_info):
-        """Collect information about accepted arguments in following format:
+        """Collect information about allowed values in following format:
             (
-                (<argument name>, <accepted types and values>),
-                (<argument name>, <accepted types and values>),
+                (<argument name>, <allowed types and values>),
+                (<argument name>, <allowed types and values>),
                 ...
             )
 
@@ -67,40 +67,40 @@ class Accepts(Callable):
                 arguments.
         """
         # Process args.
-        for i, accepted_arg_vals in enumerate(self.accepted_arg_values):
-            # Wrap each accepted value in the list if yet not wrapped.
-            accepted_arg_vals = self.__wrap_accepted_val(accepted_arg_vals)
-            # Add default value (if exists) in list of accepted values.
+        for i, allowed_val in enumerate(self.allowed_arg_values):
+            # Wrap each allowed value in the list if yet not wrapped.
+            allowed_val = self.__wrap_allowed_val(allowed_val)
+            # Add default value (if exists) in list of allowed values.
             if args_info.defaults:
                 def_range = len(args_info.defaults) - len(args_info.args[i:])
                 if def_range >= 0:
                     self.optional_args.append(i)
-                    accepted_value = args_info.defaults[def_range]
-                    accepted_arg_vals.append(accepted_value)
+                    default_value = args_info.defaults[def_range]
+                    allowed_val.append(default_value)
             # Try to detect current argument name.
             if len(args_info.args) > i:
                 arg_name = args_info.args[i]
             else:
                 arg_name = None
                 self.optional_args.append(i)
-            # Save info about current argument and his accepted values.
-            self.accepted_args.append((arg_name, accepted_arg_vals))
+            # Save info about current argument and his allowed values.
+            self.allowed_params.append((arg_name, allowed_val))
         # Process kwargs.
-        for arg_name, accepted_arg_vals in self.accepted_kwargs_values.items():
-            # Wrap each accepted value in the list if yet not wrapped.
-            accepted_arg_vals = self.__wrap_accepted_val(accepted_arg_vals)
+        for arg_name, allowed_val in self.allowed_kwargs_values.items():
+            # Wrap each allowed value in the list if yet not wrapped.
+            allowed_val = self.__wrap_allowed_val(allowed_val)
             # Mark current argument as optional.
-            i = len(self.accepted_args)
+            i = len(self.allowed_params)
             self.optional_args.append(i)
-            # Save info about current argument and his accepted values.
-            self.accepted_args.append((arg_name, accepted_arg_vals))
+            # Save info about current argument and his allowed values.
+            self.allowed_params.append((arg_name, allowed_val))
 
-    def __validate_args(self, func_name, args, kwargs):
+    def __validate_args(self, func, args, kwargs):
         """Compare value of each required argument with list of
-        accepted values.
+        allowed values.
 
         Args:
-            func_name (str): Function name.
+            func (types.FunctionType): Function to validate.
             args (list): Collection of the position arguments.
             kwargs (dict): Collection of the keyword arguments.
 
@@ -111,7 +111,7 @@ class Accepts(Callable):
                 value.
         """
         from pyvalid.validators import Validator
-        for i, (arg_name, accepted_values) in enumerate(self.accepted_args):
+        for i, (arg_name, allowed_values) in enumerate(self.allowed_params):
             if i < len(args):
                 value = args[i]
             else:
@@ -120,32 +120,32 @@ class Accepts(Callable):
                 elif i in self.optional_args:
                     continue
                 else:
-                    raise InvalidArgumentNumberError(func_name)
+                    raise InvalidArgumentNumberError(func)
             is_valid = False
-            for accepted_val in accepted_values:
+            for allowed_val in allowed_values:
                 is_validator = (
-                    isinstance(accepted_val, Validator) or
+                    isinstance(allowed_val, Validator) or
                     (
-                        isinstance(accepted_val, MethodType) and
-                        hasattr(accepted_val, '__func__') and
-                        isinstance(accepted_val.__func__, Validator)
+                        isinstance(allowed_val, MethodType) and
+                        hasattr(allowed_val, '__func__') and
+                        isinstance(allowed_val.__func__, Validator)
                     )
                 )
                 if is_validator:
-                    is_valid = accepted_val(value)
-                elif isinstance(accepted_val, type):
-                    is_valid = isinstance(value, accepted_val)
+                    is_valid = allowed_val(value)
+                elif isinstance(allowed_val, type):
+                    is_valid = isinstance(value, allowed_val)
                 else:
-                    is_valid = value == accepted_val
+                    is_valid = value == allowed_val
                 if is_valid:
                     break
             if not is_valid:
                 ord_num = self.__ordinal(i + 1)
                 raise ArgumentValidationError(
+                    func,
                     ord_num,
-                    func_name,
                     value,
-                    accepted_values
+                    allowed_values
                 )
 
     def __ordinal(self, num):
@@ -174,7 +174,7 @@ class Accepts(Callable):
             if param.kind is Parameter.VAR_KEYWORD:
                 continue
             parameters_order[param.name] = param_index
-        last_param_pos = len(self.accepted_args)
-        self.accepted_args.sort(
+        last_param_pos = len(self.allowed_params)
+        self.allowed_params.sort(
             key=lambda param: parameters_order.get(param[0], last_param_pos)
         )

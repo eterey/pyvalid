@@ -11,7 +11,7 @@ Module consists of two decorators: `accepts` and `returns`.
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`accepts(*accepted_arg_values, **accepted_kwargs_values)`
+`accepts(*allowed_arg_values, **allowed_kwargs_values)`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A decorator for validating types and values of input parameters of a given function.
@@ -23,7 +23,7 @@ Validation process can raise the following exceptions:
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`returns(*accepted_returns_values)`
+`returns(*allowed_return_values)`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A decorator for validating the return value of a given function.

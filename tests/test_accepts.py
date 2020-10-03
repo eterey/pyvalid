@@ -91,7 +91,7 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
         result = self.func1(arg4=11, arg3=10, arg2=9, arg1=8)
         expected_result = 8, 9, 10, 11
         self.assertEqual(expected_result, result)
-        # With invalid keyword parameter `arg1`.
+        # With invalid keyword parameter "arg1".
         kwargs = {
             'arg1': str(),
             'arg2': 9,
