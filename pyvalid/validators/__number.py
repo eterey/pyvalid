@@ -1,4 +1,4 @@
-import sys
+from sys import version_info
 from pyvalid import accepts
 from pyvalid.validators import AbstractValidator
 try:
@@ -10,7 +10,7 @@ except ImportError:
 class NumberValidator(AbstractValidator):
 
     number_types = (int, float)
-    if sys.version_info < (3, 0, 0):
+    if version_info < (3, 0, 0):
         number_types += (long, )  # noqa: F821
 
     @classmethod
