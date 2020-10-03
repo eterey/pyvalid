@@ -165,7 +165,7 @@ class Accepts(Callable):
         """
         isBrokenPy = (sys.version_info.major, sys.version_info.minor) == (3, 5)
         if not isBrokenPy:
-            return
+            return False
         from inspect import signature, Parameter
         func_signature = signature(func)
         func_parameters = func_signature.parameters.values()
