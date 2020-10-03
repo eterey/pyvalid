@@ -28,7 +28,7 @@ Validation process can raise the following exceptions:
 
 A decorator for validating the return value of a given function.
 You can pass the set of accepted types and values or validation function as a decorator's input parameters.
-Validation process can raise `pyvalid.InvalidReturnType` when the return value is not in the collection of supported values and types.
+Validation process can raise `pyvalid.InvalidReturnTypeError` when the return value is not in the collection of supported values and types.
 
 
 How to install
@@ -73,12 +73,12 @@ Function `calc` in example below has next limitations:
     # Output: 24.0.
     print(calc('*', 2.0, 3, 4))
 
-    # Raise pyvalid.ArgumentValidationError exception,
+    # Raises pyvalid.ArgumentValidationError exception,
     # because second argument has unsupported value.
     print(calc('*', 3.14, 3, 4))
 
 
-    # Raise pyvalid.InvalidReturnType exception,
+    # Raises pyvalid.InvalidReturnTypeError exception,
     # because returns value is of type str.
     print(calc('*', 2, 3, '"4"'))
 

@@ -1,5 +1,5 @@
 import unittest
-from pyvalid import returns, InvalidReturnType
+from pyvalid import returns, InvalidReturnTypeError
 from pyvalid.validators import is_validator
 
 
@@ -41,17 +41,17 @@ class ReturnsDecoratorTestCase(unittest.TestCase):
         self.assertEqual(self.func1(int()), int())
         self.assertEqual(self.func1(float()), float())
         self.assertEqual(self.func2(str()), str())
-        self.assertRaises(InvalidReturnType, self.func1, str())
-        self.assertRaises(InvalidReturnType, self.func1, None)
+        self.assertRaises(InvalidReturnTypeError, self.func1, str())
+        self.assertRaises(InvalidReturnTypeError, self.func1, None)
         # func2
         self.assertIsNone(self.func2(None))
         self.assertEqual(self.func2(-1), -1)
-        self.assertRaises(InvalidReturnType, self.func2, int())
+        self.assertRaises(InvalidReturnTypeError, self.func2, int())
         # func3
         self.assertEqual(self.func3('val1'), 'val1')
         self.assertIsNone(self.func3(None), 'val1')
         self.assertEqual(self.func3(True), True)
-        self.assertRaises(InvalidReturnType, self.func3, int())
+        self.assertRaises(InvalidReturnTypeError, self.func3, int())
 
     def test_docstring(self):
         self.assertEqual(self.func_with_doc.__doc__, 'TEST_DOCSTRING')

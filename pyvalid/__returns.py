@@ -1,5 +1,5 @@
 from types import MethodType
-from pyvalid.__exceptions import InvalidReturnType
+from pyvalid.__exceptions import InvalidReturnTypeError
 from pyvalid.switch import is_enabled
 from functools import wraps
 try:
@@ -39,6 +39,7 @@ class Returns(Callable):
                     if is_valid:
                         break
                 if not is_valid:
-                    raise InvalidReturnType(type(returns_val), func.__name__)
+                    returns_type = type(returns_val)
+                    raise InvalidReturnTypeError(returns_type, func.__name__)
             return returns_val
         return decorator_wrapper
