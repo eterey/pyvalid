@@ -142,8 +142,8 @@ class Accepts(Callable):
             if not is_valid:
                 ord_num = self.__ordinal(i + 1)
                 raise ArgumentValidationError(
-                    ord_num,
                     func_name,
+                    ord_num,
                     value,
                     accepted_values
                 )

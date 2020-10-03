@@ -15,7 +15,7 @@ class ArgumentValidationError(ValueError):
     """Raised when the type of an argument to a function is not what it
     should be.
     """
-    def __init__(self, arg_num, func_name, actual_value, accepted_arg_values):
+    def __init__(self, func_name, arg_num, actual_value, accepted_arg_values):
         error_message_template = (
             'The {} argument of the "{}()" function is "{}" of the "{}" '
             'type, while expected values are: "{}".'
@@ -35,10 +35,14 @@ class ArgumentValidationError(ValueError):
 class InvalidReturnTypeError(ValueError):
     """Raised when the return value is the wrong type.
     """
-    def __init__(self, return_type, func_name):
-        error_message_template = \
-            'Invalid return type "{}" for the "{}()" function.'
-        self.error = error_message_template.format(return_type, func_name)
+    def __init__(self, func_name, actual_value):
+        error_message_template = (
+            'Invalid return value "{}" of the "{}" type '
+            'for the "{}()" function.'
+        )
+        self.error = error_message_template.format(
+            actual_value, type(actual_value), func_name
+        )
 
     def __str__(self):
         return self.error
