@@ -4,10 +4,21 @@ pyvalid
 .. image:: https://img.shields.io/codecov/c/github/uzumaxy/pyvalid.svg?style=plastic
 .. image:: https://img.shields.io/github/workflow/status/uzumaxy/pyvalid/Python%20package?style=plastic
 
-Python validation tool for checking function's input parameters and return values.
-This module can be very helpful on the develop stage of the project, when control for accepted and returned function values is a one of most important things.
+The pyvalid is the Python validation tool for checking a function's input
+parameters and return values.
 
-Module consists of two decorators: `accepts` and `returns`.
+Purposes of the pyvalid package:
+
+#. Provide an ability to validate user input (such as usernames, phone numbers,
+   emails, dates and times, etc) and minimize the amount of code required for
+   the implementation of the comprehensive validation systems;
+#. Add an additional layer of dynamic code analysis for the development and
+   testing stages — pyvalid will raise the exception if a function accepts or
+   returns unexpected values and you always can disable pyvalid in production
+   or whenever you want;
+#. Help to catch runtime issues much easier.
+
+The module consists of two decorators: `accepts` and `returns`.
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
