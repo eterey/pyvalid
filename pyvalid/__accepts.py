@@ -1,7 +1,7 @@
 from types import MethodType
 from functools import wraps
-import sys
-if sys.version_info < (3, 0, 0):
+from sys import version_info
+if version_info < (3, 0, 0):
     from inspect import getargspec
 else:
     from inspect import getfullargspec as getargspec
@@ -163,8 +163,8 @@ class Accepts(Callable):
         So far, the issue exists in the Python 3.5 only. More details can be
         found on the "PEP 468" page: https://www.python.org/dev/peps/pep-0468/
         """
-        isBrokenPy = (sys.version_info.major, sys.version_info.minor) == (3, 5)
-        if not isBrokenPy:
+        is_broken_py = (version_info.major, version_info.minor) == (3, 5)
+        if not is_broken_py:
             return False
         from inspect import signature, Parameter
         func_signature = signature(func)
