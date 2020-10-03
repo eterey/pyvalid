@@ -40,7 +40,7 @@ class Accepts(Callable):
                 self.__scan_func(args_info)
                 self.__pep_0468_fix(func)
                 # Validate function arguments.
-                self.__validate_args(func.__name__, func_args, func_kwargs)
+                self.__validate_args(func, func_args, func_kwargs)
             # Call function.
             return func(*func_args, **func_kwargs)
         return decorator_wrapper
@@ -95,12 +95,12 @@ class Accepts(Callable):
             # Save info about current argument and his accepted values.
             self.accepted_args.append((arg_name, accepted_arg_vals))
 
-    def __validate_args(self, func_name, args, kwargs):
+    def __validate_args(self, func, args, kwargs):
         """Compare value of each required argument with list of
         accepted values.
 
         Args:
-            func_name (str): Function name.
+            func (types.FunctionType): Function to validate.
             args (list): Collection of the position arguments.
             kwargs (dict): Collection of the keyword arguments.
 
@@ -120,7 +120,7 @@ class Accepts(Callable):
                 elif i in self.optional_args:
                     continue
                 else:
-                    raise InvalidArgumentNumberError(func_name)
+                    raise InvalidArgumentNumberError(func)
             is_valid = False
             for accepted_val in accepted_values:
                 is_validator = (
@@ -142,7 +142,7 @@ class Accepts(Callable):
             if not is_valid:
                 ord_num = self.__ordinal(i + 1)
                 raise ArgumentValidationError(
-                    func_name,
+                    func,
                     ord_num,
                     value,
                     accepted_values

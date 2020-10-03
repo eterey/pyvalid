@@ -39,6 +39,8 @@ class Returns(Callable):
                     if is_valid:
                         break
                 if not is_valid:
-                    raise InvalidReturnTypeError(func.__name__, returns_val)
+                    raise InvalidReturnTypeError(
+                        func, returns_val, self.accepted_returns_values
+                    )
             return returns_val
         return decorator_wrapper
