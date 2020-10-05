@@ -4,7 +4,7 @@ from . import validators
 from .__exceptions import PyvalidError, ArgumentValidationError, \
     InvalidArgumentNumberError, InvalidReturnTypeError
 
-version = '1.0.1'
+version = '1.0.2'
 
 __all__ = [
     'accepts',
