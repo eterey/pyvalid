@@ -2,5 +2,6 @@ graft pyvalid
 prune tests
 include LICENSE
 include requirements.txt
+recursive-include pyvalid/ *.py
 global-exclude __pycache__
 global-exclude *.py[co]

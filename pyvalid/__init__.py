@@ -15,18 +15,19 @@ Purposes of the pyvalid package:
 
 from pyvalid.__accepts import Accepts as accepts
 from pyvalid.__returns import Returns as returns
-import pyvalid.validators as validators
-from pyvalid.__exceptions import ArgumentValidationError, \
+from pyvalid import validators
+from pyvalid.__exceptions import PyvalidError, ArgumentValidationError, \
     InvalidArgumentNumberError, InvalidReturnTypeError
 
-version = '0.9.6'
+version = '1.0.3'
 
 __all__ = [
     'accepts',
     'returns',
-    'validators',
     'switch',
+    'validators',
     'version',
+    'PyvalidError',
     'ArgumentValidationError',
     'InvalidArgumentNumberError',
     'InvalidReturnTypeError'

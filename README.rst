@@ -30,8 +30,8 @@ How to use
 The module consists of two decorators: ``accepts`` and ``returns``, which
 validates the function’s input and output values correspondingly.
 
-``accepts(*accepted_arg_values, **accepted_kwargs_values)``
------------------------------------------------------------
+``accepts(*allowed_arg_values, **allowed_kwargs_values)``
+---------------------------------------------------------
 
 The decorator which validates input parameters of the wrapped function.
 
@@ -44,8 +44,8 @@ errors will be thrown:
 * ``pyvalid.InvalidArgumentNumberError`` — when the number/position of
   function’s arguments is incorrect.
 
-``returns(*accepted_returns_values)``
--------------------------------------
+``returns(*allowed_return_values)``
+-----------------------------------
 
 The decorator which validates the value returned by the wrapped function.
 
