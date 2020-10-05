@@ -1,7 +1,7 @@
-from .__base import Validator, AbstractValidator
-from .__iterable import IterableValidator
-from .__number import NumberValidator
-from .__string import StringValidator
+from pyvalid.validators.__base import Validator, AbstractValidator
+from pyvalid.validators.__iterable import IterableValidator
+from pyvalid.validators.__number import NumberValidator
+from pyvalid.validators.__string import StringValidator
 
 is_validator = Validator
 

@@ -18,7 +18,7 @@ def main():
         author_email='uzumaxy@gmail.com',
         maintainer='Max Hryshchuk',
         maintainer_email='uzumaxy@gmail.com',
-        packages=['pyvalid'],
+        packages=['pyvalid', 'pyvalid.validators'],
         url='http://uzumaxy.github.io/pyvalid/',
         download_url='https://github.com/uzumaxy/pyvalid/releases',
         license='MIT',
