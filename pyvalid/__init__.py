@@ -4,7 +4,7 @@ import pyvalid.validators as validators
 from pyvalid.__exceptions import PyvalidError, ArgumentValidationError, \
     InvalidArgumentNumberError, InvalidReturnTypeError
 
-version = '0.9.6'
+version = '1.0.0'
 
 __all__ = [
     'accepts',
