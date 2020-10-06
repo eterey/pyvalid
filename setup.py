@@ -19,7 +19,7 @@ def main():
         maintainer='Max Hryshchuk',
         maintainer_email='uzumaxy@gmail.com',
         packages=['pyvalid', 'pyvalid.validators'],
-        url='http://uzumaxy.github.io/pyvalid/',
+        url='https://uzumaxy.github.io/pyvalid/',
         download_url='https://github.com/uzumaxy/pyvalid/releases',
         license='MIT',
         description='The module, which allows easily validate function\'s '
