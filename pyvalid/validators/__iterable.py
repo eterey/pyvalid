@@ -7,7 +7,11 @@ class IterableValidator(AbstractValidator):
     if the given iterable is valid or not. The iterable can be either a list,
     tuple or even keys or values of a dictionary.
 
-    Example usage:
+    Example:
+
+    .. highlight:: python
+    .. code-block:: python
+
         validator = IterableValidator(
             empty_allowed=False, elements_type=int, min_val=0, max_val=50
         )
@@ -52,7 +56,7 @@ class IterableValidator(AbstractValidator):
         Returns (bool):
             True: If all elements of the iterable are of required type.
             False: If at least one element of the iterable is not of required
-                type.
+            type.
         """
         valid = False
         for element in val:
