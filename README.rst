@@ -9,20 +9,23 @@ parameters and return values.
 
 Purposes of the pyvalid package:
 
-#. Provide an ability to validate user input (such as usernames, phone numbers,
-   emails, dates and times, etc) and minimize the amount of code required for
-   the implementation of the comprehensive validation systems;
+#. Provide an ability to validate a user input (such as usernames,
+   phone numbers, emails, dates and times, etc) and minimize the amount of
+   code required for the implementation of the comprehensive validation
+   systems;
 #. Add an additional layer of dynamic code analysis for the development and
    testing stages — pyvalid will raise the exception if a function accepts or
    returns unexpected values and it's always possible to disable pyvalid in
    production if needed.
-#. Help to catch runtime issues much easier.
+#. Help to catch runtime issues.
+
 
 How to install
 ++++++++++++++
 
 * With PyPI: ``pip install -U pyvalid``
 * Manually: ``python setup.py install``
+
 
 How to use
 ++++++++++
@@ -46,7 +49,8 @@ processes only:
 #. Turn off the ``pyvalid`` before going live in order to avoid unnecessary
    exceptions in production.
 
-``accepts(*allowed_arg_values, **allowed_kwargs_values)``
+
+``pyvalid.accepts(*allowed_arg_values, **allowed_kwargs_values)``
 ---------------------------------------------------------
 
 The decorator which validates input parameters of the wrapped function.
@@ -92,7 +96,7 @@ does it work with other types.
     # argument is missing.
 
 
-``returns(*allowed_return_values)``
+``pyvalid.returns(*allowed_return_values)``
 -----------------------------------
 
 The decorator which validates the value returned by the wrapped function.
@@ -127,6 +131,7 @@ does it work with other types.
     multiply(3, 'pyvalid')
     # Raises the InvalidReturnTypeError exception, since the function returns
     # the str value, when we're expecting int values only.
+
 
 Advanced examples
 +++++++++++++++++
