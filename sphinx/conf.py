@@ -18,11 +18,11 @@ sys.path.insert(0, os.path.abspath('../'))
 # -- Project information -----------------------------------------------------
 
 project = 'pyvalid'
-copyright = '2020, Max Hryshchuk'
+copyright = '2020, Max Hryshchuk'  # noqa: A001
 author = 'Max Hryshchuk'
 
 # The full version, including alpha/beta/rc tags
-release = '0.96'
+release = '1.0.4'
 
 
 # -- General configuration ---------------------------------------------------

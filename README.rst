@@ -52,7 +52,7 @@ decorators.
     @accepts(int, int)
     @returns(float)
     def divide(num_1, num_2):
-            return num_1 / num_2
+        return num_1 / num_2
 
     divide(8, 42)
     # Returns float value
@@ -68,10 +68,10 @@ the ``is_validator`` decorator or through extending the ``AbstractValidator``
 class.
 
 We can flexibly control the state of the ``pyvalid`` validation using the 
-``pyvalid.switch`` module. This modules provides an ability to switch the
+``pyvalid.switch`` module. This module provides an ability to switch the
 ``pyvalid`` on/off.
 
-In most cases it worth to use the ``pyvalid`` features to validate
+In most cases, it's worth to use the ``pyvalid`` features to validate
 incoming/outcoming data, such as: user input, the data sent to the API, etc.
 
 But it's also possible to use the ``pyvalid`` package as a part of the CI/CD
@@ -218,8 +218,8 @@ Function ``calculate`` in the example below has the following limitations:
 
 The example below demonstrates how to use the ``accepts`` and ``returns``
 decorators in the classes. Please pay attention to the method ``connect`` of
-the class ``SqlDriver``. In this classes we're using the ``accepts`` decorator
-to validate keyword arguments.
+the class ``SqlDriver``. In these classes we're using the ``accepts``
+decorator to validate keyword arguments.
 
 .. highlight:: python
 .. code-block:: python

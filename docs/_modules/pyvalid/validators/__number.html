@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyvalid.validators.__number &#8212; pyvalid 1.0.4 documentation</title>
+    <link rel="stylesheet" href="../../../_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="../../../index.html">
+          <span>pyvalid 1.0.4 documentation</span></a></h1>
+        <h2 class="heading"><span>pyvalid.validators.__number</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        <a class="uplink" href="../../../index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <h1>Source code for pyvalid.validators.__number</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">version_info</span>
+<span class="kn">from</span> <span class="nn">pyvalid</span> <span class="kn">import</span> <span class="n">accepts</span>
+<span class="kn">from</span> <span class="nn">pyvalid.validators</span> <span class="kn">import</span> <span class="n">AbstractValidator</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Container</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Container</span>
+
+
+<div class="viewcode-block" id="NumberValidator"><a class="viewcode-back" href="../../../modules.html#pyvalid.validators.NumberValidator">[docs]</a><span class="k">class</span> <span class="nc">NumberValidator</span><span class="p">(</span><span class="n">AbstractValidator</span><span class="p">):</span>
+
+    <span class="n">number_types</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">number_types</span> <span class="o">+=</span> <span class="p">(</span><span class="n">long</span><span class="p">,</span> <span class="p">)</span>  <span class="c1"># noqa: F821</span>
+
+<div class="viewcode-block" id="NumberValidator.min_val_checker"><a class="viewcode-back" href="../../../modules.html#pyvalid.validators.NumberValidator.min_val_checker">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">min_val_checker</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">min_val</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">val</span> <span class="o">&gt;=</span> <span class="n">min_val</span></div>
+
+<div class="viewcode-block" id="NumberValidator.max_val_checker"><a class="viewcode-back" href="../../../modules.html#pyvalid.validators.NumberValidator.max_val_checker">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">max_val_checker</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">val</span> <span class="o">&lt;=</span> <span class="n">max_val</span></div>
+
+<div class="viewcode-block" id="NumberValidator.in_range_checker"><a class="viewcode-back" href="../../../modules.html#pyvalid.validators.NumberValidator.in_range_checker">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">in_range_checker</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">in_range</span><span class="p">):</span>
+        <span class="n">is_valid</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_range</span><span class="p">,</span> <span class="n">Container</span><span class="p">):</span>
+            <span class="n">is_valid</span> <span class="o">=</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">in_range</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_range</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">in_range</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="n">val</span><span class="p">:</span>
+                    <span class="n">is_valid</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+        <span class="k">return</span> <span class="n">is_valid</span></div>
+
+<div class="viewcode-block" id="NumberValidator.not_in_range_checker"><a class="viewcode-back" href="../../../modules.html#pyvalid.validators.NumberValidator.not_in_range_checker">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">not_in_range_checker</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">not_in_range</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">in_range_checker</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">not_in_range</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">checkers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__checkers</span>
+
+<div class="viewcode-block" id="NumberValidator.__init__"><a class="viewcode-back" href="../../../modules.html#pyvalid.validators.NumberValidator.__init__">[docs]</a>    <span class="nd">@accepts</span><span class="p">(</span>
+        <span class="nb">object</span><span class="p">,</span> <span class="n">min_val</span><span class="o">=</span><span class="n">number_types</span><span class="p">,</span> <span class="n">max_val</span><span class="o">=</span><span class="n">number_types</span><span class="p">,</span>
+        <span class="n">in_range</span><span class="o">=</span><span class="p">[</span><span class="n">Iterable</span><span class="p">,</span> <span class="n">Container</span><span class="p">],</span> <span class="n">not_in_range</span><span class="o">=</span><span class="p">[</span><span class="n">Iterable</span><span class="p">,</span> <span class="n">Container</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__checkers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">NumberValidator</span><span class="o">.</span><span class="n">min_val_checker</span><span class="p">:</span> <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;min_val&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+            <span class="n">NumberValidator</span><span class="o">.</span><span class="n">max_val_checker</span><span class="p">:</span> <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;max_val&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+            <span class="n">NumberValidator</span><span class="o">.</span><span class="n">in_range_checker</span><span class="p">:</span> <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;in_range&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+            <span class="n">NumberValidator</span><span class="o">.</span><span class="n">not_in_range_checker</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;not_in_range&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+        <span class="n">AbstractValidator</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">NumberValidator</span><span class="o">.</span><span class="n">number_types</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">valid</span></div>
+</pre></div>
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        <a class="uplink" href="../../../index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Max Hryshchuk.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>
