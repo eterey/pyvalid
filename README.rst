@@ -9,14 +9,16 @@ parameters and return values.
 
 Purposes of the pyvalid package:
 
-#. Provide an ability to validate user input (such as usernames, phone numbers,
-   emails, dates and times, etc) and minimize the amount of code required for
-   the implementation of the comprehensive validation systems;
+#. Provide an ability to validate a user input (such as usernames,
+   phone numbers, emails, dates and times, etc) and minimize the amount of
+   code required for the implementation of the comprehensive validation
+   systems;
 #. Add an additional layer of dynamic code analysis for the development and
    testing stages — pyvalid will raise the exception if a function accepts or
    returns unexpected values and it's always possible to disable pyvalid in
    production if needed.
-#. Help to catch runtime issues much easier.
+#. Help to catch runtime issues.
+
 
 How to install
 ++++++++++++++
@@ -24,16 +26,55 @@ How to install
 * With PyPI: ``pip install -U pyvalid``
 * Manually: ``python setup.py install``
 
+
 How to use
 ++++++++++
 
-The module consists of two decorators: ``accepts`` and ``returns``, which
-validates the function’s input and output values accordingly.
+The schema below reveals the general structure of the ``pyvalid`` package:
+
+.. image:: https://raw.githubusercontent.com/uzumaxy/pyvalid/master/docs/assets/pyvalid-map.png
+  :width: 600
+
+The package consists of two decorators: ``accepts`` and ``returns``, which
+validates the function’s input and output values accordingly. To know how to
+validate the data, ``accepts`` and ``returns`` decorators should receive the
+information about excepted values/types/validators.
+
+The very basic example below shows how to use ``accepts`` and ``returns``
+decorators.
+
+.. highlight:: python
+.. code-block:: python
+
+    from pyvalid import accepts, returns
+
+
+    @accepts(int, int)
+    @returns(float)
+    def divide(num_1, num_2):
+            return num_1 / num_2
+
+    divide(8, 42)
+    # Returns float value
+
+    divide('Python', 42)
+    # Raises the ArgumentValidationError exception, since the 1st argument is
+    # the str value, when we're expecting int values only.
+
+If just specifying an expected type or value is not enough, then it's worth to
+use the custom validator. All the built-in validators are located in the
+``pyvalid.validators`` module and it's also possible to create a new one using
+the ``is_validator`` decorator or through extending the ``AbstractValidator``
+class.
+
+We can flexibly control the state of the ``pyvalid`` validation using the 
+``pyvalid.switch`` module. This modules provides an ability to switch the
+``pyvalid`` on/off.
 
 In most cases it worth to use the ``pyvalid`` features to validate
 incoming/outcoming data, such as: user input, the data sent to the API, etc.
 
-Also, it's a possible to use the ``pyvalid`` package as a part of the CI/CD
+But it's also possible to use the ``pyvalid`` package as a part of the CI/CD
 processes only:
 
 #. Apply the  ``accepts`` and ``returns`` decorators to all needed functions
@@ -46,8 +87,9 @@ processes only:
 #. Turn off the ``pyvalid`` before going live in order to avoid unnecessary
    exceptions in production.
 
-``accepts(*allowed_arg_values, **allowed_kwargs_values)``
----------------------------------------------------------
+
+``pyvalid.accepts(*allowed_arg_values, **allowed_kwargs_values)``
+-----------------------------------------------------------------
 
 The decorator which validates input parameters of the wrapped function.
 
@@ -92,8 +134,8 @@ does it work with other types.
     # argument is missing.
 
 
-``returns(*allowed_return_values)``
------------------------------------
+``pyvalid.returns(*allowed_return_values)``
+-------------------------------------------
 
 The decorator which validates the value returned by the wrapped function.
 
@@ -127,6 +169,7 @@ does it work with other types.
     multiply(3, 'pyvalid')
     # Raises the InvalidReturnTypeError exception, since the function returns
     # the str value, when we're expecting int values only.
+
 
 Advanced examples
 +++++++++++++++++
@@ -271,7 +314,7 @@ values:
     # value doesn't match the pattern.
 
 
-The following example demonstrates how to use the custom validator. It pretty
+The example below explains how to use the custom validator. It's pretty
 easy actually, we just need to apply the ``pyvalid.validators.is_validator``
 decorator to the validation function.
 
