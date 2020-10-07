@@ -30,13 +30,20 @@ How to install
 How to use
 ++++++++++
 
+The schema below reveals the general structure of the ``pyvalid`` package:
+
+.. image:: https://raw.githubusercontent.com/uzumaxy/pyvalid/master/docs/assets/pyvalid-map.png
+  :width: 600
+
 The module consists of two decorators: ``accepts`` and ``returns``, which
-validates the function’s input and output values accordingly.
+validates the function’s input and output values accordingly. To know how to
+validate the data, the ``accepts`` and ``returns`` decorators should receive
+an information about excepted values/types or custom validators.
 
 In most cases it worth to use the ``pyvalid`` features to validate
 incoming/outcoming data, such as: user input, the data sent to the API, etc.
 
-Also, it's a possible to use the ``pyvalid`` package as a part of the CI/CD
+But it's also possible to use the ``pyvalid`` package as a part of the CI/CD
 processes only:
 
 #. Apply the  ``accepts`` and ``returns`` decorators to all needed functions
@@ -276,7 +283,7 @@ values:
     # value doesn't match the pattern.
 
 
-The following example demonstrates how to use the custom validator. It pretty
+The example below explains how to use the custom validator. It's pretty
 easy actually, we just need to apply the ``pyvalid.validators.is_validator``
 decorator to the validation function.
 
