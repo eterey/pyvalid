@@ -35,10 +35,41 @@ The schema below reveals the general structure of the ``pyvalid`` package:
 .. image:: https://raw.githubusercontent.com/uzumaxy/pyvalid/master/docs/assets/pyvalid-map.png
   :width: 600
 
-The module consists of two decorators: ``accepts`` and ``returns``, which
+The package consists of two decorators: ``accepts`` and ``returns``, which
 validates the function’s input and output values accordingly. To know how to
-validate the data, the ``accepts`` and ``returns`` decorators should receive
-an information about excepted values/types or custom validators.
+validate the data, ``accepts`` and ``returns`` decorators should receive the
+information about excepted values/types/validators.
+
+The very basic example below shows how to use ``accepts`` and ``returns``
+decorators.
+
+.. highlight:: python
+.. code-block:: python
+
+    from pyvalid import accepts, returns
+
+
+    @accepts(int, int)
+    @returns(float)
+    def divide(num_1, num_2):
+            return num_1 / num_2
+
+    divide(8, 42)
+    # Returns float value
+
+    divide('Python', 42)
+    # Raises the ArgumentValidationError exception, since the 1st argument is
+    # the str value, when we're expecting int values only.
+
+If just specifying an expected type or value is not enough, then it's worth to
+use the custom validator. All the built-in validators are located in the
+``pyvalid.validators`` module and it's also possible to create a new one using
+the ``is_validator`` decorator or through extending the ``AbstractValidator``
+class.
+
+We can flexibly control the state of the ``pyvalid`` validation using the 
+``pyvalid.switch`` module. This modules provides an ability to switch the
+``pyvalid`` on/off.
 
 In most cases it worth to use the ``pyvalid`` features to validate
 incoming/outcoming data, such as: user input, the data sent to the API, etc.
@@ -58,7 +89,7 @@ processes only:
 
 
 ``pyvalid.accepts(*allowed_arg_values, **allowed_kwargs_values)``
----------------------------------------------------------
+-----------------------------------------------------------------
 
 The decorator which validates input parameters of the wrapped function.
 
@@ -104,7 +135,7 @@ does it work with other types.
 
 
 ``pyvalid.returns(*allowed_return_values)``
------------------------------------
+-------------------------------------------
 
 The decorator which validates the value returned by the wrapped function.
 
