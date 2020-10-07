@@ -1,3 +1,4 @@
+from os import path
 from pyvalid import version
 try:
     from setuptools import setup
@@ -9,7 +10,7 @@ def main():
     # Describe installer
     with open('README.rst') as fd:
         long_description = fd.read()
-    with open('requirements.txt') as fd:
+    with open(path.join('requirements', 'base.txt')) as fd:
         requirements = fd.read().splitlines()
     setup(
         name='pyvalid',
