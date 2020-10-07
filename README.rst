@@ -52,7 +52,7 @@ decorators.
     @accepts(int, int)
     @returns(float)
     def divide(num_1, num_2):
-            return num_1 / num_2
+        return num_1 / num_2
 
     divide(8, 42)
     # Returns float value
