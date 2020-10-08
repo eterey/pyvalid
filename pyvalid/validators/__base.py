@@ -1,10 +1,12 @@
 from abc import ABCMeta, abstractmethod
-from six import with_metaclass
-from pyvalid import accepts
 try:
     from collections.abc import Callable
 except ImportError:
     from collections import Callable
+
+from six import with_metaclass
+
+from pyvalid import accepts
 
 
 class Validator(Callable):

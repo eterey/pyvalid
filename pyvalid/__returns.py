@@ -1,15 +1,50 @@
-from types import MethodType
-from pyvalid.__exceptions import InvalidReturnTypeError
-from pyvalid.switch import is_enabled
 from functools import wraps
+from types import MethodType
 try:
     from collections.abc import Callable
 except ImportError:
     from collections import Callable
 
+from pyvalid.__exceptions import InvalidReturnTypeError
+from pyvalid.switch import is_enabled
+
 
 class Returns(Callable):
-    """A decorator to validate the returns value of a given function.
+    """
+    ``pyvalid.returns(*allowed_return_values)``
+    -------------------------------------------
+
+    The decorator which validates the value returned by the wrapped function.
+
+    To use it, we need to specify the list of expected return types or values. If the
+    function’s return value doesn’t match the allowed types/values, the
+    ``pyvalid.InvalidReturnTypeError`` error will be thrown.
+
+    Examples of usage:
+
+    Let's define the ``multiply``, which returns only ``int`` values, and see how does
+    it work with other types.
+
+    .. code-block:: python
+
+        from pyvalid import returns
+
+
+        @returns(int)
+        def multiply(num_1, num_2):
+            return num_1 * num_2
+
+
+        multiply(4, 2)
+        # Returns 8.
+
+        multiply(3.14, 8)
+        # Raises the InvalidReturnTypeError exception, since the function returns the
+        # float value, when we're expecting int values only.
+
+        multiply(3, 'pyvalid')
+        # Raises the InvalidReturnTypeError exception, since the function returns the
+        # str value, when we're expecting int values only.
     """
 
     def __init__(self, *allowed_return_values):

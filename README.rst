@@ -43,7 +43,6 @@ information about excepted values/types/validators.
 The very basic example below shows how to use ``accepts`` and ``returns``
 decorators.
 
-.. highlight:: python
 .. code-block:: python
 
     from pyvalid import accepts, returns
@@ -107,7 +106,6 @@ Examples of usage:
 Let's define the ``multiply``, which accepts only ``int`` values, and see how
 does it work with other types.
 
-.. highlight:: python
 .. code-block:: python
 
     from pyvalid import accepts
@@ -148,7 +146,6 @@ Examples of usage:
 Let's define the ``multiply``, which returns only ``int`` values, and see how
 does it work with other types.
 
-.. highlight:: python
 .. code-block:: python
 
     from pyvalid import returns
@@ -181,7 +178,6 @@ Function ``calculate`` in the example below has the following limitations:
 * Second parameter must be ``int`` value or be equal to the ``2.0``;
 * Third parameter must be ``int`` or ``float`` value.
 
-.. highlight:: python
 .. code-block:: python
 
     from pyvalid import accepts, returns
@@ -221,7 +217,6 @@ decorators in the classes. Please pay attention to the method ``connect`` of
 the class ``SqlDriver``. In these classes we're using the ``accepts``
 decorator to validate keyword arguments.
 
-.. highlight:: python
 .. code-block:: python
 
     from pyvalid import accepts, returns
@@ -291,7 +286,6 @@ For example, here we're using the ``StringValidator`` validator based on the
 regular expression and the ``NumberValidator`` based on the min/max allowed
 values:
 
-.. highlight:: python
 .. code-block:: python
 
     from pyvalid import accepts, returns
@@ -318,7 +312,6 @@ The example below explains how to use the custom validator. It's pretty
 easy actually, we just need to apply the ``pyvalid.validators.is_validator``
 decorator to the validation function.
 
-.. highlight:: python
 .. code-block:: python
 
     from pyvalid import accepts

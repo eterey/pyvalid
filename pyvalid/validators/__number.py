@@ -1,10 +1,11 @@
 from sys import version_info
-from pyvalid import accepts
-from pyvalid.validators import AbstractValidator
 try:
     from collections.abc import Iterable, Container
 except ImportError:
     from collections import Iterable, Container
+
+from pyvalid import accepts
+from pyvalid.validators import AbstractValidator
 
 
 class NumberValidator(AbstractValidator):
@@ -50,13 +51,10 @@ class NumberValidator(AbstractValidator):
             NumberValidator.min_val_checker: [kwargs.get('min_val', None)],
             NumberValidator.max_val_checker: [kwargs.get('max_val', None)],
             NumberValidator.in_range_checker: [kwargs.get('in_range', None)],
-            NumberValidator.not_in_range_checker: [
-                kwargs.get('not_in_range', None)
-            ]
+            NumberValidator.not_in_range_checker: [kwargs.get('not_in_range', None)]
         }
         AbstractValidator.__init__(self)
 
     def __call__(self, val):
-        valid = isinstance(val, NumberValidator.number_types) and \
-            self._check(val)
+        valid = isinstance(val, NumberValidator.number_types) and self._check(val)
         return valid

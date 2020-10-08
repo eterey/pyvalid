@@ -38,8 +38,14 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">pyvalid</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules.html#module-pyvalid.accepts">pyvalid.accepts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules.html#module-pyvalid.returns">pyvalid.returns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-pyvalid.accepts">pyvalid.accepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#pyvalid-accepts-allowed-arg-values-allowed-kwargs-values"><code class="docutils literal notranslate"><span class="pre">pyvalid.accepts(*allowed_arg_values,</span> <span class="pre">**allowed_kwargs_values)</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-pyvalid.returns">pyvalid.returns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#pyvalid-returns-allowed-return-values"><code class="docutils literal notranslate"><span class="pre">pyvalid.returns(*allowed_return_values)</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#module-pyvalid.switch">pyvalid.switch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#module-pyvalid.validators">pyvalid.validators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#module-pyvalid.ArgumentValidationError">pyvalid.ArgumentValidationError</a></li>
@@ -90,7 +96,7 @@ decorators.</p>
 <span class="nd">@accepts</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
 <span class="nd">@returns</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">num_1</span><span class="p">,</span> <span class="n">num_2</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">num_1</span> <span class="o">/</span> <span class="n">num_2</span>
+    <span class="k">return</span> <span class="n">num_1</span> <span class="o">/</span> <span class="n">num_2</span>
 
 <span class="n">divide</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
 <span class="c1"># Returns float value</span>

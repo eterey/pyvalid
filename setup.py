@@ -1,9 +1,10 @@
 from os import path
-from pyvalid import version
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
+
+from pyvalid import version
 
 
 def main():
@@ -23,8 +24,10 @@ def main():
         url='https://uzumaxy.github.io/pyvalid/',
         download_url='https://github.com/uzumaxy/pyvalid/releases',
         license='MIT',
-        description='The module, which allows easily validate function\'s '
-            + 'input/output values.',
+        description=(
+            'The module, which allows easily validate function\'s '
+            'input/output values.'
+        ),
         long_description=long_description,
         install_requires=requirements,
         keywords=[

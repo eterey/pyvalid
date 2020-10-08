@@ -1,5 +1,6 @@
 import unittest
-from pyvalid import returns, InvalidReturnTypeError
+
+from pyvalid import InvalidReturnTypeError, returns
 from pyvalid.validators import is_validator
 
 
