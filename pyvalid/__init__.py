@@ -1,5 +1,6 @@
 from pyvalid.__accepts import Accepts as accepts
 from pyvalid.__returns import Returns as returns
+from pyvalid import switch
 from pyvalid import validators
 from pyvalid.__exceptions import PyvalidError, ArgumentValidationError, \
     InvalidArgumentNumberError, InvalidReturnTypeError

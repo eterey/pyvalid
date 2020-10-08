@@ -1,6 +1,7 @@
-import unittest
-from pyvalid.validators import StringValidator
 import re
+import unittest
+
+from pyvalid.validators import StringValidator
 
 
 class StringValidatorTestCase(unittest.TestCase):
@@ -57,9 +58,9 @@ class StringValidatorTestCase(unittest.TestCase):
             not_in_range=['password', 'qwerty', '123456789', 'sunshine'],
         )
         self.assertTrue(validator('Super_Mega_Strong_Password_2000'))
-        self.assertTrue(validator('_'*6))
-        self.assertFalse(validator('_'*3))
-        self.assertFalse(validator('_'*128))
+        self.assertTrue(validator('_' * 6))
+        self.assertFalse(validator('_' * 3))
+        self.assertFalse(validator('_' * 128))
         self.assertFalse(validator('sunshine'))
 
 

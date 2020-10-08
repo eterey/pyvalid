@@ -37,11 +37,79 @@
 <h1>pyvalid<a class="headerlink" href="#pyvalid" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-pyvalid.accepts">
 <span id="pyvalid-accepts"></span><h2>pyvalid.accepts<a class="headerlink" href="#module-pyvalid.accepts" title="Permalink to this headline">¶</a></h2>
-<p>A decorator to validate types of input parameters for a given function.</p>
+<div class="section" id="pyvalid-accepts-allowed-arg-values-allowed-kwargs-values">
+<h3><code class="docutils literal notranslate"><span class="pre">pyvalid.accepts(*allowed_arg_values,</span> <span class="pre">**allowed_kwargs_values)</span></code><a class="headerlink" href="#pyvalid-accepts-allowed-arg-values-allowed-kwargs-values" title="Permalink to this headline">¶</a></h3>
+<p>The decorator which validates input parameters of the wrapped function.</p>
+<p>To use it, we need to specify the list of allowed types or values. If the function’s
+input doesn’t match the allowed types/values, one of the following errors will be
+thrown:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyvalid.ArgumentValidationError</span></code> — when the actual type/value of the function’s
+argument is different from the expected one;9</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyvalid.InvalidArgumentNumberError</span></code> — when the number/position of function’s
+arguments is incorrect.</p></li>
+</ul>
+<p>Examples of usage:</p>
+<p>Let’s define the <code class="docutils literal notranslate"><span class="pre">multiply</span></code>, which accepts only <code class="docutils literal notranslate"><span class="pre">int</span></code> values, and see how does
+it work with other types.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyvalid</span> <span class="kn">import</span> <span class="n">accepts</span>
+
+
+<span class="nd">@accepts</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">num_1</span><span class="p">,</span> <span class="n">num_2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">num_1</span> <span class="o">*</span> <span class="n">num_2</span>
+
+
+<span class="n">multiply</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Returns 8.</span>
+
+<span class="n">multiply</span><span class="p">(</span><span class="mf">3.14</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="c1"># Raises the ArgumentValidationError exception, since the 1st argument is the</span>
+<span class="c1"># float value, when we&#39;re expecting int values only.</span>
+
+<span class="n">multiply</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;pyvalid&#39;</span><span class="p">)</span>
+<span class="c1"># Raises the ArgumentValidationError exception, since the 2nd argument is the</span>
+<span class="c1"># str value, when we&#39;re expecting int values only.</span>
+
+<span class="n">multiply</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="c1"># Raises the InvalidArgumentNumberError exception, since the second argument</span>
+<span class="c1"># is missing.</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="module-pyvalid.returns">
 <span id="pyvalid-returns"></span><h2>pyvalid.returns<a class="headerlink" href="#module-pyvalid.returns" title="Permalink to this headline">¶</a></h2>
-<p>A decorator to validate the returns value of a given function.</p>
+<div class="section" id="pyvalid-returns-allowed-return-values">
+<h3><code class="docutils literal notranslate"><span class="pre">pyvalid.returns(*allowed_return_values)</span></code><a class="headerlink" href="#pyvalid-returns-allowed-return-values" title="Permalink to this headline">¶</a></h3>
+<p>The decorator which validates the value returned by the wrapped function.</p>
+<p>To use it, we need to specify the list of expected return types or values. If the
+function’s return value doesn’t match the allowed types/values, the
+<code class="docutils literal notranslate"><span class="pre">pyvalid.InvalidReturnTypeError</span></code> error will be thrown.</p>
+<p>Examples of usage:</p>
+<p>Let’s define the <code class="docutils literal notranslate"><span class="pre">multiply</span></code>, which returns only <code class="docutils literal notranslate"><span class="pre">int</span></code> values, and see how does
+it work with other types.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyvalid</span> <span class="kn">import</span> <span class="n">returns</span>
+
+
+<span class="nd">@returns</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">num_1</span><span class="p">,</span> <span class="n">num_2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">num_1</span> <span class="o">*</span> <span class="n">num_2</span>
+
+
+<span class="n">multiply</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Returns 8.</span>
+
+<span class="n">multiply</span><span class="p">(</span><span class="mf">3.14</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="c1"># Raises the InvalidReturnTypeError exception, since the function returns the</span>
+<span class="c1"># float value, when we&#39;re expecting int values only.</span>
+
+<span class="n">multiply</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;pyvalid&#39;</span><span class="p">)</span>
+<span class="c1"># Raises the InvalidReturnTypeError exception, since the function returns the</span>
+<span class="c1"># str value, when we&#39;re expecting int values only.</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="module-pyvalid.switch">
 <span id="pyvalid-switch"></span><h2>pyvalid.switch<a class="headerlink" href="#module-pyvalid.switch" title="Permalink to this headline">¶</a></h2>
@@ -102,9 +170,9 @@
 <dt id="pyvalid.validators.IterableValidator">
 <em class="property">class </em><code class="sig-prename descclassname">pyvalid.validators.</code><code class="sig-name descname">IterableValidator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">func_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__iterable.html#IterableValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.IterableValidator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyvalid.validators.__base.AbstractValidator</span></code></p>
-<p>This class performs validation on the content of the iterable to check
-if the given iterable is valid or not. The iterable can be either a list,
-tuple or even keys or values of a dictionary.</p>
+<p>This class performs validation on the content of the iterable to check if the
+given iterable is valid or not. The iterable can be either a list, tuple or even
+keys or values of a dictionary.</p>
 <p>Example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">validator</span> <span class="o">=</span> <span class="n">IterableValidator</span><span class="p">(</span>
     <span class="n">empty_allowed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">elements_type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">min_val</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_val</span><span class="o">=</span><span class="mi">50</span>
@@ -122,22 +190,25 @@ tuple or even keys or values of a dictionary.</p>
 <dl class="py method">
 <dt id="pyvalid.validators.IterableValidator.empty_iterable_checker">
 <em class="property">classmethod </em><code class="sig-name descname">empty_iterable_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">empty_allowed</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__iterable.html#IterableValidator.empty_iterable_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.IterableValidator.empty_iterable_checker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if the iterable is empty or not.</p>
+<dd><p>Checks if the iterable is empty or not.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>val</strong> (<em>list/tuple/dict/set</em>) – Iterable to be validated.</p></li>
-<li><p><strong>empty_allowed</strong> (<em>bool</em>) – If this flag is set to ‘True’, this method
-raises exception and terminates the execution if the iterable
-is empty.
-If set to ‘False’, it raises a warning and continues with the
-execution.</p></li>
+<li><p><strong>val</strong> (<em>collections.abc.Iterable</em>) – Iterable whose contents needs to be validated.</p></li>
+<li><p><strong>empty_allowed</strong> (<em>bool</em>) – If this flag is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, this method raises exception and
+terminates the execution if the iterable is empty.
+If set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, it raises a warning and continues with
+the execution.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="simple">
-<dt>Returns (bool):</dt><dd><p>True: If the iterable is not empty.
-False: If the iterable is empty.</p>
+<dt>Returns (bool):</dt><dd><dl class="simple">
+<dt>True:</dt><dd><p>If the iterable is not empty.</p>
+</dd>
+<dt>False:</dt><dd><p>If the iterable is empty.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -149,17 +220,18 @@ False: If the iterable is empty.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>val</strong> (<em>list/tuple/dict/set</em>) – Iterable whose contents needs to be
-validated.</p></li>
-<li><p><strong>elements_type</strong> (<em>datatype</em>) – Expected type of all the elements in
-the iterator.</p></li>
+<li><p><strong>val</strong> (<em>collections.abc.Iterable</em>) – Iterable whose contents needs to be validated.</p></li>
+<li><p><strong>elements_type</strong> (<em>datatype</em>) – Expected type of all the elements in the iterator.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="simple">
-<dt>Returns (bool):</dt><dd><p>True: If all elements of the iterable are of required type.
-False: If at least one element of the iterable is not of required
-type.</p>
+<dt>Returns (bool):</dt><dd><dl class="simple">
+<dt>True:</dt><dd><p>If all elements of the iterable are of required type.</p>
+</dd>
+<dt>False:</dt><dd><p>If at least one element of the iterable is not of required type.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -167,22 +239,23 @@ type.</p>
 <dl class="py method">
 <dt id="pyvalid.validators.IterableValidator.elements_min_val_checker">
 <em class="property">classmethod </em><code class="sig-name descname">elements_min_val_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">min_val</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__iterable.html#IterableValidator.elements_min_val_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.IterableValidator.elements_min_val_checker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if all the elements of the iterable are greater than or
-equal to the specified value.</p>
+<dd><p>Checks if all the elements of the iterable are greater than or equal to the
+specified value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>val</strong> (<em>list/tuple/dict/set</em>) – Iterable whose contents needs to be
-validated.</p></li>
+<li><p><strong>val</strong> (<em>collections.abc.Iterable</em>) – Iterable whose contents needs to be validated.</p></li>
 <li><p><strong>min_val</strong> (<em>int</em>) – Expected minimum value the iterable must contain.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="simple">
 <dt>Returns (bool):</dt><dd><dl class="simple">
-<dt>True: If all the elements of the iterable are greater than or</dt><dd><p>equal to the &lt;min_val&gt;.</p>
+<dt>True:</dt><dd><p>If all the elements of the iterable are greater than or equal to the
+&lt;min_val&gt;.</p>
 </dd>
-<dt>False: If at least one element of the iterable is less than the</dt><dd><p>&lt;min_val&gt;.</p>
+<dt>False:</dt><dd><p>If at least one element of the iterable is less than the
+&lt;min_val&gt;.</p>
 </dd>
 </dl>
 </dd>
@@ -192,22 +265,23 @@ validated.</p></li>
 <dl class="py method">
 <dt id="pyvalid.validators.IterableValidator.elements_max_val_checker">
 <em class="property">classmethod </em><code class="sig-name descname">elements_max_val_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">max_val</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__iterable.html#IterableValidator.elements_max_val_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.IterableValidator.elements_max_val_checker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if all the elements of the iterable are less than or equal
-to the specified value.</p>
+<dd><p>Checks if all the elements of the iterable are less than or equal to the
+specified value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>val</strong> (<em>list/tuple/dict/set</em>) – Iterable whose contents needs to be
-validated.</p></li>
+<li><p><strong>val</strong> (<em>collections.abc.Iterable</em>) – Iterable whose contents needs to be validated.</p></li>
 <li><p><strong>max_val</strong> (<em>int</em>) – Expected maximum value the iterable must contain.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="simple">
 <dt>Returns (bool):</dt><dd><dl class="simple">
-<dt>True: If all the elements of the iterable are less than or equal</dt><dd><p>to the &lt;max_val&gt;.</p>
+<dt>True:</dt><dd><p>If all the elements of the iterable are less than or equal to the
+&lt;max_val&gt;.</p>
 </dd>
-<dt>False: If at least one element of the iterable is greater than</dt><dd><p>the &lt;max_val&gt;.</p>
+<dt>False:</dt><dd><p>If at least one element of the iterable is greater than the
+&lt;max_val&gt;.</p>
 </dd>
 </dl>
 </dd>
@@ -314,8 +388,7 @@ validated.</p></li>
 </div>
 <div class="section" id="module-pyvalid.ArgumentValidationError">
 <span id="pyvalid-argumentvalidationerror"></span><h2>pyvalid.ArgumentValidationError<a class="headerlink" href="#module-pyvalid.ArgumentValidationError" title="Permalink to this headline">¶</a></h2>
-<p>Raised when the type of an argument to a function is not what it
-should be.</p>
+<p>Raised when the type of an argument to a function is not what it should be.</p>
 <dl class="py attribute">
 <dt id="pyvalid.ArgumentValidationError.args">
 <code class="sig-prename descclassname">pyvalid.ArgumentValidationError.</code><code class="sig-name descname">args</code><a class="headerlink" href="#pyvalid.ArgumentValidationError.args" title="Permalink to this definition">¶</a></dt>
@@ -331,8 +404,8 @@ set self.__traceback__ to tb and return self.</p>
 </div>
 <div class="section" id="module-pyvalid.InvalidArgumentNumberError">
 <span id="pyvalid-invalidargumentnumbererror"></span><h2>pyvalid.InvalidArgumentNumberError<a class="headerlink" href="#module-pyvalid.InvalidArgumentNumberError" title="Permalink to this headline">¶</a></h2>
-<p>Raised when the number or position of arguments supplied to a function
-is incorrect.</p>
+<p>Raised when the number or position of arguments supplied to a function is
+incorrect.</p>
 <dl class="py attribute">
 <dt id="pyvalid.InvalidArgumentNumberError.args">
 <code class="sig-prename descclassname">pyvalid.InvalidArgumentNumberError.</code><code class="sig-name descname">args</code><a class="headerlink" href="#pyvalid.InvalidArgumentNumberError.args" title="Permalink to this definition">¶</a></dt>

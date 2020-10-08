@@ -13,8 +13,8 @@ class PyvalidError(ValueError):
 
 
 class InvalidArgumentNumberError(PyvalidError):
-    """Raised when the number or position of arguments supplied to a function
-    is incorrect.
+    """Raised when the number or position of arguments supplied to a function is
+    incorrect.
     """
     def __init__(self, func):
         error_message_template = (
@@ -29,13 +29,12 @@ class InvalidArgumentNumberError(PyvalidError):
 
 
 class ArgumentValidationError(PyvalidError):
-    """Raised when the type of an argument to a function is not what it
-    should be.
+    """Raised when the type of an argument to a function is not what it should be.
     """
     def __init__(self, func, arg_num, actual_value, allowed_arg_values):
         error_message_template = (
-            'The {} argument of the "{}" function is "{}" of the "{}" '
-            'type, while expected values are: "{}".'
+            'The {} argument of the "{}" function is "{}" of the "{}" type, while '
+            'expected values are: "{}".'
         )
         self.error = error_message_template.format(
             arg_num,
@@ -54,8 +53,8 @@ class InvalidReturnTypeError(PyvalidError):
     """
     def __init__(self, func, actual_value, allowed_return_values):
         error_message_template = (
-            'Invalid return value "{}" of the "{}" type for the "{}" '
-            'function, while expected values are: "{}".'
+            'Invalid return value "{}" of the "{}" type for the "{}" function, while '
+            'expected values are: "{}".'
         )
         self.error = error_message_template.format(
             actual_value,

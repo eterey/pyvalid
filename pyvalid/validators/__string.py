@@ -1,10 +1,11 @@
 import re
-from pyvalid import accepts
-from pyvalid.validators import AbstractValidator
 try:
     from collections.abc import Iterable, Container
 except ImportError:
     from collections import Iterable, Container
+
+from pyvalid import accepts
+from pyvalid.validators import AbstractValidator
 
 
 class StringValidator(AbstractValidator):
@@ -56,9 +57,7 @@ class StringValidator(AbstractValidator):
             StringValidator.min_len_checker: [kwargs.get('min_len', None)],
             StringValidator.max_len_checker: [kwargs.get('max_len', None)],
             StringValidator.in_range_checker: [kwargs.get('in_range', None)],
-            StringValidator.not_in_range_checker: [
-                kwargs.get('not_in_range', None)
-            ],
+            StringValidator.not_in_range_checker: [kwargs.get('not_in_range', None)],
             StringValidator.re_checker: [
                 kwargs.get('re_pattern', None), kwargs.get('re_flags', 0)
             ]

@@ -1,6 +1,7 @@
 import unittest
-from pyvalid import accepts, ArgumentValidationError, \
-    InvalidArgumentNumberError
+
+from pyvalid import ArgumentValidationError, InvalidArgumentNumberError, \
+    accepts
 from pyvalid.validators import is_validator
 
 

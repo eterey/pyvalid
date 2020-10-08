@@ -1,4 +1,5 @@
 import unittest
+
 from pyvalid.validators import NumberValidator
 
 
