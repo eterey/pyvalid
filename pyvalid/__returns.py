@@ -12,7 +12,7 @@ from pyvalid.switch import is_enabled
 class Returns(Callable):
     """
     ``pyvalid.returns(*allowed_return_values)``
-    -------------------------------------------
+    +++++++++++++++++++++++++++++++++++++++++++
 
     The decorator which validates the value returned by the wrapped function.
 
@@ -22,8 +22,8 @@ class Returns(Callable):
 
     Examples of usage:
 
-    Let's define the ``multiply``, which returns only ``int`` values, and see how does
-    it work with other types.
+    Let's define the ``multiply`` function, which returns only ``int`` values, and see
+    how does it work with other types.
 
     .. code-block:: python
 

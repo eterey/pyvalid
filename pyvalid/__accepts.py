@@ -17,7 +17,7 @@ from pyvalid.switch import is_enabled
 class Accepts(Callable):
     """
     ``pyvalid.accepts(*allowed_arg_values, **allowed_kwargs_values)``
-    -----------------------------------------------------------------
+    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     The decorator which validates input parameters of the wrapped function.
 
@@ -26,14 +26,14 @@ class Accepts(Callable):
     thrown:
 
     * ``pyvalid.ArgumentValidationError`` — when the actual type/value of the function’s
-      argument is different from the expected one;9
+      argument is different from the expected one;
     * ``pyvalid.InvalidArgumentNumberError`` — when the number/position of function’s
       arguments is incorrect.
 
     Examples of usage:
 
-    Let's define the ``multiply``, which accepts only ``int`` values, and see how does
-    it work with other types.
+    Let's define the ``multiply`` function, which accepts only ``int`` values, and see
+    how does it work with other types.
 
     .. code-block:: python
 
