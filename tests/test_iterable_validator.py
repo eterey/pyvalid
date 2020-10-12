@@ -25,6 +25,7 @@ class IterableValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator([1, 3, 25, 14]))
         self.assertFalse(validator([3.56, 6.4532, 65.57, 5.546]))
         self.assertFalse(validator(['CPython', 'PyPy', 'Jython', 'Cython']))
+        self.assertTrue(validator([]))  # Ignore empty
 
         validator = IterableValidator(elements_type=float)
         self.assertFalse(validator([1, 3, 25, 14]))
