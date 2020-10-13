@@ -61,7 +61,7 @@ class IterableValidator(AbstractValidator):
             False:
                 If at least one element of the iterable is not of required type.
         """
-        valid = False
+        valid = True
         for element in val:
             valid = isinstance(element, elements_type)
             if not valid:
