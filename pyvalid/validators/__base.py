@@ -27,7 +27,7 @@ class AbstractValidator(with_metaclass(ABCMeta, Validator)):
         raise NotImplementedError
 
     @abstractmethod
-    def __call__(self):
+    def __call__(self, val):
         raise NotImplementedError
 
     def __init__(self):
