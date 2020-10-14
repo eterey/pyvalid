@@ -1,8 +1,8 @@
 """
 The pyvalid is the Python validation tool for checking a function's input parameters
 and return values.
- Purposes of the pyvalid package:
- #. Provide an ability to validate a user input (such as usernames, phone numbers,
+Purposes of the pyvalid package:
+#. Provide an ability to validate a user input (such as usernames, phone numbers,
    emails, dates and times, etc) and minimize the amount of code required for the
    implementation of the comprehensive validation systems;
 #. Add an additional layer of dynamic code analysis for the development and testing
