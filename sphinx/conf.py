@@ -67,7 +67,7 @@ html_favicon = 'assets/favicon.svg'
 html_title = 'pyvalid - Python data validation tool'
 html_short_title = 'pyvalid'
 html_js_files = [
-    'js/gtm.js'
+    'custom/gtm.js'
 ]
 html_show_sourcelink = False
 
