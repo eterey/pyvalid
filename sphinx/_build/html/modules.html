@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyvalid &#8212; pyvalid 1.0.4 documentation</title>
+    <link rel="stylesheet" href="_static/haiku.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="pyvalid’s documentation" href="index.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="index.html">
+          <span>pyvalid 1.0.4 documentation</span></a></h1>
+        <h2 class="heading"><span>pyvalid</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">pyvalid’s documentation</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <div class="section" id="pyvalid">
+<h1>pyvalid<a class="headerlink" href="#pyvalid" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pyvalid.accepts">
+<span id="pyvalid-accepts"></span><h2>pyvalid.accepts<a class="headerlink" href="#module-pyvalid.accepts" title="Permalink to this headline">¶</a></h2>
+<p>A decorator to validate types of input parameters for a given function.</p>
+</div>
+<div class="section" id="module-pyvalid.returns">
+<span id="pyvalid-returns"></span><h2>pyvalid.returns<a class="headerlink" href="#module-pyvalid.returns" title="Permalink to this headline">¶</a></h2>
+<p>A decorator to validate the returns value of a given function.</p>
+</div>
+<div class="section" id="module-pyvalid.switch">
+<span id="pyvalid-switch"></span><h2>pyvalid.switch<a class="headerlink" href="#module-pyvalid.switch" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="pyvalid.switch.turn_on">
+<code class="sig-prename descclassname">pyvalid.switch.</code><code class="sig-name descname">turn_on</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/switch.html#turn_on"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.switch.turn_on" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyvalid.switch.turn_off">
+<code class="sig-prename descclassname">pyvalid.switch.</code><code class="sig-name descname">turn_off</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/switch.html#turn_off"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.switch.turn_off" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyvalid.switch.is_enabled">
+<code class="sig-prename descclassname">pyvalid.switch.</code><code class="sig-name descname">is_enabled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/switch.html#is_enabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.switch.is_enabled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pyvalid.validators">
+<span id="pyvalid-validators"></span><h2>pyvalid.validators<a class="headerlink" href="#module-pyvalid.validators" title="Permalink to this headline">¶</a></h2>
+<dl class="py attribute">
+<dt id="pyvalid.validators.is_validator">
+<code class="sig-prename descclassname">pyvalid.validators.</code><code class="sig-name descname">is_validator</code><a class="headerlink" href="#pyvalid.validators.is_validator" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">pyvalid.validators.__base.Validator</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyvalid.validators.Validator">
+<em class="property">class </em><code class="sig-prename descclassname">pyvalid.validators.</code><code class="sig-name descname">Validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">func_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__base.html#Validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.Validator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Callable</span></code></p>
+<dl class="py method">
+<dt id="pyvalid.validators.Validator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__base.html#Validator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.Validator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyvalid.validators.AbstractValidator">
+<em class="property">class </em><code class="sig-prename descclassname">pyvalid.validators.</code><code class="sig-name descname">AbstractValidator</code><a class="reference internal" href="_modules/pyvalid/validators/__base.html#AbstractValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.AbstractValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyvalid.validators.__base.Validator</span></code></p>
+<dl class="py method">
+<dt id="pyvalid.validators.AbstractValidator.checkers">
+<em class="property">abstract property </em><code class="sig-name descname">checkers</code><a class="headerlink" href="#pyvalid.validators.AbstractValidator.checkers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.AbstractValidator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__base.html#AbstractValidator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.AbstractValidator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyvalid.validators.IterableValidator">
+<em class="property">class </em><code class="sig-prename descclassname">pyvalid.validators.</code><code class="sig-name descname">IterableValidator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">func_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__iterable.html#IterableValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.IterableValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyvalid.validators.__base.AbstractValidator</span></code></p>
+<p>This class performs validation on the content of the iterable to check
+if the given iterable is valid or not. The iterable can be either a list,
+tuple or even keys or values of a dictionary.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">validator</span> <span class="o">=</span> <span class="n">IterableValidator</span><span class="p">(</span>
+    <span class="n">empty_allowed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">elements_type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">min_val</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_val</span><span class="o">=</span><span class="mi">50</span>
+<span class="p">)</span>
+<span class="nd">@accepts</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">example</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">]):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="pyvalid.validators.IterableValidator.iterable_types">
+<code class="sig-name descname">iterable_types</code><em class="property"> = (&lt;class 'list'&gt;, &lt;class 'tuple'&gt;, &lt;class 'dict'&gt;, &lt;class 'set'&gt;)</em><a class="headerlink" href="#pyvalid.validators.IterableValidator.iterable_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.IterableValidator.empty_iterable_checker">
+<em class="property">classmethod </em><code class="sig-name descname">empty_iterable_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">empty_allowed</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__iterable.html#IterableValidator.empty_iterable_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.IterableValidator.empty_iterable_checker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the iterable is empty or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>val</strong> (<em>list/tuple/dict/set</em>) – Iterable to be validated.</p></li>
+<li><p><strong>empty_allowed</strong> (<em>bool</em>) – If this flag is set to ‘True’, this method
+raises exception and terminates the execution if the iterable
+is empty.
+If set to ‘False’, it raises a warning and continues with the
+execution.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Returns (bool):</dt><dd><p>True: If the iterable is not empty.
+False: If the iterable is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.IterableValidator.element_type_checker">
+<em class="property">classmethod </em><code class="sig-name descname">element_type_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">elements_type</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__iterable.html#IterableValidator.element_type_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.IterableValidator.element_type_checker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if all the elements of the iterable are of required type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>val</strong> (<em>list/tuple/dict/set</em>) – Iterable whose contents needs to be
+validated.</p></li>
+<li><p><strong>elements_type</strong> (<em>datatype</em>) – Expected type of all the elements in
+the iterator.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Returns (bool):</dt><dd><p>True: If all elements of the iterable are of required type.
+False: If at least one element of the iterable is not of required
+type.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.IterableValidator.elements_min_val_checker">
+<em class="property">classmethod </em><code class="sig-name descname">elements_min_val_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">min_val</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__iterable.html#IterableValidator.elements_min_val_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.IterableValidator.elements_min_val_checker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if all the elements of the iterable are greater than or
+equal to the specified value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>val</strong> (<em>list/tuple/dict/set</em>) – Iterable whose contents needs to be
+validated.</p></li>
+<li><p><strong>min_val</strong> (<em>int</em>) – Expected minimum value the iterable must contain.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Returns (bool):</dt><dd><dl class="simple">
+<dt>True: If all the elements of the iterable are greater than or</dt><dd><p>equal to the &lt;min_val&gt;.</p>
+</dd>
+<dt>False: If at least one element of the iterable is less than the</dt><dd><p>&lt;min_val&gt;.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.IterableValidator.elements_max_val_checker">
+<em class="property">classmethod </em><code class="sig-name descname">elements_max_val_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">max_val</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__iterable.html#IterableValidator.elements_max_val_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.IterableValidator.elements_max_val_checker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if all the elements of the iterable are less than or equal
+to the specified value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>val</strong> (<em>list/tuple/dict/set</em>) – Iterable whose contents needs to be
+validated.</p></li>
+<li><p><strong>max_val</strong> (<em>int</em>) – Expected maximum value the iterable must contain.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Returns (bool):</dt><dd><dl class="simple">
+<dt>True: If all the elements of the iterable are less than or equal</dt><dd><p>to the &lt;max_val&gt;.</p>
+</dd>
+<dt>False: If at least one element of the iterable is greater than</dt><dd><p>the &lt;max_val&gt;.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.IterableValidator.checkers">
+<em class="property">property </em><code class="sig-name descname">checkers</code><a class="headerlink" href="#pyvalid.validators.IterableValidator.checkers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.IterableValidator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__iterable.html#IterableValidator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.IterableValidator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyvalid.validators.NumberValidator">
+<em class="property">class </em><code class="sig-prename descclassname">pyvalid.validators.</code><code class="sig-name descname">NumberValidator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">func_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__number.html#NumberValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.NumberValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyvalid.validators.__base.AbstractValidator</span></code></p>
+<dl class="py attribute">
+<dt id="pyvalid.validators.NumberValidator.number_types">
+<code class="sig-name descname">number_types</code><em class="property"> = (&lt;class 'int'&gt;, &lt;class 'float'&gt;)</em><a class="headerlink" href="#pyvalid.validators.NumberValidator.number_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.NumberValidator.min_val_checker">
+<em class="property">classmethod </em><code class="sig-name descname">min_val_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">min_val</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__number.html#NumberValidator.min_val_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.NumberValidator.min_val_checker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.NumberValidator.max_val_checker">
+<em class="property">classmethod </em><code class="sig-name descname">max_val_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">max_val</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__number.html#NumberValidator.max_val_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.NumberValidator.max_val_checker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.NumberValidator.in_range_checker">
+<em class="property">classmethod </em><code class="sig-name descname">in_range_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">in_range</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__number.html#NumberValidator.in_range_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.NumberValidator.in_range_checker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.NumberValidator.not_in_range_checker">
+<em class="property">classmethod </em><code class="sig-name descname">not_in_range_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">not_in_range</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__number.html#NumberValidator.not_in_range_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.NumberValidator.not_in_range_checker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.NumberValidator.checkers">
+<em class="property">property </em><code class="sig-name descname">checkers</code><a class="headerlink" href="#pyvalid.validators.NumberValidator.checkers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.NumberValidator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__number.html#NumberValidator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.NumberValidator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pyvalid.validators.StringValidator">
+<em class="property">class </em><code class="sig-prename descclassname">pyvalid.validators.</code><code class="sig-name descname">StringValidator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">func_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__string.html#StringValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.StringValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyvalid.validators.__base.AbstractValidator</span></code></p>
+<dl class="py method">
+<dt id="pyvalid.validators.StringValidator.min_len_checker">
+<em class="property">classmethod </em><code class="sig-name descname">min_len_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">min_len</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__string.html#StringValidator.min_len_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.StringValidator.min_len_checker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.StringValidator.max_len_checker">
+<em class="property">classmethod </em><code class="sig-name descname">max_len_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">max_len</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__string.html#StringValidator.max_len_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.StringValidator.max_len_checker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.StringValidator.in_range_checker">
+<em class="property">classmethod </em><code class="sig-name descname">in_range_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">in_range</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__string.html#StringValidator.in_range_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.StringValidator.in_range_checker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.StringValidator.not_in_range_checker">
+<em class="property">classmethod </em><code class="sig-name descname">not_in_range_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">not_in_range</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__string.html#StringValidator.not_in_range_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.StringValidator.not_in_range_checker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.StringValidator.re_checker">
+<em class="property">classmethod </em><code class="sig-name descname">re_checker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em>, <em class="sig-param"><span class="n">pattern</span></em>, <em class="sig-param"><span class="n">flags</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__string.html#StringValidator.re_checker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.StringValidator.re_checker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.StringValidator.checkers">
+<em class="property">property </em><code class="sig-name descname">checkers</code><a class="headerlink" href="#pyvalid.validators.StringValidator.checkers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pyvalid.validators.StringValidator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyvalid/validators/__string.html#StringValidator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyvalid.validators.StringValidator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyvalid.ArgumentValidationError">
+<span id="pyvalid-argumentvalidationerror"></span><h2>pyvalid.ArgumentValidationError<a class="headerlink" href="#module-pyvalid.ArgumentValidationError" title="Permalink to this headline">¶</a></h2>
+<p>Raised when the type of an argument to a function is not what it
+should be.</p>
+<dl class="py attribute">
+<dt id="pyvalid.ArgumentValidationError.args">
+<code class="sig-prename descclassname">pyvalid.ArgumentValidationError.</code><code class="sig-name descname">args</code><a class="headerlink" href="#pyvalid.ArgumentValidationError.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyvalid.ArgumentValidationError.with_traceback">
+<code class="sig-prename descclassname">pyvalid.ArgumentValidationError.</code><code class="sig-name descname">with_traceback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvalid.ArgumentValidationError.with_traceback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyvalid.InvalidArgumentNumberError">
+<span id="pyvalid-invalidargumentnumbererror"></span><h2>pyvalid.InvalidArgumentNumberError<a class="headerlink" href="#module-pyvalid.InvalidArgumentNumberError" title="Permalink to this headline">¶</a></h2>
+<p>Raised when the number or position of arguments supplied to a function
+is incorrect.</p>
+<dl class="py attribute">
+<dt id="pyvalid.InvalidArgumentNumberError.args">
+<code class="sig-prename descclassname">pyvalid.InvalidArgumentNumberError.</code><code class="sig-name descname">args</code><a class="headerlink" href="#pyvalid.InvalidArgumentNumberError.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyvalid.InvalidArgumentNumberError.with_traceback">
+<code class="sig-prename descclassname">pyvalid.InvalidArgumentNumberError.</code><code class="sig-name descname">with_traceback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvalid.InvalidArgumentNumberError.with_traceback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyvalid.InvalidReturnTypeError">
+<span id="pyvalid-invalidreturntypeerror"></span><h2>pyvalid.InvalidReturnTypeError<a class="headerlink" href="#module-pyvalid.InvalidReturnTypeError" title="Permalink to this headline">¶</a></h2>
+<p>Raised when the return value is the wrong type.</p>
+<dl class="py attribute">
+<dt id="pyvalid.InvalidReturnTypeError.args">
+<code class="sig-prename descclassname">pyvalid.InvalidReturnTypeError.</code><code class="sig-name descname">args</code><a class="headerlink" href="#pyvalid.InvalidReturnTypeError.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pyvalid.InvalidReturnTypeError.with_traceback">
+<code class="sig-prename descclassname">pyvalid.InvalidReturnTypeError.</code><code class="sig-name descname">with_traceback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvalid.InvalidReturnTypeError.with_traceback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="index.html">pyvalid’s documentation</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Max Hryshchuk.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>
