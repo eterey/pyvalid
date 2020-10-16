@@ -1,4 +1,35 @@
 class PyvalidError(ValueError):
+    """The base class for all the pyvalid errors. So it can be used for the try-except
+    contruction as a base class for all the possible exceptions raised by the pyvalid.
+
+    Example:
+
+    .. code-block:: python
+
+        from pyvalid import PyvalidError, accepts, returns
+
+
+        @accepts(str)
+        def say_hello(name):
+            print('Hello, ', name)
+
+
+        try:
+            say_hello(3)
+        except PyvalidError:
+            print('Only string values are allowed!')
+
+
+        @returns(int, float)
+        def multiply(num_1, num_2):
+            return num_1 * num_2
+
+
+        try:
+            multiply('python', 3)
+        except PyvalidError:
+            print('Only numbers are allowed!')
+    """
     def __get_func_name__(self, func):
         func_name = func.__name__
         from sys import version_info
@@ -29,7 +60,8 @@ class InvalidArgumentNumberError(PyvalidError):
 
 
 class ArgumentValidationError(PyvalidError):
-    """Raised when the type of an argument to a function is not what it should be.
+    """Raised when the function's parameter contains the value is different from the
+    expected one.
     """
     def __init__(self, func, arg_num, actual_value, allowed_arg_values):
         error_message_template = (
@@ -49,7 +81,7 @@ class ArgumentValidationError(PyvalidError):
 
 
 class InvalidReturnTypeError(PyvalidError):
-    """Raised when the return value is the wrong type.
+    """Raised when a function returns the value different from the expected one.
     """
     def __init__(self, func, actual_value, allowed_return_values):
         error_message_template = (
