@@ -1,3 +1,5 @@
+import warnings
+
 from pyvalid import accepts
 from pyvalid.validators import AbstractValidator
 
@@ -43,7 +45,7 @@ class IterableValidator(AbstractValidator):
         if not empty_allowed:
             return len(val) != 0
         else:
-            # TODO: Raise warning "Iterable is empty, but does not impact the execution."
+            warnings.warn("Iterable is empty, but does not impact the execution.")
             return True
 
     @classmethod

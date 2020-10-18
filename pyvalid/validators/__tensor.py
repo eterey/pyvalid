@@ -1,3 +1,5 @@
+import warnings
+
 import torch
 
 from pyvalid import accepts
@@ -85,7 +87,7 @@ class TensorValidator(AbstractValidator):
         if not empty_allowed:
             return val.nelement() != 0
         else:
-            # TODO: Raise warning "Tensor is empty, but does not impact the execution."
+            warnings.warn("Tensor is empty, but does not impact the execution.")
             return True
 
     @classmethod
@@ -110,8 +112,7 @@ class TensorValidator(AbstractValidator):
         if not nans_allowed:
             return torch.isnan(val).sum().item() == 0
         else:
-            # TODO: Raise warning "Tensor contains NaN values,
-            #  but does not impact the execution."
+            warnings.warn("Tensor contains NaN values, but does not impact the execution.")
             return True
 
     @property
