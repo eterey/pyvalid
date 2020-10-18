@@ -13,6 +13,8 @@ class TestImports(unittest.TestCase):
         self.assertTrue(pyvalid.validators)
         self.assertTrue(pyvalid.validators.NumberValidator)
         self.assertTrue(pyvalid.validators.StringValidator)
+        self.assertTrue(pyvalid.validators.IterableValidator)
+        self.assertTrue(pyvalid.validators.TensorValidator)
         self.assertTrue(pyvalid.validators.is_validator)
         self.assertTrue(pyvalid.PyvalidError)
         self.assertTrue(pyvalid.ArgumentValidationError)

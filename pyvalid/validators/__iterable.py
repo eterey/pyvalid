@@ -22,16 +22,16 @@ class IterableValidator(AbstractValidator):
     iterable_types = (list, tuple, dict, set)
 
     @classmethod
-    def empty_iterable_checker(cls, val, empty_allowed):
+    def empty_checker(cls, val, empty_allowed):
         """Checks if the iterable is empty or not.
 
         Args:
             val (collections.abc.Iterable):
                 Iterable whose contents needs to be validated.
             empty_allowed (bool):
-                If this flag is set to ``True``, this method raises exception and
+                If this flag is set to ``False``, this method raises exception and
                 terminates the execution if the iterable is empty.
-                If set to ``False``, it raises a warning and continues with
+                If set to ``True``, it raises a warning and continues with
                 the execution.
 
         Returns (bool):
@@ -43,6 +43,7 @@ class IterableValidator(AbstractValidator):
         if not empty_allowed:
             return len(val) != 0
         else:
+            # TODO: Raise warning "Iterable is empty, but does not impact the execution."
             return True
 
     @classmethod
@@ -139,7 +140,7 @@ class IterableValidator(AbstractValidator):
         empty_allowed = kwargs.get('empty_allowed', None)
         elements_type = kwargs.get('elements_type', None)
         self.__checkers = {
-            IterableValidator.empty_iterable_checker: [empty_allowed],
+            IterableValidator.empty_checker: [empty_allowed],
             IterableValidator.element_type_checker: [elements_type],
             IterableValidator.elements_min_val_checker: [min_val],
             IterableValidator.elements_max_val_checker: [max_val]
