@@ -8,6 +8,42 @@ from pyvalid.validators import AbstractValidator,Validator
 
 
 class SchemaValidator(AbstractValidator):
+    """
+        Class the validate the input data agains the given schema.
+        example:
+        user_schema = SchemaValidator
+        ({
+            'name': StringValidator(re_pattern=r'^[A-Za-z]+\s?[A-Za-z]+\s?[A-Za-z]+$'),
+            'birthyear': NumberValidator(min_val=1890, max_val=2020),
+            'rating': float
+            'bio': [StringValidator(max_len=1024), None]
+        })
+
+        # So we can use schemas for `@accepts` and `@returns`
+        @accepts(new_user=user_schema)
+        def register_user(new_user):
+            # some logic here
+            pass
+
+        # Or we can call them directly to validate some data
+        user_schema({
+            'name': 'Max',
+            'birthyear': -42, # will cause a validator error
+            'bio': None,
+            # 'rating': 8.0
+            # the `address` attribute is missing, what will cause another error even if we fix `birthyear`
+        })
+
+        new_user = {
+            'name': 'Nagesh',
+            'birthyear': 1994, # will cause a validator error
+            'bio': None,
+            'rating': 8.0
+            # the `address` attribute is missing, what will cause another error even if we fix `birthyear`
+        }
+
+        register_user(new_user)
+    """
 
     schema_types = (dict,)
 
