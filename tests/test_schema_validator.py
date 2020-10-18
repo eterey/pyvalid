@@ -14,7 +14,7 @@ class SchemaValidatorTestCase(unittest.TestCase):
             # the `address` attribute is missing, what will cause another error even if we fix `birthyear`
         }
 
-    def test_min_len(self):
+    def test_schema(self):
         validator = SchemaValidator({
             'name': StringValidator(re_pattern=r'^[A-Za-z]+\s?[A-Za-z]+\s?[A-Za-z]+$'),
             'birthyear': NumberValidator(min_val=1890, max_val=2020),
