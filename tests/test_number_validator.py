@@ -34,6 +34,9 @@ class NumberValidatorTestCase(unittest.TestCase):
         self.assertFalse(validator(2))
 
     def test_mixed(self):
+        with self.assertRaises(ValueError):
+            NumberValidator(min_val=100, max_val=50)
+
         validator = NumberValidator(
             min_val=0, max_val=2**16,
             not_in_range=[2**x for x in range(16)]
