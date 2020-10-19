@@ -17,6 +17,7 @@ class IterableValidator(AbstractValidator):
         @accepts(validator)
         def example([1, 3, 7, 10]):
             pass
+
     """
 
     iterable_types = (list, tuple, dict, set)
