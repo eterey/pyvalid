@@ -47,11 +47,17 @@ class NumberValidator(AbstractValidator):
         in_range=[Iterable, Container], not_in_range=[Iterable, Container]
     )
     def __init__(self, **kwargs):
+        min_val = kwargs.get('min_val', None)
+        max_val = kwargs.get('max_val', None)
+        if min_val is not None and max_val is not None and min_val > max_val:
+            raise ValueError('Min value can\'t be greater than max value!')
+        in_range = kwargs.get('in_range', None)
+        not_in_range = kwargs.get('not_in_range', None)
         self.__checkers = {
-            NumberValidator.min_val_checker: [kwargs.get('min_val', None)],
-            NumberValidator.max_val_checker: [kwargs.get('max_val', None)],
-            NumberValidator.in_range_checker: [kwargs.get('in_range', None)],
-            NumberValidator.not_in_range_checker: [kwargs.get('not_in_range', None)]
+            NumberValidator.min_val_checker: [min_val],
+            NumberValidator.max_val_checker: [max_val],
+            NumberValidator.in_range_checker: [in_range],
+            NumberValidator.not_in_range_checker: [not_in_range]
         }
         AbstractValidator.__init__(self)
 
