@@ -11,7 +11,7 @@ class PyvalidError(ValueError):
 
         @accepts(str)
         def say_hello(name):
-            print('Hello, ', name)
+            print('Hello,', name)
 
 
         try:
@@ -29,6 +29,7 @@ class PyvalidError(ValueError):
             multiply('python', 3)
         except PyvalidError:
             print('Only numbers are allowed!')
+
     """
     def __get_func_name__(self, func):
         func_name = func.__name__
