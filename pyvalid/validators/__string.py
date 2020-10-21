@@ -12,10 +12,13 @@ class StringValidator(AbstractValidator):
 
     @classmethod
     def min_len_checker(cls, val, min_len):
-        return len(val) >= min_len
+        if val:
+            return len(val) >= min_len
 
     @classmethod
     def max_len_checker(cls, val, max_len):
+        if val is None:
+            return False
         return len(val) <= max_len
 
     @classmethod
