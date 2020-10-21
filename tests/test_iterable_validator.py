@@ -7,7 +7,7 @@ class IterableValidatorTestCase(unittest.TestCase):
 
     def test_empty_allowed(self):
         """
-        Verify empty_iterable_checker() method.
+        Verify empty_checker() method.
         """
         validator = IterableValidator(empty_allowed=False)
         self.assertTrue(validator([1, 3, 25, 14]))
