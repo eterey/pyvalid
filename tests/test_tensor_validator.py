@@ -1,6 +1,7 @@
 import unittest
 
 import numpy as np
+
 import torch
 
 from pyvalid.validators import TensorValidator
