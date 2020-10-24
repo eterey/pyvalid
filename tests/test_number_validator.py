@@ -10,12 +10,14 @@ class NumberValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator(3.14))
         self.assertTrue(validator(-3.14))
         self.assertFalse(validator(-273.15))
+        self.assertFalse(None)
 
     def test_max_val(self):
         validator = NumberValidator(max_val=42)
         self.assertTrue(validator(8))
         self.assertTrue(validator(0))
         self.assertFalse(validator(512))
+        self.assertFalse(None)
 
     def test_in_range(self):
         validator = NumberValidator(
@@ -24,6 +26,7 @@ class NumberValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator(1))
         self.assertTrue(validator(256.0))
         self.assertFalse(validator(0))
+        self.assertFalse(None)
 
     def test_not_in_range(self):
         validator = NumberValidator(
@@ -32,6 +35,7 @@ class NumberValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator(0))
         self.assertTrue(validator(-1))
         self.assertFalse(validator(2))
+        self.assertFalse(None)
 
     def test_mixed(self):
         with self.assertRaises(ValueError):
@@ -46,6 +50,7 @@ class NumberValidatorTestCase(unittest.TestCase):
         self.assertFalse(validator(2**16 + 0.1))
         self.assertFalse(validator(8))
         self.assertFalse(validator(-8))
+        self.assertFalse(None)
 
 
 if __name__ == '__main__':
