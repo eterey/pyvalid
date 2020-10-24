@@ -14,8 +14,10 @@ class TensorValidator(AbstractValidator):
 
     .. code-block:: python
 
-        X = torch.Tensor([[0.0500, 0.0000, 0.0688, 0.0843, 0.0000, 0.0000, 0.1896, 0.0105],
-                    [0.0500, 0.0000, 0.0528, 0.1810, 0.0000, 0.0000, 0.1470, 0.0000]])
+        X = torch.Tensor([
+            [0.0500, 0.0000, 0.0688, 0.0843, 0.0000, 0.0000, 0.1896, 0.0105],
+            [0.0500, 0.0000, 0.0528, 0.1810, 0.0000, 0.0000, 0.1470, 0.0000]
+        ])
         validator = TensorValidator(
             tensor_type="torch.FloatTensor", empty_check=True, nan_check=True, dim=2
         )
@@ -38,7 +40,7 @@ class TensorValidator(AbstractValidator):
 
         Returns (bool):
             True:
-                IIf the type of given tensor matches the required type.
+                If the type of given tensor matches the required type.
             False:
                 If the type of given tensor does not match the required type.
 
@@ -93,6 +95,7 @@ class TensorValidator(AbstractValidator):
     @classmethod
     def nan_checker(cls, val, nans_allowed):
         """Checks if the tensor has np.NaN values or not.
+
         Args:
             val (torch.Tensor):
                 Tensor to be validated.
@@ -112,7 +115,9 @@ class TensorValidator(AbstractValidator):
         if not nans_allowed:
             return torch.isnan(val).sum().item() == 0
         else:
-            warnings.warn("Tensor contains NaN values, but does not impact the execution.")
+            warnings.warn(
+                "Tensor contains NaN values, but does not impact the execution."
+            )
             return True
 
     @property
@@ -120,16 +125,17 @@ class TensorValidator(AbstractValidator):
         return self.__checkers
 
     @accepts(object,
-             tensor_type=StringValidator(in_range=["torch.CharTensor",
-                                                   "torch.IntTensor",
-                                                   "torch.ShortTensor",
-                                                   "torch.LongTensor",
-                                                   "torch.FloatTensor",
-                                                   "torch.DoubleTensor",
-                                                   "torch.ByteTensor",
-                                                   "torch.BoolTensor",
-                                                   "torch.HalfTensor"]
-                                         ),
+             tensor_type=StringValidator(in_range=[
+                 "torch.CharTensor",
+                 "torch.IntTensor",
+                 "torch.ShortTensor",
+                 "torch.LongTensor",
+                 "torch.FloatTensor",
+                 "torch.DoubleTensor",
+                 "torch.ByteTensor",
+                 "torch.BoolTensor",
+                 "torch.HalfTensor"
+             ]),
              dim=int,
              empty_check=bool,
              nan_check=bool)

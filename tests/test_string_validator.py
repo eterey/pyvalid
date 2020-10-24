@@ -11,12 +11,14 @@ class StringValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator('Python'))
         self.assertTrue(validator('Py'))
         self.assertFalse(validator('P'))
+        self.assertFalse(validator(None))
 
     def test_max_len(self):
         validator = StringValidator(max_len=6)
         self.assertTrue(validator(str()))
         self.assertTrue(validator('Python'))
         self.assertFalse(validator('Python3'))
+        self.assertFalse(validator(None))
 
     def test_in_range(self):
         validator = StringValidator(
@@ -25,6 +27,7 @@ class StringValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator('PyPy'))
         self.assertTrue(validator('Cython'))
         self.assertFalse(validator('Ruby'))
+        self.assertFalse(validator(None))
 
     def test_not_in_range(self):
         validator = StringValidator(
@@ -33,6 +36,7 @@ class StringValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator('Ruby'))
         self.assertTrue(validator('Java'))
         self.assertFalse(validator('CPython'))
+        self.assertFalse(validator(None))
 
     def test_re(self):
         # Allowed characters are: latin alphabet letters and digits
@@ -51,6 +55,7 @@ class StringValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator('pyvalid'))
         self.assertTrue(validator('PyValid'))
         self.assertFalse(validator('42'))
+        self.assertFalse(validator(None))
 
     def test_mixed(self):
         validator = StringValidator(
@@ -62,6 +67,7 @@ class StringValidatorTestCase(unittest.TestCase):
         self.assertFalse(validator('_' * 3))
         self.assertFalse(validator('_' * 128))
         self.assertFalse(validator('sunshine'))
+        self.assertFalse(validator(None))
 
 
 if __name__ == '__main__':
