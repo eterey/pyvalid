@@ -26,11 +26,14 @@ class AbstractValidator(with_metaclass(ABCMeta, Validator)):
     def checkers(self):
         raise NotImplementedError
 
-    @abstractmethod
     def __call__(self, val):
-        raise NotImplementedError
+        is_valid = False
+        if self.allowed_types is None or isinstance(val, self.allowed_types):
+            is_valid = self._check(val)
+        return is_valid
 
-    def __init__(self):
+    def __init__(self, **kwargs):
+        self.allowed_types = kwargs.get('allowed_types', None)
         Validator.__init__(self, self)
         for checker_func, checker_args in list(self.checkers.items()):
             try:
