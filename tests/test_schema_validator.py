@@ -25,7 +25,7 @@ class SchemaValidatorTestCase(unittest.TestCase):
         self.new_user['rating'] = 8
         self.assertFalse(schema(self.new_user))
         self.new_user.__delitem__('rating')
-        self.assertRaises(Exception, schema, self.new_user)
+        self.assertFalse(schema(self.new_user))
 
     def test_schema_input(self):
         schema = SchemaValidator({
@@ -49,7 +49,7 @@ class SchemaValidatorTestCase(unittest.TestCase):
         self.new_user['rating'] = 8
         self.assertFalse(sub_schema(default_user))
         self.new_user.__delitem__('rating')
-        self.assertRaises(Exception, sub_schema, default_user)
+        self.assertFalse(sub_schema(default_user))
 
 
 if __name__ == '__main__':
