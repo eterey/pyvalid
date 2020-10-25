@@ -46,7 +46,7 @@ class SchemaValidator(AbstractValidator):
 
     @classmethod
     def schema_compliance(cls, val, schema):
-        """Verifies if the input value if the fully compliant with the schema."""
+        """Verifies if the input value is the fully compliant with the schema."""
         for key, value in val.items():
             rule = schema.get(key)
             if isinstance(rule, Validator) and not rule(value):
