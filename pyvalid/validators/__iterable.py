@@ -1,5 +1,10 @@
 import warnings
 
+try:
+    from collections.abc import Iterable
+except ImportError:
+    from collections import Iterable
+
 from pyvalid import accepts
 from pyvalid.validators import AbstractValidator
 
@@ -21,8 +26,6 @@ class IterableValidator(AbstractValidator):
             pass
 
     """
-
-    iterable_types = (list, tuple, dict, set)
 
     @classmethod
     def empty_checker(cls, val, empty_allowed):
@@ -148,9 +151,4 @@ class IterableValidator(AbstractValidator):
             IterableValidator.elements_min_val_checker: [min_val],
             IterableValidator.elements_max_val_checker: [max_val]
         }
-        AbstractValidator.__init__(self)
-
-    def __call__(self, val):
-        is_iterable = isinstance(val, IterableValidator.iterable_types)
-        valid = is_iterable and self._check(val)
-        return valid
+        AbstractValidator.__init__(self, allowed_types=Iterable)

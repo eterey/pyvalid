@@ -62,8 +62,4 @@ class StringValidator(AbstractValidator):
                 kwargs.get('re_pattern', None), kwargs.get('re_flags', 0)
             ]
         }
-        AbstractValidator.__init__(self)
-
-    def __call__(self, val):
-        valid = isinstance(val, str) and self._check(val)
-        return valid
+        AbstractValidator.__init__(self, allowed_types=str)

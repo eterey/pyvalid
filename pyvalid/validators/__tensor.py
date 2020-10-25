@@ -146,8 +146,4 @@ class TensorValidator(AbstractValidator):
             TensorValidator.empty_checker: [kwargs.get('empty_allowed', None)],
             TensorValidator.nan_checker: [kwargs.get('nans_allowed', None)],
         }
-        AbstractValidator.__init__(self)
-
-    def __call__(self, val):
-        valid = isinstance(val, torch.Tensor) and self._check(val)
-        return valid
+        AbstractValidator.__init__(self, allowed_types=torch.Tensor)

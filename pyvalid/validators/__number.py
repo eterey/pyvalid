@@ -59,8 +59,4 @@ class NumberValidator(AbstractValidator):
             NumberValidator.in_range_checker: [in_range],
             NumberValidator.not_in_range_checker: [not_in_range]
         }
-        AbstractValidator.__init__(self)
-
-    def __call__(self, val):
-        valid = isinstance(val, NumberValidator.number_types) and self._check(val)
-        return valid
+        AbstractValidator.__init__(self, allowed_types=NumberValidator.number_types)
