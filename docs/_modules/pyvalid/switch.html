@@ -160,15 +160,61 @@
            <div itemprop="articleBody">
             
   <h1>Source code for pyvalid.switch</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="turn_on"><a class="viewcode-back" href="../../content/modules.html#pyvalid.switch.turn_on">[docs]</a><span></span><span class="k">def</span> <span class="nf">turn_on</span><span class="p">():</span>
+<span></span><span class="sd">&quot;&quot;&quot;This module is designed to control the state of the pyvalid&#39;s validation system.</span>
+<span class="sd">With help of the ``pyvalid.switch`` module it&#39;s possible to turn off the pyvalid&#39;s</span>
+<span class="sd">validation so it won&#39;t raise an exception anymore even in case of invalid data. And,</span>
+<span class="sd">of course, it&#39;s always possible to turn on the validation system back, when needed.</span>
+
+<span class="sd">Example:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">    from pyvalid import switch, accepts</span>
+
+
+<span class="sd">    @accepts(str)</span>
+<span class="sd">    def say_hello(name):</span>
+<span class="sd">        print(&#39;Hello,&#39;, name)</span>
+
+
+<span class="sd">    print(&#39;Is pyvalid enabled:&#39;, switch.is_enabled())</span>
+<span class="sd">    # Outputs: &quot;Is pyvalid enabled: True&quot;</span>
+
+<span class="sd">    say_hello(3)</span>
+<span class="sd">    # Raises the ArgumentValidationError exception, since the pyvalid&#39;s validation</span>
+<span class="sd">    # is enabled and the &quot;name&quot; argument didn&#39;t pass the validation</span>
+
+<span class="sd">    switch.turn_off()</span>
+<span class="sd">    # Now the pyvalid&#39;s validation is disabled</span>
+
+<span class="sd">    print(&#39;Is pyvalid enabled:&#39;, switch.is_enabled())</span>
+<span class="sd">    # Outputs: &quot;Is pyvalid enabled: False&quot;</span>
+
+<span class="sd">    say_hello(3)</span>
+<span class="sd">    # Outputs: &quot;Hello, 3&quot;</span>
+
+<span class="sd">    switch.turn_on()</span>
+<span class="sd">    # And now the pyvalid&#39;s validation is enabled back</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="turn_on"><a class="viewcode-back" href="../../content/modules.html#pyvalid.switch.turn_on">[docs]</a><span class="k">def</span> <span class="nf">turn_on</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Enables the pyvalid&#39;s validation system.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">globals</span><span class="p">()[</span><span class="s1">&#39;pyvalid_enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="turn_off"><a class="viewcode-back" href="../../content/modules.html#pyvalid.switch.turn_off">[docs]</a><span class="k">def</span> <span class="nf">turn_off</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Disables the pyvalid&#39;s validation system.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">globals</span><span class="p">()[</span><span class="s1">&#39;pyvalid_enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="is_enabled"><a class="viewcode-back" href="../../content/modules.html#pyvalid.switch.is_enabled">[docs]</a><span class="k">def</span> <span class="nf">is_enabled</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Returns ``True`` if the pyvalid&#39;s validation system is enabled otherwise returns</span>
+<span class="sd">    ``False`` value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="s1">&#39;pyvalid_enabled&#39;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
         <span class="n">enabled</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="s1">&#39;pyvalid_enabled&#39;</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>

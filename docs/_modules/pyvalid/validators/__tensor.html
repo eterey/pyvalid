@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyvalid.validators.__tensor &mdash; pyvalid - Python data validation tool</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.svg"/>
+  
+  
+  
+    <link rel="canonical" href="https://uzumaxy.github.io/pyvalid/_modules/pyvalid/validators/__tensor.html"/>
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/custom/gtm.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> pyvalid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/modules.html">pyvalid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/modules.html#module-pyvalid.accepts">pyvalid.accepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/modules.html#module-pyvalid.returns">pyvalid.returns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/modules.html#module-pyvalid.switch">pyvalid.switch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/modules.html#module-pyvalid.validators">pyvalid.validators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/modules.html#module-pyvalid.ArgumentValidationError">pyvalid.ArgumentValidationError</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/modules.html#module-pyvalid.InvalidArgumentNumberError">pyvalid.InvalidArgumentNumberError</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/modules.html#module-pyvalid.InvalidReturnTypeError">pyvalid.InvalidReturnTypeError</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/modules.html#examples">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../content/modules.html#license">License</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyvalid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyvalid.validators.__tensor</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyvalid.validators.__tensor</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">from</span> <span class="nn">pyvalid</span> <span class="kn">import</span> <span class="n">accepts</span>
+<span class="kn">from</span> <span class="nn">pyvalid.validators</span> <span class="kn">import</span> <span class="n">AbstractValidator</span><span class="p">,</span> <span class="n">StringValidator</span>
+
+
+<div class="viewcode-block" id="TensorValidator"><a class="viewcode-back" href="../../../content/modules.html#pyvalid.validators.TensorValidator">[docs]</a><span class="k">class</span> <span class="nc">TensorValidator</span><span class="p">(</span><span class="n">AbstractValidator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs certain checks to check if the given tensor is valid or not.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        X = torch.Tensor([[0.0500, 0.0000, 0.0688, 0.0843, 0.0000, 0.0000, 0.1896, 0.0105],</span>
+<span class="sd">                    [0.0500, 0.0000, 0.0528, 0.1810, 0.0000, 0.0000, 0.1470, 0.0000]])</span>
+<span class="sd">        validator = TensorValidator(</span>
+<span class="sd">            tensor_type=&quot;torch.FloatTensor&quot;, empty_check=True, nan_check=True, dim=2</span>
+<span class="sd">        )</span>
+
+<span class="sd">        @accepts(validator)</span>
+<span class="sd">        def example(X):</span>
+<span class="sd">            pass</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TensorValidator.tensor_type_checker"><a class="viewcode-back" href="../../../content/modules.html#pyvalid.validators.TensorValidator.tensor_type_checker">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">tensor_type_checker</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">tensor_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks the tensor types with CPU variants.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            val (torch.Tensor):</span>
+<span class="sd">                Tensor whose type is to be validated.</span>
+<span class="sd">            tensor_type (str):</span>
+<span class="sd">                Expected type of tensor.</span>
+<span class="sd">                Ex: &quot;torch.IntTensor&quot;, &quot;torch.FloatTensor&quot;, &quot;torch.ByteTensor&quot;.</span>
+
+<span class="sd">        Returns (bool):</span>
+<span class="sd">            True:</span>
+<span class="sd">                IIf the type of given tensor matches the required type.</span>
+<span class="sd">            False:</span>
+<span class="sd">                If the type of given tensor does not match the required type.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">tensor_type</span></div>
+
+<div class="viewcode-block" id="TensorValidator.dimension_checker"><a class="viewcode-back" href="../../../content/modules.html#pyvalid.validators.TensorValidator.dimension_checker">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">dimension_checker</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks if given tensor is of dimension &lt;dim&gt;.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            val (torch.Tensor):</span>
+<span class="sd">                Tensor whose dimension is to be validated.</span>
+<span class="sd">            dim (int):</span>
+<span class="sd">                Expected dimension of the tensor.</span>
+
+<span class="sd">        Returns (bool):</span>
+<span class="sd">            True:</span>
+<span class="sd">                If the given tensor is of required dimension.</span>
+<span class="sd">            False:</span>
+<span class="sd">                If the given tensor is not of required dimension.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="n">dim</span></div>
+
+<div class="viewcode-block" id="TensorValidator.empty_checker"><a class="viewcode-back" href="../../../content/modules.html#pyvalid.validators.TensorValidator.empty_checker">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">empty_checker</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">empty_allowed</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks if the tensor is empty or not.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            val (torch.Tensor):</span>
+<span class="sd">                Tensor whose contents needs to be validated.</span>
+<span class="sd">            empty_allowed (bool):</span>
+<span class="sd">                If this flag is set to ``False``, this method raises exception and</span>
+<span class="sd">                terminates the execution if the tensor is empty.</span>
+<span class="sd">                If set to ``True``, it raises a warning and continues with</span>
+<span class="sd">                the execution.</span>
+
+<span class="sd">        Returns (bool):</span>
+<span class="sd">            True:</span>
+<span class="sd">                If the tensor is not empty.</span>
+<span class="sd">            False:</span>
+<span class="sd">                If the tensor is empty.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">empty_allowed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">nelement</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Tensor is empty, but does not impact the execution.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="TensorValidator.nan_checker"><a class="viewcode-back" href="../../../content/modules.html#pyvalid.validators.TensorValidator.nan_checker">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">nan_checker</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">nans_allowed</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks if the tensor has np.NaN values or not.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            val (torch.Tensor):</span>
+<span class="sd">                Tensor to be validated.</span>
+<span class="sd">            nans_allowed (bool):</span>
+<span class="sd">                If this flag is set to ``False``, this method raises exception and</span>
+<span class="sd">                terminates the execution if the tensor has NaNs.</span>
+<span class="sd">                If set to ``True``, it raises a warning and continues with</span>
+<span class="sd">                the execution.</span>
+
+<span class="sd">        Returns (bool):</span>
+<span class="sd">            True:</span>
+<span class="sd">                If the given tensor is free of NaNs.</span>
+<span class="sd">            False:</span>
+<span class="sd">                If the given tensor contains NaNs.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nans_allowed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Tensor contains NaN values, but does not impact the execution.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">checkers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__checkers</span>
+
+<div class="viewcode-block" id="TensorValidator.__init__"><a class="viewcode-back" href="../../../content/modules.html#pyvalid.validators.TensorValidator.__init__">[docs]</a>    <span class="nd">@accepts</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span>
+             <span class="n">tensor_type</span><span class="o">=</span><span class="n">StringValidator</span><span class="p">(</span><span class="n">in_range</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;torch.CharTensor&quot;</span><span class="p">,</span>
+                                                   <span class="s2">&quot;torch.IntTensor&quot;</span><span class="p">,</span>
+                                                   <span class="s2">&quot;torch.ShortTensor&quot;</span><span class="p">,</span>
+                                                   <span class="s2">&quot;torch.LongTensor&quot;</span><span class="p">,</span>
+                                                   <span class="s2">&quot;torch.FloatTensor&quot;</span><span class="p">,</span>
+                                                   <span class="s2">&quot;torch.DoubleTensor&quot;</span><span class="p">,</span>
+                                                   <span class="s2">&quot;torch.ByteTensor&quot;</span><span class="p">,</span>
+                                                   <span class="s2">&quot;torch.BoolTensor&quot;</span><span class="p">,</span>
+                                                   <span class="s2">&quot;torch.HalfTensor&quot;</span><span class="p">]</span>
+                                         <span class="p">),</span>
+             <span class="n">dim</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+             <span class="n">empty_check</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+             <span class="n">nan_check</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__checkers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">TensorValidator</span><span class="o">.</span><span class="n">tensor_type_checker</span><span class="p">:</span> <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tensor_type&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+            <span class="n">TensorValidator</span><span class="o">.</span><span class="n">dimension_checker</span><span class="p">:</span> <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dim&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+            <span class="n">TensorValidator</span><span class="o">.</span><span class="n">empty_checker</span><span class="p">:</span> <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;empty_allowed&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+            <span class="n">TensorValidator</span><span class="o">.</span><span class="n">nan_checker</span><span class="p">:</span> <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nans_allowed&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+        <span class="p">}</span>
+        <span class="n">AbstractValidator</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">valid</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Max Hryshchuk
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
