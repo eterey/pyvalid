@@ -5,6 +5,15 @@ from pyvalid.validators import NumberValidator
 
 class NumberValidatorTestCase(unittest.TestCase):
 
+    def test_number_type(self):
+        validator = NumberValidator(number_type=int)
+        self.assertTrue(validator(12))
+        self.assertFalse(validator(10.56))
+
+        validator = NumberValidator(number_type=float)
+        self.assertTrue(validator(10.56))
+        self.assertFalse(validator(12))
+
     def test_min_val(self):
         validator = NumberValidator(min_val=-3.14)
         self.assertTrue(validator(3.14))

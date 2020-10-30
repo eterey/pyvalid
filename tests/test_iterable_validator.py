@@ -5,6 +5,18 @@ from pyvalid.validators import IterableValidator
 
 class IterableValidatorTestCase(unittest.TestCase):
 
+    def test_iterable_type(self):
+        """
+        Verify iterable_type_checker() method.
+        """
+        validator = IterableValidator(iterable_type=list)
+        self.assertTrue(validator([1, 3, 25, 14]))
+        self.assertFalse(validator({1: 'a', 2: 'b'}))
+
+        validator = IterableValidator(iterable_type=tuple)
+        self.assertTrue(validator((1, 3, 25, 14)))
+        self.assertFalse(validator([1, 3, 25, 14]))
+
     def test_empty_allowed(self):
         """
         Verify empty_checker() method.
@@ -96,7 +108,7 @@ class IterableValidatorTestCase(unittest.TestCase):
         self.assertTrue(validator([1, 3, 25, 120]))  # List
         self.assertTrue(validator((1, 3, 25, 3)))  # Tuple
         self.assertTrue(validator({1: 'pyvalid', 2: 'cython'}))  # Dictionary
-        self.assertTrue(validator((1, 3, 25, 120)))  # Set
+        self.assertTrue(validator({1, 3, 25, 120}))  # Set
         self.assertFalse(validator(8))  # Integer
         self.assertFalse(None)
 
