@@ -28,6 +28,26 @@ class IterableValidator(AbstractValidator):
     """
 
     @classmethod
+    def iterable_type_checker(cls, val, iterable_type):
+        """Checks if the iterable is of required data type.
+
+        Args:
+            val (Iterable):
+                Tensor whose type is to be validated.
+            iterable_type (type):
+                Expected data type of iterable.
+                Ex: list, tuple, dict.
+
+        Returns (bool):
+            True:
+                If the type of given iterable matches the required type.
+            False:
+                If the type of given iterable does not match the required type.
+
+        """
+        return type(val) == iterable_type
+
+    @classmethod
     def empty_checker(cls, val, empty_allowed):
         """Checks if the iterable is empty or not.
 
@@ -143,11 +163,14 @@ class IterableValidator(AbstractValidator):
         max_val = kwargs.get('max_val', None)
         if min_val is not None and max_val is not None and min_val > max_val:
             raise ValueError('Min value can\'t be greater than max value!')
+        iterable_type = kwargs.get('iterable_type', None)
         empty_allowed = kwargs.get('empty_allowed', None)
         elements_type = kwargs.get('elements_type', None)
+
         self.__checkers = {
             IterableValidator.empty_checker: [empty_allowed],
             IterableValidator.element_type_checker: [elements_type],
+            IterableValidator.iterable_type_checker: [iterable_type],
             IterableValidator.elements_min_val_checker: [min_val],
             IterableValidator.elements_max_val_checker: [max_val]
         }

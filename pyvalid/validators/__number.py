@@ -15,6 +15,26 @@ class NumberValidator(AbstractValidator):
         number_types += (long, )  # noqa: F821
 
     @classmethod
+    def number_type_checker(cls, val, number_type):
+        """Checks if the number is of required data type.
+
+        Args:
+            val (number):
+                Tensor whose type is to be validated.
+            number_type (type):
+                Expected data type of number.
+                Ex: int, float, long.
+
+        Returns (bool):
+            True:
+                If the type of given number matches the required type.
+            False:
+                If the type of given number does not match the required type.
+
+        """
+        return type(val) == number_type
+
+    @classmethod
     def min_val_checker(cls, val, min_val):
         return val >= min_val
 
@@ -51,11 +71,14 @@ class NumberValidator(AbstractValidator):
         max_val = kwargs.get('max_val', None)
         if min_val is not None and max_val is not None and min_val > max_val:
             raise ValueError('Min value can\'t be greater than max value!')
+        number_type = kwargs.get('number_type', None)
         in_range = kwargs.get('in_range', None)
         not_in_range = kwargs.get('not_in_range', None)
+
         self.__checkers = {
             NumberValidator.min_val_checker: [min_val],
             NumberValidator.max_val_checker: [max_val],
+            NumberValidator.number_type_checker: [number_type],
             NumberValidator.in_range_checker: [in_range],
             NumberValidator.not_in_range_checker: [not_in_range]
         }
