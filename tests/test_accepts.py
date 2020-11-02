@@ -53,6 +53,12 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
 
         self.func6 = func6
 
+        @accepts(arg2=float)
+        def func7(arg1, arg2):
+            return arg1, arg2
+
+        self.func7 = func7
+
         @accepts(bool)
         def func_with_doc():
             """TEST_DOCSTRING"""
@@ -73,6 +79,9 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
         args = int(), int()
         result = self.func1(*args)
         self.assertEqual(args + (3, 4), result)
+        args = str(), float()
+        result = self.func7(*args)
+        self.assertEqual(args, result)
         # First argument is invalid.
         args = str(), float(), str(), int()
         self.assertRaises(ArgumentValidationError, self.func1, *args)
