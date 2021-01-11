@@ -3,6 +3,7 @@ import unittest
 from pyvalid import ArgumentValidationError, InvalidArgumentNumberError, \
     accepts
 from pyvalid.validators import is_validator
+from pyvalid.validators import IsValid
 
 
 class AcceptsDecoratorTestCase(unittest.TestCase):
@@ -35,11 +36,13 @@ class AcceptsDecoratorTestCase(unittest.TestCase):
 
         @is_validator
         def func5_checker1(val):
-            return val == 'val1'
+            IsValid.status = val == 'val1'
+            return IsValid
 
         @is_validator
         def func5_checker2(val):
-            return val == 'val2'
+            IsValid.status = val == 'val2'
+            return IsValid
 
         @accepts(func5_checker1, [func5_checker2, 'val3', bool])
         def func5(arg1, arg2):

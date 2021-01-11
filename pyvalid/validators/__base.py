@@ -4,6 +4,7 @@ try:
 except ImportError:
     from collections import Callable
 
+import inspect
 from six import with_metaclass
 
 from pyvalid import accepts
@@ -27,10 +28,10 @@ class AbstractValidator(with_metaclass(ABCMeta, Validator)):
         raise NotImplementedError
 
     def __call__(self, val):
-        is_valid = False
         if self.allowed_types is None or isinstance(val, self.allowed_types):
-            is_valid = self._check(val)
-        return is_valid
+            return self._check(val)
+        IsValid.status = False
+        return IsValid
 
     def __init__(self, **kwargs):
         self.allowed_types = kwargs.get('allowed_types', None)
@@ -44,9 +45,30 @@ class AbstractValidator(with_metaclass(ABCMeta, Validator)):
                 del self.checkers[checker_func]
 
     def _check(self, val):
-        valid = True
+        valid = None
         for checker_func, checker_args in self.checkers.items():
             valid = checker_func(val, *checker_args)
-            if not valid:
+            if not valid.status:
                 break
         return valid
+
+
+class IsValid:
+    """
+    Class that holds all the properties required to set when the validation succeeds or fails.
+
+    Args:
+        status (bool): True if the validation is successful otherwise false.
+        is_warning (bool): True if warning needs to be raised instead of exception.
+        msg (str): Customized message on failure.
+    """
+    status = False
+    is_warning = False
+    msg = ""
+
+    @classmethod
+    def get_caller(cls):
+        """
+        Get parent method name.
+        """
+        return inspect.stack()[1][3] + "()"

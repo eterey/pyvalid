@@ -1,4 +1,4 @@
-from pyvalid.validators.__base import AbstractValidator, Validator
+from pyvalid.validators.__base import AbstractValidator, IsValid, Validator
 from pyvalid.validators.__iterable import IterableValidator
 from pyvalid.validators.__number import NumberValidator
 from pyvalid.validators.__string import StringValidator
@@ -10,6 +10,7 @@ __all__ = [
     'is_validator',
     'Validator',
     'AbstractValidator',
+    'IsValid',
     'IterableValidator',
     'NumberValidator',
     'StringValidator',
