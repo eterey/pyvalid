@@ -5,7 +5,7 @@ except ImportError:
     from collections import Iterable, Container
 
 from pyvalid import accepts
-from pyvalid.validators import AbstractValidator
+from pyvalid.validators import AbstractValidator, IsValid
 
 
 class NumberValidator(AbstractValidator):
@@ -32,31 +32,55 @@ class NumberValidator(AbstractValidator):
                 If the type of given number does not match the required type.
 
         """
-        return type(val) == number_type
+        IsValid.status = type(val) == number_type
+        if not IsValid.status:
+            IsValid.msg = f"In {IsValid.get_caller()}, " \
+                          f"expected type '{number_type}' but got '{type(val)}' instead."
+
+        return IsValid
 
     @classmethod
     def min_val_checker(cls, val, min_val):
-        return val >= min_val
+        IsValid.status = val >= min_val
+        if not IsValid.status:
+            IsValid.msg = f"In {IsValid.get_caller()}, " \
+                          f"expected '>={min_val}' but got '{val}' instead."
+
+        return IsValid
 
     @classmethod
     def max_val_checker(cls, val, max_val):
-        return val <= max_val
+        IsValid.status = val <= max_val
+        if not IsValid.status:
+            IsValid.msg = f"In {IsValid.get_caller()}, " \
+                          f"expected '<={max_val}' but got '{val}' instead."
+
+        return IsValid
 
     @classmethod
     def in_range_checker(cls, val, in_range):
-        is_valid = False
         if isinstance(in_range, Container):
-            is_valid = val in in_range
+            IsValid.status = val in in_range
         elif isinstance(in_range, Iterable):
             for item in in_range:
                 if item == val:
-                    is_valid = True
+                    IsValid.status = True
                     break
-        return is_valid
+        if not IsValid.status:
+            IsValid.msg = f"In {IsValid.get_caller()}, " \
+                          f"'{val}' must be in range '{in_range}'."
+
+        return IsValid
 
     @classmethod
     def not_in_range_checker(cls, val, not_in_range):
-        return not cls.in_range_checker(val, not_in_range)
+        in_range = cls.in_range_checker(val, not_in_range)
+        IsValid.status = not in_range.status
+        if not IsValid.status:
+            IsValid.msg = f"In {IsValid.get_caller()}, " \
+                          f"'{val}' must not be in range '{not_in_range}'."
+
+        return IsValid
 
     @property
     def checkers(self):

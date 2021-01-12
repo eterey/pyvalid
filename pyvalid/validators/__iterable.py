@@ -1,12 +1,10 @@
-import warnings
-
 try:
     from collections.abc import Iterable
 except ImportError:
     from collections import Iterable
 
 from pyvalid import accepts
-from pyvalid.validators import AbstractValidator
+from pyvalid.validators import AbstractValidator, IsValid
 
 
 class IterableValidator(AbstractValidator):
@@ -45,7 +43,12 @@ class IterableValidator(AbstractValidator):
                 If the type of given iterable does not match the required type.
 
         """
-        return type(val) == iterable_type
+        IsValid.status = type(val) == iterable_type
+        if not IsValid.status:
+            IsValid.msg = f"In {IsValid.get_caller()}, " \
+                          f"expected type '{iterable_type}' but got '{type(val)}' instead."
+
+        return IsValid
 
     @classmethod
     def empty_checker(cls, val, empty_allowed):
@@ -67,10 +70,16 @@ class IterableValidator(AbstractValidator):
                 If the iterable is empty.
         """
         if not empty_allowed:
-            return len(val) != 0
+            IsValid.status = len(val) != 0
+            if not IsValid.status:
+                IsValid.msg = f"In {IsValid.get_caller()}, " \
+                              f"expected non-empty iterable but got '{val}"
         else:
-            warnings.warn("Iterable is empty, but does not impact the execution.")
-            return True
+            IsValid.status = True
+            IsValid.is_warning = True
+            IsValid.msg = "In {IsValid.get_caller()}, iterable is empty."
+
+        return IsValid
 
     @classmethod
     def element_type_checker(cls, val, elements_type):
@@ -88,13 +97,15 @@ class IterableValidator(AbstractValidator):
             False:
                 If at least one element of the iterable is not of required type.
         """
-        valid = True
+        IsValid.status = True
         for element in val:
-            valid = isinstance(element, elements_type)
-            if not valid:
+            IsValid.status = isinstance(element, elements_type)
+            if not IsValid.status:
+                IsValid.msg = f"In {IsValid.get_caller()}, " \
+                              f"expected type '{elements_type}' but got '{type(element)}' instead."
                 break
 
-        return valid
+        return IsValid
 
     @classmethod
     def elements_min_val_checker(cls, val, min_val):
@@ -115,14 +126,15 @@ class IterableValidator(AbstractValidator):
                 If at least one element of the iterable is less than the
                 <min_val>.
         """
-        valid = True
-
+        IsValid.status = True
         for element in val:
             if element < min_val:
-                valid = False
+                IsValid.status = False
+                IsValid.msg = f"In {IsValid.get_caller()}, " \
+                              f"expected '>={min_val}' but got '{val}' instead."
                 break
 
-        return valid
+        return IsValid
 
     @classmethod
     def elements_max_val_checker(cls, val, max_val):
@@ -143,14 +155,15 @@ class IterableValidator(AbstractValidator):
                 If at least one element of the iterable is greater than the
                 <max_val>.
         """
-        valid = True
-
+        IsValid.status = True
         for element in val:
             if element > max_val:
-                valid = False
+                IsValid.status = False
+                IsValid.msg = f"In {IsValid.get_caller()}, " \
+                              f"expected '<={max_val}' but got '{val}' instead."
                 break
 
-        return valid
+        return IsValid
 
     @property
     def checkers(self):

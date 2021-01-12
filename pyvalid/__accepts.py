@@ -9,6 +9,7 @@ try:
     from collections.abc import Callable
 except ImportError:
     from collections import Callable
+from warnings import warn
 
 from pyvalid.__exceptions import InvalidArgumentNumberError, ArgumentValidationError
 from pyvalid.switch import is_enabled
@@ -167,7 +168,7 @@ class Accepts(Callable):
                     continue
                 else:
                     raise InvalidArgumentNumberError(func)
-            is_valid = False
+            status, warning, msg = False, False, ""
             for allowed_val in allowed_values:
                 is_validator = (
                     isinstance(allowed_val, Validator) or
@@ -179,15 +180,21 @@ class Accepts(Callable):
                 )
                 if is_validator:
                     is_valid = allowed_val(value)
+                    status = is_valid.status
+                    warning = is_valid.is_warning
+                    msg = is_valid.msg
                 elif isinstance(allowed_val, type):
-                    is_valid = isinstance(value, allowed_val)
+                    status = isinstance(value, allowed_val)
                 else:
-                    is_valid = value == allowed_val
-                if is_valid:
+                    status = value == allowed_val
+                if status:
                     break
-            if not is_valid:
+            if not status:
                 ord_num = self.__ordinal(i + 1)
-                raise ArgumentValidationError(func, ord_num, value, allowed_values)
+                if not warning:
+                    raise ArgumentValidationError(func, ord_num, value, allowed_values, msg)
+                else:
+                    warn(msg)
 
     def __ordinal(self, num):
         """Returns the ordinal number of a given integer, as a string.

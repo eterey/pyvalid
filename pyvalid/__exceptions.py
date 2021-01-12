@@ -64,17 +64,17 @@ class ArgumentValidationError(PyvalidError):
     """Raised when the function's parameter contains the value is different from the
     expected one.
     """
-    def __init__(self, func, arg_num, actual_value, allowed_arg_values):
+    def __init__(self, func, arg_num, actual_value, allowed_arg_values, msg):
         error_message_template = (
-            'The {} argument of the "{}" function is "{}" of the "{}" type, while '
-            'expected values are: "{}".'
+            'The {} argument of the "{}" function is "{}" of the "{}" type.\n{} falied. \n{}'
         )
         self.error = error_message_template.format(
             arg_num,
             self.__get_func_name__(func),
             actual_value,
             type(actual_value),
-            allowed_arg_values
+            allowed_arg_values,
+            msg
         )
 
     def __str__(self):

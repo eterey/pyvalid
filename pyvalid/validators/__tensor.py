@@ -1,9 +1,7 @@
-import warnings
-
 import torch
 
 from pyvalid import accepts
-from pyvalid.validators import AbstractValidator, StringValidator
+from pyvalid.validators import AbstractValidator, IsValid, StringValidator
 
 
 class TensorValidator(AbstractValidator):
@@ -45,7 +43,12 @@ class TensorValidator(AbstractValidator):
                 If the type of given tensor does not match the required type.
 
         """
-        return val.type() == tensor_type
+        IsValid.status = val.type() == tensor_type
+        if not IsValid.status:
+            IsValid.msg = f"In {IsValid.get_caller()}, " \
+                          f"expected type '{tensor_type}' but got '{type(val)}' instead."
+
+        return IsValid
 
     @classmethod
     def dimension_checker(cls, val, dim):
@@ -64,7 +67,12 @@ class TensorValidator(AbstractValidator):
                 If the given tensor is not of required dimension.
 
         """
-        return val.dim() == dim
+        IsValid.status = val.dim() == dim
+        if not IsValid.status:
+            IsValid.msg = f"In {IsValid.get_caller()}, " \
+                          f"expected tensor of dimension '{dim}' but got '{val.dim()}' instead."
+
+        return IsValid
 
     @classmethod
     def empty_checker(cls, val, empty_allowed):
@@ -87,10 +95,16 @@ class TensorValidator(AbstractValidator):
 
         """
         if not empty_allowed:
-            return val.nelement() != 0
+            IsValid.status = val.nelement() != 0
+            if not IsValid.status:
+                IsValid.msg = f"In {IsValid.get_caller()}, " \
+                              f"expected non-empty tensor but got '{val}"
         else:
-            warnings.warn("Tensor is empty, but does not impact the execution.")
-            return True
+            IsValid.status = True
+            IsValid.is_warning = True
+            IsValid.msg = "In {IsValid.get_caller()}, tensor is empty."
+
+        return IsValid
 
     @classmethod
     def nan_checker(cls, val, nans_allowed):
@@ -113,12 +127,16 @@ class TensorValidator(AbstractValidator):
 
         """
         if not nans_allowed:
-            return torch.isnan(val).sum().item() == 0
+            IsValid.status = torch.isnan(val).sum().item() == 0
+            if not IsValid.status:
+                IsValid.msg = f"In {IsValid.get_caller()}, " \
+                              f"expected NaN free tensor but got '{val}"
         else:
-            warnings.warn(
-                "Tensor contains NaN values, but does not impact the execution."
-            )
-            return True
+            IsValid.status = True
+            IsValid.is_warning = True
+            IsValid.msg = "In {IsValid.get_caller()}, Tensor contains NaN values."
+
+        return IsValid
 
     @property
     def checkers(self):

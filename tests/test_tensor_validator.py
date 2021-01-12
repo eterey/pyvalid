@@ -18,22 +18,22 @@ class TensorValidatorTestCase(unittest.TestCase):
         Verify tensor_type_checker() method.
         """
         validator = TensorValidator(tensor_type="torch.FloatTensor")
-        self.assertTrue(validator(self.t))
+        self.assertTrue(validator(self.t).status)
 
         validator = TensorValidator(tensor_type="torch.IntTensor")
-        self.assertFalse(validator(self.t))
+        self.assertFalse(validator(self.t).status)
 
     def test_dim(self):
         """
         Verify dimension_checker() method.
         """
         validator = TensorValidator(dim=2)
-        self.assertTrue(validator(self.t))
-        self.assertTrue(validator(torch.Tensor([[]])))
+        self.assertTrue(validator(self.t).status)
+        self.assertTrue(validator(torch.Tensor([[]])).status)
 
         validator = TensorValidator(dim=1)
-        self.assertFalse(validator(self.t))
-        self.assertFalse(validator(torch.Tensor([[]])))
+        self.assertFalse(validator(self.t).status)
+        self.assertFalse(validator(torch.Tensor([[]])).status)
 
     def test_empty_allowed(self):
         """
@@ -41,11 +41,12 @@ class TensorValidatorTestCase(unittest.TestCase):
         """
         validator = TensorValidator(empty_allowed=False)
         self.assertTrue(validator(self.t))
-        self.assertFalse(validator(torch.Tensor([[]])))
+        self.assertFalse(validator(torch.Tensor([[]])).status)
 
         validator = TensorValidator(empty_allowed=True)
         self.assertTrue(validator(self.t))
-        self.assertTrue(validator(torch.Tensor([[]])))
+        self.assertTrue(validator(torch.Tensor([[]])).status)
+        self.assertTrue(validator(torch.Tensor([[]])).is_warning)
 
     def test_nans_allowed(self):
         """
@@ -53,11 +54,12 @@ class TensorValidatorTestCase(unittest.TestCase):
         """
         validator = TensorValidator(nans_allowed=False)
         self.assertTrue(validator(self.t))
-        self.assertFalse(validator(torch.Tensor([np.NaN, 7.3459, 0.3454, np.NaN])))
+        self.assertFalse(validator(torch.Tensor([np.NaN, 7.3459, 0.3454, np.NaN])).status)
 
         validator = TensorValidator(nans_allowed=True)
         self.assertTrue(validator(self.t))
-        self.assertTrue(validator(torch.Tensor([np.NaN, 7.3459, 0.3454, np.NaN])))
+        self.assertTrue(validator(torch.Tensor([np.NaN, 7.3459, 0.3454, np.NaN])).status)
+        self.assertTrue(validator(torch.Tensor([np.NaN, 7.3459, 0.3454, np.NaN])).is_warning)
 
     def test_mixed(self):
         """
@@ -69,8 +71,9 @@ class TensorValidatorTestCase(unittest.TestCase):
             empty_allowed=False,
             nans_allowed=False
         )
-        self.assertTrue(validator(self.t))
-        self.assertFalse(validator([1, 2]))  # Non-tensor
+        self.assertTrue(validator(self.t).status)
+        self.assertFalse(validator([1, 2]).status)  # Non-tensor
+        self.assertFalse(validator(None).status)
 
 
 if __name__ == '__main__':
